@@ -2,20 +2,19 @@
  * Vista de comparación por dataset
  */
 
+// Función para formatear números con coma decimal
+function formatNum(num, decimals = 2) {
+    if (num === null || num === undefined || isNaN(num)) return '-';
+    return num.toFixed(decimals).replace('.', ',');
+}
+
 // Estado de la aplicación
 const compareState = {
     data: null,
     iterations: '10it',
     discretizer: 'mdlp',
-    cuts: '3p'
-};
-
-// Mapeo de discretizadores a prefijos de modelo
-const discretizerModels = {
-    'mdlp': { prefix: '-mdlp', suffix: '' },
-    'equal_freq': { prefix: '-bin', suffix: 'q' },
-    'equal_width': { prefix: '-bin', suffix: 'u' },
-    'pki': { prefix: '-pki', suffix: '' }
+    cuts: '3p',
+    pkiVariant: 'sqrt'  // sqrt o log para PKI
 };
 
 // Inicialización
@@ -63,7 +62,13 @@ function setupEventListeners() {
     });
 
     document.getElementById('filter-cuts').addEventListener('change', (e) => {
-        compareState.cuts = e.target.value;
+        if (compareState.discretizer === 'pki') {
+            // Para PKI, el valor es sqrt o log
+            compareState.pkiVariant = e.target.value;
+            compareState.cuts = 'up';  // Siempre 'up' para PKI
+        } else {
+            compareState.cuts = e.target.value;
+        }
         renderTable();
     });
 }
@@ -75,14 +80,16 @@ function updateCutsOptions() {
     const cutsSelect = document.getElementById('filter-cuts');
     const discretizer = compareState.discretizer;
 
-    // PKI no tiene opciones de cortes
     if (discretizer === 'pki') {
+        // PKI tiene variantes sqrt/log en lugar de puntos de corte
         cutsSelect.innerHTML = `
-            <option value="sqrt">sqrt</option>
-            <option value="log">log</option>
+            <option value="sqrt">PKI sqrt</option>
+            <option value="log">PKI log</option>
         `;
-        compareState.cuts = 'sqrt';
-    } else {
+        compareState.cuts = 'up';  // PKI siempre usa carpeta 'up'
+        compareState.pkiVariant = 'sqrt';
+    } else if (discretizer === 'mdlp') {
+        // MDLP tiene 3, 4, 5 e ilimitado
         cutsSelect.innerHTML = `
             <option value="3p">3 puntos</option>
             <option value="4p">4 puntos</option>
@@ -90,28 +97,50 @@ function updateCutsOptions() {
             <option value="up">Ilimitado</option>
         `;
         compareState.cuts = '3p';
+    } else {
+        // equal_freq y equal_width solo tienen 3, 4, 5 (no ilimitado)
+        cutsSelect.innerHTML = `
+            <option value="3p">3 puntos</option>
+            <option value="4p">4 puntos</option>
+            <option value="5p">5 puntos</option>
+        `;
+        compareState.cuts = '3p';
     }
 }
 
 /**
  * Obtiene el nombre del modelo base según la configuración
+ * Ejemplos de nombres reales:
+ * - MDLP: TAN-mdlp3, TAN-mdlp4, TAN-mdlp5, TAN-mdlp (ilimitado)
+ * - Equal freq: TAN-bin3q, TAN-bin4q, TAN-bin5q
+ * - Equal width: TAN-bin3u, TAN-bin4u, TAN-bin5u
+ * - PKI: TAN-pkisqrt, TAN-pkilog
  */
 function getBaseModelName(classifier) {
     const discretizer = compareState.discretizer;
     const cuts = compareState.cuts;
-    const config = discretizerModels[discretizer];
 
     if (discretizer === 'pki') {
-        return `${classifier}-pki${cuts}`;
+        // PKI: TAN-pkisqrt o TAN-pkilog
+        return `${classifier}-pki${compareState.pkiVariant}`;
     } else if (discretizer === 'mdlp') {
-        // Para MDLP: TAN-mdlp3, TAN-mdlp4, etc.
-        const cutNum = cuts === 'up' ? 'unlimited' : cuts.replace('p', '');
-        return `${classifier}-mdlp${cutNum}`;
-    } else {
-        // Para bins: TAN-bin3q, TAN-bin3u, etc.
+        // MDLP: TAN-mdlp3, TAN-mdlp4, TAN-mdlp5, TAN-mdlp (ilimitado)
+        if (cuts === 'up') {
+            return `${classifier}-mdlp`;  // Sin número para ilimitado
+        }
         const cutNum = cuts.replace('p', '');
-        return `${classifier}${config.prefix}${cutNum}${config.suffix}`;
+        return `${classifier}-mdlp${cutNum}`;
+    } else if (discretizer === 'equal_freq') {
+        // Equal frequency: TAN-bin3q, TAN-bin4q, TAN-bin5q
+        const cutNum = cuts.replace('p', '');
+        return `${classifier}-bin${cutNum}q`;
+    } else if (discretizer === 'equal_width') {
+        // Equal width: TAN-bin3u, TAN-bin4u, TAN-bin5u
+        const cutNum = cuts.replace('p', '');
+        return `${classifier}-bin${cutNum}u`;
     }
+
+    return classifier;
 }
 
 /**
@@ -197,19 +226,19 @@ function renderTable() {
                 if (diff > 0.01) {
                     stats[classifier].localWins++;
                     localCellClass = 'local-wins';
-                    diffIndicator = `<span class="diff-indicator positive">+${diff.toFixed(2)}%</span>`;
+                    diffIndicator = `<span class="diff-indicator positive">+${formatNum(diff)}%</span>`;
                 } else if (diff < -0.01) {
                     stats[classifier].baseWins++;
                     baseCellClass = 'base-wins';
-                    diffIndicator = `<span class="diff-indicator negative">${diff.toFixed(2)}%</span>`;
+                    diffIndicator = `<span class="diff-indicator negative">${formatNum(diff)}%</span>`;
                 } else {
                     stats[classifier].ties++;
                 }
             }
 
             // Generar celdas
-            rowHtml += `<td class="${baseCellClass}" data-cell="base-${idx}">${baseAcc !== null ? baseAcc.toFixed(2) + '%' : '-'}</td>`;
-            rowHtml += `<td class="${localCellClass}" data-cell="local-${idx}">${localAcc !== null ? localAcc.toFixed(2) + '%' : '-'}${diffIndicator}</td>`;
+            rowHtml += `<td class="${baseCellClass}" data-cell="base-${idx}">${baseAcc !== null ? formatNum(baseAcc) + '%' : '-'}</td>`;
+            rowHtml += `<td class="${localCellClass}" data-cell="local-${idx}">${localAcc !== null ? formatNum(localAcc) + '%' : '-'}${diffIndicator}</td>`;
         });
 
         rowHtml += '</tr>';
@@ -259,7 +288,7 @@ function updateStats(stats, totalDatasets) {
         if (s.diffs.length > 0) {
             const avgDiff = s.diffs.reduce((a, b) => a + b, 0) / s.diffs.length;
             const avgDiffEl = document.getElementById(`${prefix}-avg-diff`);
-            avgDiffEl.textContent = (avgDiff > 0 ? '+' : '') + avgDiff.toFixed(3) + '%';
+            avgDiffEl.textContent = (avgDiff > 0 ? '+' : '') + formatNum(avgDiff, 3) + '%';
             avgDiffEl.className = avgDiff > 0 ? 'positive' : avgDiff < 0 ? 'negative' : '';
         }
     });

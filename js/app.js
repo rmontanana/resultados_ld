@@ -2,6 +2,12 @@
  * Aplicación de visualización de resultados de discretización local
  */
 
+// Función para formatear números con coma decimal
+function formatNumber(num, decimals = 2) {
+    if (num === null || num === undefined || isNaN(num)) return '-';
+    return num.toFixed(decimals).replace('.', ',');
+}
+
 // Estado global de la aplicación (window.state para acceso desde charts.js)
 window.state = {
     data: null,
@@ -283,8 +289,8 @@ function renderTable() {
             <td>${r.cuts}</td>
             <td>${r.model}${r.best_in_group ? '<span class="best-indicator" title="Mejor en su grupo">★</span>' : ''}</td>
             <td><span class="badge ${discTypeBadges[r.discretization_type] || 'badge-base'}">${discTypeLabels[r.discretization_type] || r.discretization_type}</span></td>
-            <td class="num">${(r.accuracy * 100).toFixed(2)}%</td>
-            <td class="num">${(r.std * 100).toFixed(2)}%</td>
+            <td class="num">${formatNumber(r.accuracy * 100)}%</td>
+            <td class="num">${formatNumber(r.std * 100)}%</td>
             <td class="num">${formatImprovement(r.improvement_vs_base)}</td>
             <td class="num">${r.samples || '-'}</td>
             <td class="num">${r.features || '-'}</td>
@@ -300,7 +306,7 @@ function formatImprovement(value) {
     }
     const cls = value > 0 ? 'positive' : value < 0 ? 'negative' : 'neutral';
     const sign = value > 0 ? '+' : '';
-    return `<span class="improvement ${cls}">${sign}${value.toFixed(2)}%</span>`;
+    return `<span class="improvement ${cls}">${sign}${formatNumber(value)}%</span>`;
 }
 
 function updateStats() {
@@ -316,7 +322,7 @@ function updateStats() {
 
     // Accuracy promedio
     const avgAccuracy = state.filteredData.reduce((sum, r) => sum + r.accuracy, 0) / total;
-    document.getElementById('stat-avg-accuracy').textContent = (avgAccuracy * 100).toFixed(2) + '%';
+    document.getElementById('stat-avg-accuracy').textContent = formatNumber(avgAccuracy * 100) + '%';
 
     // Conteo de mejoras locales
     const improvements = state.filteredData.filter(r =>
@@ -326,7 +332,7 @@ function updateStats() {
 
     // Mejor accuracy
     const bestAccuracy = Math.max(...state.filteredData.map(r => r.accuracy));
-    document.getElementById('stat-best-accuracy').textContent = (bestAccuracy * 100).toFixed(2) + '%';
+    document.getElementById('stat-best-accuracy').textContent = formatNumber(bestAccuracy * 100) + '%';
 }
 
 function updatePagination() {

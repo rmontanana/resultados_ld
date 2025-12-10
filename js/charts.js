@@ -2,6 +2,12 @@
  * Módulo de gráficos comparativos
  */
 
+// Función para formatear números con coma decimal
+function formatNumChart(num, decimals = 2) {
+    if (num === null || num === undefined || isNaN(num)) return '-';
+    return num.toFixed(decimals).replace('.', ',');
+}
+
 // Colores para los gráficos
 const chartColors = {
     TAN: { bg: 'rgba(52, 152, 219, 0.7)', border: 'rgb(52, 152, 219)' },
@@ -85,8 +91,8 @@ function updateChartOptions() {
     const chartType = chartState.type;
     let optionsHTML = '';
 
-    // Opciones comunes: iteraciones y cortes
-    if (['accuracy-comparison', 'box-plot', 'dataset-comparison', 'trend-cuts'].includes(chartType)) {
+    // Opciones comunes: iteraciones
+    if (['accuracy-comparison', 'box-plot', 'dataset-comparison', 'trend-cuts', 'top-improvements', 'size-vs-improvement'].includes(chartType)) {
         optionsHTML += `
             <div class="chart-option">
                 <label for="chart-iterations">Iteraciones:</label>
@@ -99,7 +105,8 @@ function updateChartOptions() {
         `;
     }
 
-    if (['accuracy-comparison', 'box-plot', 'dataset-comparison'].includes(chartType)) {
+    // Opciones de puntos de corte
+    if (['accuracy-comparison', 'box-plot', 'dataset-comparison', 'top-improvements', 'size-vs-improvement'].includes(chartType)) {
         optionsHTML += `
             <div class="chart-option">
                 <label for="chart-cuts">Puntos de Corte:</label>
@@ -277,7 +284,7 @@ function renderAccuracyComparisonChart(ctx) {
                 },
                 tooltip: {
                     callbacks: {
-                        label: (context) => `${context.dataset.label}: ${context.raw?.toFixed(2) || 'N/A'}%`
+                        label: (context) => `${context.dataset.label}: ${formatNumChart(context.raw)}%`
                     }
                 }
             },
@@ -288,6 +295,9 @@ function renderAccuracyComparisonChart(ctx) {
                     title: {
                         display: true,
                         text: 'Accuracy (%)'
+                    },
+                    ticks: {
+                        callback: (value) => formatNumChart(value) + '%'
                     }
                 },
                 x: {
@@ -357,12 +367,12 @@ function renderBoxPlotChart(ctx) {
                         afterLabel: (context) => {
                             const d = stats[context.dataIndex];
                             return [
-                                `Min: ${d.min.toFixed(2)}%`,
-                                `Q1: ${d.q1.toFixed(2)}%`,
-                                `Mediana: ${d.median.toFixed(2)}%`,
-                                `Q3: ${d.q3.toFixed(2)}%`,
-                                `Max: ${d.max.toFixed(2)}%`,
-                                `Media: ${d.mean.toFixed(2)}%`
+                                `Min: ${formatNumChart(d.min)}%`,
+                                `Q1: ${formatNumChart(d.q1)}%`,
+                                `Mediana: ${formatNumChart(d.median)}%`,
+                                `Q3: ${formatNumChart(d.q3)}%`,
+                                `Max: ${formatNumChart(d.max)}%`,
+                                `Media: ${formatNumChart(d.mean)}%`
                             ];
                         }
                     }
@@ -375,6 +385,9 @@ function renderBoxPlotChart(ctx) {
                     title: {
                         display: true,
                         text: 'Accuracy (%)'
+                    },
+                    ticks: {
+                        callback: (value) => formatNumChart(value) + '%'
                     }
                 }
             }
@@ -473,7 +486,7 @@ function renderHeatmapChart(ctx) {
                         label: (context) => {
                             const d = context.raw;
                             const sign = d.value > 0 ? '+' : '';
-                            return `${d.dataset} - ${d.classifier}: ${sign}${d.value.toFixed(2)}%`;
+                            return `${d.dataset} - ${d.classifier}: ${sign}${formatNumChart(d.value)}%`;
                         }
                     }
                 },
@@ -603,7 +616,7 @@ function renderDatasetComparisonChart(ctx) {
                 },
                 tooltip: {
                     callbacks: {
-                        label: (context) => `Accuracy: ${context.raw.toFixed(2)}%`
+                        label: (context) => `Accuracy: ${formatNumChart(context.raw)}%`
                     }
                 },
                 legend: {
@@ -615,6 +628,9 @@ function renderDatasetComparisonChart(ctx) {
                     title: {
                         display: true,
                         text: 'Accuracy (%)'
+                    },
+                    ticks: {
+                        callback: (value) => formatNumChart(value) + '%'
                     }
                 },
                 y: {
@@ -698,7 +714,7 @@ function renderTrendCutsChart(ctx) {
                 },
                 tooltip: {
                     callbacks: {
-                        label: (context) => `${context.dataset.label}: ${context.raw?.toFixed(2) || 'N/A'}%`
+                        label: (context) => `${context.dataset.label}: ${formatNumChart(context.raw)}%`
                     }
                 },
                 legend: {
@@ -710,6 +726,9 @@ function renderTrendCutsChart(ctx) {
                     title: {
                         display: true,
                         text: 'Accuracy (%)'
+                    },
+                    ticks: {
+                        callback: (value) => formatNumChart(value) + '%'
                     }
                 },
                 x: {
