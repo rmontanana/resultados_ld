@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resultados: Discretización Local en Clasificadores Bayesianos</title>
     <link rel="stylesheet" href="css/styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-box-and-violin-plot@4"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@2"></script>
 </head>
 <body>
     <div class="container">
@@ -22,6 +19,14 @@
                         <rect x="3" y="14" width="7" height="7"/>
                     </svg>
                     Vista Comparativa por Dataset
+                </a>
+                <a href="charts.html" class="btn-nav">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="20" x2="18" y2="10"/>
+                        <line x1="12" y1="20" x2="12" y2="4"/>
+                        <line x1="6" y1="20" x2="6" y2="14"/>
+                    </svg>
+                    Gráficos Comparativos
                 </a>
             </div>
             <h1>Discretización Local en Clasificadores Bayesianos</h1>
@@ -150,52 +155,6 @@
             </div>
         </section>
 
-        <!-- Charts Section -->
-        <section class="charts-section">
-            <div class="charts-header">
-                <h2>Gráficos Comparativos</h2>
-                <div class="charts-controls">
-                    <div class="chart-selector">
-                        <label for="chart-type">Tipo de Gráfico:</label>
-                        <select id="chart-type">
-                            <option value="accuracy-comparison">Comparación de Accuracy por Clasificador</option>
-                            <option value="box-plot">Distribución de Accuracy (Box Plot)</option>
-                            <option value="heatmap">Heatmap de Mejoras Locales</option>
-                            <option value="dataset-comparison">Comparación por Dataset</option>
-                            <option value="trend-cuts">Tendencia por Puntos de Corte</option>
-                            <option value="top-improvements">Top 15 Datasets con Mayores Mejoras</option>
-                            <option value="size-vs-improvement">Relación Tamaño vs Mejora</option>
-                        </select>
-                    </div>
-                    <div class="chart-options" id="chart-options">
-                        <!-- Dynamic options will be inserted here -->
-                    </div>
-                </div>
-            </div>
-            <div class="chart-container">
-                <canvas id="main-chart"></canvas>
-            </div>
-            <div class="chart-actions">
-                <button id="download-png" class="btn-chart">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                        <polyline points="7 10 12 15 17 10"/>
-                        <line x1="12" y1="15" x2="12" y2="3"/>
-                    </svg>
-                    Descargar PNG
-                </button>
-                <button id="toggle-table" class="btn-chart btn-secondary">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                        <line x1="3" y1="9" x2="21" y2="9"/>
-                        <line x1="3" y1="15" x2="21" y2="15"/>
-                        <line x1="9" y1="3" x2="9" y2="21"/>
-                    </svg>
-                    <span id="toggle-table-text">Ocultar Tabla</span>
-                </button>
-            </div>
-        </section>
-
         <!-- Results Table -->
         <section class="results-section" id="results-section">
             <div class="table-header">
@@ -288,6 +247,5 @@
     </div>
 
     <script src="js/app.js"></script>
-    <script src="js/charts.js"></script>
 </body>
 </html>

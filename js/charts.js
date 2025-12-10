@@ -215,6 +215,12 @@ function renderChart() {
             case 'trend-cuts':
                 renderTrendCutsChart(ctx);
                 break;
+            case 'top-improvements':
+                renderTopImprovementsChart(ctx);
+                break;
+            case 'size-vs-improvement':
+                renderSizeVsImprovementChart(ctx);
+                break;
         }
     } catch (error) {
         console.error('Error renderizando gráfico:', error);
@@ -739,6 +745,310 @@ function renderTrendCutsChart(ctx) {
                 }
             }
         }
+    });
+}
+
+/**
+ * 6. Top 15 Datasets con Mayores Mejoras
+ */
+function renderTopImprovementsChart(ctx) {
+    const data = getFilteredChartData();
+
+    // Filtrar solo resultados de discretización local con mejora definida
+    const localResults = data.filter(r =>
+        r.discretization_type === 'local' &&
+        r.improvement_vs_base !== undefined
+    );
+
+    // Agrupar por dataset y calcular mejora promedio
+    const datasetImprovements = {};
+    localResults.forEach(r => {
+        if (!datasetImprovements[r.dataset]) {
+            datasetImprovements[r.dataset] = [];
+        }
+        datasetImprovements[r.dataset].push(r.improvement_vs_base);
+    });
+
+    // Calcular promedio por dataset
+    const datasetAvg = Object.entries(datasetImprovements).map(([dataset, improvements]) => ({
+        dataset,
+        avgImprovement: improvements.reduce((a, b) => a + b, 0) / improvements.length
+    }));
+
+    // Ordenar por mejora (de mayor a menor) y tomar top 15
+    datasetAvg.sort((a, b) => b.avgImprovement - a.avgImprovement);
+    const top15 = datasetAvg.slice(0, 15);
+
+    // Invertir para que el mejor quede abajo (como en la imagen)
+    top15.reverse();
+
+    const labels = top15.map(d => d.dataset);
+    const values = top15.map(d => d.avgImprovement);
+    const colors = values.map(v => v >= 0 ? 'rgba(46, 204, 113, 0.8)' : 'rgba(231, 76, 60, 0.8)');
+    const borderColors = values.map(v => v >= 0 ? 'rgb(39, 174, 96)' : 'rgb(192, 57, 43)');
+
+    // Construir título dinámico
+    let titleSuffix = '';
+    if (chartState.iterations !== 'all') {
+        titleSuffix += ` - ${chartState.iterations}`;
+    }
+    if (chartState.cuts !== 'all') {
+        titleSuffix += ` - ${chartState.cuts}`;
+    }
+
+    currentChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Mejora Promedio',
+                data: values,
+                backgroundColor: colors,
+                borderColor: borderColors,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: 'y',
+            plugins: {
+                title: {
+                    display: true,
+                    text: `Top 15 Datasets con Mayores Mejoras${titleSuffix}`,
+                    font: { size: 16 }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => {
+                            const val = context.raw;
+                            const sign = val >= 0 ? '+' : '';
+                            return `Mejora: ${sign}${formatNumChart(val)}%`;
+                        }
+                    }
+                },
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Mejora Promedio (%)'
+                    },
+                    ticks: {
+                        callback: (value) => formatNumChart(value) + '%'
+                    },
+                    grid: {
+                        color: (context) => context.tick.value === 0 ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.1)'
+                    }
+                },
+                y: {
+                    title: {
+                        display: false
+                    }
+                }
+            }
+        },
+        plugins: [{
+            // Plugin para mostrar valores en las barras
+            id: 'barLabels',
+            afterDatasetsDraw: (chart) => {
+                const ctx = chart.ctx;
+                chart.data.datasets.forEach((dataset, i) => {
+                    const meta = chart.getDatasetMeta(i);
+                    meta.data.forEach((bar, index) => {
+                        const value = dataset.data[index];
+                        const sign = value >= 0 ? '+' : '';
+                        const text = `${sign}${formatNumChart(value)}%`;
+
+                        ctx.save();
+                        ctx.fillStyle = value >= 0 ? 'rgb(39, 174, 96)' : 'rgb(192, 57, 43)';
+                        ctx.font = 'bold 11px sans-serif';
+                        ctx.textAlign = value >= 0 ? 'left' : 'right';
+                        ctx.textBaseline = 'middle';
+
+                        const x = value >= 0 ? bar.x + 5 : bar.x - 5;
+                        ctx.fillText(text, x, bar.y);
+                        ctx.restore();
+                    });
+                });
+            }
+        }]
+    });
+}
+
+/**
+ * 7. Relación Tamaño del Dataset vs Mejora
+ */
+function renderSizeVsImprovementChart(ctx) {
+    const data = getFilteredChartData();
+
+    // Filtrar solo resultados de discretización local con mejora definida
+    const localResults = data.filter(r =>
+        r.discretization_type === 'local' &&
+        r.improvement_vs_base !== undefined &&
+        r.samples !== undefined
+    );
+
+    // Agrupar por dataset y calcular mejora promedio
+    const datasetStats = {};
+    localResults.forEach(r => {
+        if (!datasetStats[r.dataset]) {
+            datasetStats[r.dataset] = {
+                samples: r.samples,
+                improvements: []
+            };
+        }
+        datasetStats[r.dataset].improvements.push(r.improvement_vs_base);
+    });
+
+    // Calcular puntos para el scatter
+    const scatterData = Object.entries(datasetStats).map(([dataset, stats]) => ({
+        x: stats.samples,
+        y: stats.improvements.reduce((a, b) => a + b, 0) / stats.improvements.length,
+        dataset: dataset
+    }));
+
+    // Calcular línea de tendencia (regresión logarítmica simple)
+    const xLog = scatterData.map(d => Math.log10(d.x));
+    const y = scatterData.map(d => d.y);
+    const n = xLog.length;
+    const sumX = xLog.reduce((a, b) => a + b, 0);
+    const sumY = y.reduce((a, b) => a + b, 0);
+    const sumXY = xLog.reduce((sum, x, i) => sum + x * y[i], 0);
+    const sumX2 = xLog.reduce((sum, x) => sum + x * x, 0);
+
+    const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+    const intercept = (sumY - slope * sumX) / n;
+
+    // Generar puntos para la línea de tendencia
+    const minX = Math.min(...scatterData.map(d => d.x));
+    const maxX = Math.max(...scatterData.map(d => d.x));
+    const trendPoints = [];
+    for (let x = minX; x <= maxX; x += (maxX - minX) / 50) {
+        trendPoints.push({
+            x: x,
+            y: slope * Math.log10(x) + intercept
+        });
+    }
+
+    // Construir título dinámico
+    let titleSuffix = '';
+    if (chartState.iterations !== 'all') {
+        titleSuffix += ` - ${chartState.iterations}`;
+    }
+    if (chartState.cuts !== 'all') {
+        titleSuffix += ` - ${chartState.cuts}`;
+    }
+
+    currentChart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+            datasets: [
+                {
+                    label: 'Datasets',
+                    data: scatterData,
+                    backgroundColor: scatterData.map(d =>
+                        d.y >= 0 ? 'rgba(46, 204, 113, 0.7)' : 'rgba(231, 76, 60, 0.7)'
+                    ),
+                    borderColor: scatterData.map(d =>
+                        d.y >= 0 ? 'rgb(39, 174, 96)' : 'rgb(192, 57, 43)'
+                    ),
+                    borderWidth: 1,
+                    pointRadius: 8,
+                    pointHoverRadius: 10
+                },
+                {
+                    label: 'Tendencia',
+                    data: trendPoints,
+                    type: 'line',
+                    borderColor: 'rgba(231, 76, 60, 0.8)',
+                    borderWidth: 2,
+                    borderDash: [8, 4],
+                    fill: false,
+                    pointRadius: 0,
+                    tension: 0.4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: `Relación entre Tamaño del Dataset y Mejora${titleSuffix}`,
+                    font: { size: 16 }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => {
+                            if (context.datasetIndex === 1) return null; // No tooltip para línea de tendencia
+                            const d = context.raw;
+                            const sign = d.y >= 0 ? '+' : '';
+                            return `${d.dataset}: ${sign}${formatNumChart(d.y)}% (${d.x.toLocaleString('es-ES')} muestras)`;
+                        }
+                    },
+                    filter: (tooltipItem) => tooltipItem.datasetIndex === 0
+                },
+                legend: {
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        filter: (item) => item.text === 'Tendencia'
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    type: 'logarithmic',
+                    title: {
+                        display: true,
+                        text: 'Tamaño del Dataset (muestras)'
+                    },
+                    ticks: {
+                        callback: (value) => value.toLocaleString('es-ES')
+                    },
+                    grid: {
+                        color: 'rgba(0,0,0,0.1)'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Mejora Promedio (%)'
+                    },
+                    ticks: {
+                        callback: (value) => formatNumChart(value) + '%'
+                    },
+                    grid: {
+                        color: (context) => context.tick.value === 0 ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.1)'
+                    }
+                }
+            }
+        },
+        plugins: [{
+            // Plugin para mostrar etiquetas de datasets
+            id: 'datasetLabels',
+            afterDatasetsDraw: (chart) => {
+                const ctx = chart.ctx;
+                const meta = chart.getDatasetMeta(0);
+
+                meta.data.forEach((point, index) => {
+                    const data = chart.data.datasets[0].data[index];
+
+                    ctx.save();
+                    ctx.fillStyle = 'rgba(0,0,0,0.7)';
+                    ctx.font = '10px sans-serif';
+                    ctx.textAlign = 'left';
+                    ctx.textBaseline = 'bottom';
+                    ctx.fillText(data.dataset, point.x + 5, point.y - 5);
+                    ctx.restore();
+                });
+            }
+        }]
     });
 }
 

@@ -559,8 +559,8 @@ td.num {
 
 .chart-container {
     padding: var(--spacing-lg);
-    min-height: 400px;
-    max-height: 600px;
+    min-height: 450px;
+    max-height: 650px;
     position: relative;
 }
 
