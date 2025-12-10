@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparación por Dataset - Discretización Local</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/compare.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-nav">
+                <a href="index.html" class="btn-back">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    Volver a Vista Principal
+                </a>
+            </div>
+            <h1>Comparación por Dataset</h1>
+            <p class="subtitle">Vista comparativa de clasificadores base vs discretización local</p>
+        </header>
+
+        <!-- Filters Bar -->
+        <section class="compare-filters">
+            <div class="filter-item">
+                <label for="filter-iterations">Iteraciones:</label>
+                <select id="filter-iterations">
+                    <option value="10it">10 iteraciones</option>
+                    <option value="100it">100 iteraciones</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <label for="filter-discretizer">Discretizador Base:</label>
+                <select id="filter-discretizer">
+                    <option value="mdlp">MDLP (Supervisado)</option>
+                    <option value="equal_freq">Igual Frecuencia</option>
+                    <option value="equal_width">Igual Amplitud</option>
+                    <option value="pki">PKI</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <label for="filter-cuts">Puntos de Corte:</label>
+                <select id="filter-cuts">
+                    <option value="3p">3 puntos</option>
+                    <option value="4p">4 puntos</option>
+                    <option value="5p">5 puntos</option>
+                    <option value="up">Ilimitado</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- Legend -->
+        <section class="compare-legend">
+            <div class="legend-item">
+                <span class="legend-color best"></span>
+                <span>Mejor en fila</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color local-wins"></span>
+                <span>Local supera a Base</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color base-wins"></span>
+                <span>Base supera a Local</span>
+            </div>
+        </section>
+
+        <!-- Comparison Table -->
+        <section class="compare-section">
+            <div class="compare-header">
+                <h2>Resultados <span id="dataset-count">(27 datasets)</span></h2>
+                <div class="compare-stats">
+                    <div class="mini-stat">
+                        <span class="mini-stat-value" id="stat-tan-wins">0</span>
+                        <span class="mini-stat-label">TANLd gana</span>
+                    </div>
+                    <div class="mini-stat">
+                        <span class="mini-stat-value" id="stat-kdb-wins">0</span>
+                        <span class="mini-stat-label">KDBLd gana</span>
+                    </div>
+                    <div class="mini-stat">
+                        <span class="mini-stat-value" id="stat-aode-wins">0</span>
+                        <span class="mini-stat-label">AODELd gana</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="compare-table" id="compare-table">
+                    <thead>
+                        <tr>
+                            <th class="col-dataset" data-sort="dataset">Dataset</th>
+                            <th class="col-classifier" colspan="2">TAN</th>
+                            <th class="col-classifier" colspan="2">KDB</th>
+                            <th class="col-classifier" colspan="2">AODE</th>
+                        </tr>
+                        <tr class="subheader">
+                            <th></th>
+                            <th class="col-base">Base</th>
+                            <th class="col-local">Local</th>
+                            <th class="col-base">Base</th>
+                            <th class="col-local">Local</th>
+                            <th class="col-base">Base</th>
+                            <th class="col-local">Local</th>
+                        </tr>
+                    </thead>
+                    <tbody id="compare-body">
+                        <!-- Rows will be inserted by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Summary Stats -->
+        <section class="summary-section">
+            <h3>Resumen de Comparación</h3>
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="summary-title">TAN vs TANLd</div>
+                    <div class="summary-content">
+                        <div class="summary-row">
+                            <span>Victorias Local:</span>
+                            <span id="tan-local-wins" class="positive">0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Victorias Base:</span>
+                            <span id="tan-base-wins" class="negative">0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Empates:</span>
+                            <span id="tan-ties">0</span>
+                        </div>
+                        <div class="summary-row avg">
+                            <span>Diferencia media:</span>
+                            <span id="tan-avg-diff">0%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-title">KDB vs KDBLd</div>
+                    <div class="summary-content">
+                        <div class="summary-row">
+                            <span>Victorias Local:</span>
+                            <span id="kdb-local-wins" class="positive">0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Victorias Base:</span>
+                            <span id="kdb-base-wins" class="negative">0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Empates:</span>
+                            <span id="kdb-ties">0</span>
+                        </div>
+                        <div class="summary-row avg">
+                            <span>Diferencia media:</span>
+                            <span id="kdb-avg-diff">0%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-title">AODE vs AODELd</div>
+                    <div class="summary-content">
+                        <div class="summary-row">
+                            <span>Victorias Local:</span>
+                            <span id="aode-local-wins" class="positive">0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Victorias Base:</span>
+                            <span id="aode-base-wins" class="negative">0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Empates:</span>
+                            <span id="aode-ties">0</span>
+                        </div>
+                        <div class="summary-row avg">
+                            <span>Diferencia media:</span>
+                            <span id="aode-avg-diff">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Comparación de Discretización Local en Clasificadores Bayesianos</p>
+        </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading" class="loading-overlay">
+        <div class="loading-spinner"></div>
+        <p>Cargando datos...</p>
+    </div>
+
+    <script src="js/compare.js"></script>
+</body>
+</html>
