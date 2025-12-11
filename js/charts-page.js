@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', init);
 
 async function init() {
     try {
-        applyStoredTheme();
+        applyTheme(currentTheme);
         await loadData();
         setupEventListeners();
         renderChart();
@@ -75,16 +75,37 @@ async function init() {
     }
 }
 
-// Aplicar tema guardado en localStorage y configurar Chart.js
-function applyStoredTheme() {
-    const theme = localStorage.getItem('theme') || 'light';
+// Gestión de tema
+let currentTheme = localStorage.getItem('theme') || 'light';
+
+function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
+    currentTheme = theme;
+    localStorage.setItem('theme', theme);
 
     // Actualizar colores de Chart.js para el tema
     const textColor = theme === 'dark' ? '#eaeaea' : '#2c3e50';
     const gridColor = theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
     Chart.defaults.color = textColor;
     Chart.defaults.borderColor = gridColor;
+
+    // Actualizar iconos
+    const iconSun = document.getElementById('icon-sun');
+    const iconMoon = document.getElementById('icon-moon');
+    if (iconSun && iconMoon) {
+        iconSun.style.display = theme === 'dark' ? 'none' : 'block';
+        iconMoon.style.display = theme === 'dark' ? 'block' : 'none';
+    }
+
+    // Re-renderizar el gráfico con los nuevos colores
+    if (currentChart) {
+        renderChart();
+    }
+}
+
+function toggleTheme() {
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    applyTheme(newTheme);
 }
 
 async function loadData() {
@@ -101,6 +122,12 @@ function hideLoading() {
 }
 
 function setupEventListeners() {
+    // Theme toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
+
     document.getElementById('chart-type').addEventListener('change', (e) => {
         state.chartType = e.target.value;
         updateChartInfo();
