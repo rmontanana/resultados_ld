@@ -1,7 +1,7 @@
 # Plan de Desarrollo: Visualizador Interactivo de Resultados
 
 ## Objetivo
-Crear una página web interactiva para explorar los resultados de los experimentos de discretización local en clasificadores bayesianos, con filtros dinámicos similares a https://kyuz0.github.io/amd-r9700-ai-toolboxes/
+Crear una página web interactiva para explorar los resultados de los experimentos de discretización local en Clasificadores basados en redes bayesianas, con filtros dinámicos similares a https://kyuz0.github.io/amd-r9700-ai-toolboxes/
 
 ## Tecnologías
 - **HTML5** - Estructura de la página

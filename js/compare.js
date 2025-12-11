@@ -8,6 +8,12 @@ function formatNum(num, decimals = 2) {
     return num.toFixed(decimals).replace('.', ',');
 }
 
+// Aplicar tema guardado en localStorage
+function applyStoredTheme() {
+    const theme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+}
+
 // Estado de la aplicación
 const compareState = {
     data: null,
@@ -22,6 +28,7 @@ document.addEventListener('DOMContentLoaded', init);
 
 async function init() {
     try {
+        applyStoredTheme();
         await loadData();
         setupEventListeners();
         renderTable();

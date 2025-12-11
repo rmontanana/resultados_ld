@@ -30,6 +30,26 @@
     --transition: all 0.2s ease;
 }
 
+/* Dark Mode */
+[data-theme="dark"] {
+    --bg-color: #1a1a2e;
+    --card-bg: #16213e;
+    --text-color: #eaeaea;
+    --text-muted: #a0a0a0;
+    --border-color: #2a2a4a;
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.3);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+[data-theme="dark"] select,
+[data-theme="dark"] input {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
 /* Reset y base */
 * {
     margin: 0;
@@ -78,7 +98,32 @@ body {
 .btn-nav:hover {
     background: var(--primary-dark);
     transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
+}
+
+/* Theme Toggle Button */
+.btn-theme {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-theme:hover {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.btn-theme svg {
+    flex-shrink: 0;
 }
 
 .header h1 {

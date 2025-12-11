@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', init);
 
 async function init() {
     try {
+        applyStoredTheme();
         await loadData();
         setupEventListeners();
         renderChart();
@@ -72,6 +73,18 @@ async function init() {
             <p style="color: var(--danger-color);">Error cargando datos: ${error.message}</p>
         `;
     }
+}
+
+// Aplicar tema guardado en localStorage y configurar Chart.js
+function applyStoredTheme() {
+    const theme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+
+    // Actualizar colores de Chart.js para el tema
+    const textColor = theme === 'dark' ? '#eaeaea' : '#2c3e50';
+    const gridColor = theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+    Chart.defaults.color = textColor;
+    Chart.defaults.borderColor = gridColor;
 }
 
 async function loadData() {

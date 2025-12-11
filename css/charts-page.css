@@ -56,7 +56,8 @@
     min-width: 180px;
     cursor: pointer;
     transition: var(--transition);
-    background: white;
+    background: var(--card-bg);
+    color: var(--text-color);
 }
 
 .charts-controls-panel .filter-item select:focus {

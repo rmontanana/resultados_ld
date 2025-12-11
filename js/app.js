@@ -8,6 +8,29 @@ function formatNumber(num, decimals = 2) {
     return num.toFixed(decimals).replace('.', ',');
 }
 
+// ============== Gestión de Tema ==============
+let currentTheme = localStorage.getItem('theme') || 'light';
+
+function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    currentTheme = theme;
+    localStorage.setItem('theme', theme);
+
+    // Actualizar iconos
+    const iconSun = document.getElementById('icon-sun');
+    const iconMoon = document.getElementById('icon-moon');
+    if (iconSun && iconMoon) {
+        iconSun.style.display = theme === 'dark' ? 'none' : 'block';
+        iconMoon.style.display = theme === 'dark' ? 'block' : 'none';
+    }
+}
+
+function toggleTheme() {
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    applyTheme(newTheme);
+}
+// ============================================
+
 // Estado global de la aplicación (window.state para acceso desde charts.js)
 window.state = {
     data: null,
@@ -50,6 +73,7 @@ document.addEventListener('DOMContentLoaded', init);
 
 async function init() {
     try {
+        applyTheme(currentTheme);
         await loadData();
         setupEventListeners();
         applyFilters();
@@ -168,6 +192,12 @@ function setupEventListeners() {
 
     // Exportar CSV
     document.getElementById('export-csv').addEventListener('click', exportCSV);
+
+    // Toggle tema claro/oscuro
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
 }
 
 function getCheckedValues(name) {
