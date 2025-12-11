@@ -219,15 +219,15 @@
 }
 
 .compare-table tbody tr:hover {
-    background: #f8fafc;
+    background: rgba(52, 152, 219, 0.08);
 }
 
 .compare-table tbody tr:nth-child(even) {
-    background: #fafbfc;
+    background: var(--bg-color);
 }
 
 .compare-table tbody tr:nth-child(even):hover {
-    background: #f0f4f8;
+    background: rgba(52, 152, 219, 0.08);
 }
 
 /* Cell states */
