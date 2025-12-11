@@ -235,6 +235,39 @@
     font-style: italic;
 }
 
+/* Fila de totales */
+tr.totals-row {
+    background: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+}
+
+tr.totals-row td {
+    border-top: 3px solid var(--primary-color);
+    padding: 12px 16px;
+}
+
+tr.totals-row .fixed-col {
+    background: var(--primary-color);
+    color: white;
+    font-weight: 600;
+}
+
+[data-theme="dark"] tr.totals-row {
+    background: #2563eb;
+}
+
+[data-theme="dark"] tr.totals-row td {
+    border-top-color: #2563eb;
+}
+
+[data-theme="dark"] tr.totals-row .fixed-col {
+    background: #2563eb;
+}
+
 /* Column Header */
 .col-header {
     display: flex;

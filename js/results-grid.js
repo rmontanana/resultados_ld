@@ -20,7 +20,7 @@ const gridState = {
     filters: {
         iterations: ['10it', '100it'],
         model: ['TAN', 'KDB', 'AODE'],
-        discretizer: ['local', 'mdlp', 'equal_freq', 'equal_width', 'pki'],
+        discretizer: ['local', 'mdlp', 'equal_freq', 'equal_width', 'pki-sqrt', 'pki-log'],
         cuts: ['3p', '4p', '5p', 'up']
     },
     sortMode: 'best-desc' // 'best-desc', 'best-asc', 'alpha-asc', 'alpha-desc'
@@ -110,14 +110,23 @@ function getFilteredColumns() {
         gridState.filters.model.forEach(model => {
             gridState.filters.discretizer.forEach(disc => {
                 gridState.filters.cuts.forEach(cut => {
-                    // Construir identificador de columna
-                    const columnId = `${iter}_${model}_${disc}_${cut}`;
+                    // Validar combinaciones válidas
+                    // Equal_freq y equal_width solo con 3p, 4p, 5p (no 'up')
+                    if ((disc === 'equal_freq' || disc === 'equal_width') && cut === 'up') {
+                        return; // Skip esta combinación
+                    }
+
+                    // PKI-sqrt y PKI-log solo con 'up' (ilimitado)
+                    if ((disc === 'pki-sqrt' || disc === 'pki-log') && cut !== 'up') {
+                        return; // Skip esta combinación
+                    }
+
                     const columnLabel = {
                         iter,
                         model,
                         disc,
                         cut,
-                        id: columnId,
+                        id: `${iter}_${model}_${disc}_${cut}`,
                         fullName: `${iter}-${model}-${disc}-${cut}`
                     };
 
@@ -206,15 +215,17 @@ function getTargetModel(baseModel, disc, cut) {
         const cutNum = cut.replace('p', '');
         return `${baseModel}-mdlp${cutNum}`;
     } else if (disc === 'equal_freq') {
+        // Igual frecuencia usa 'binXq' (q = equal freq)
         const cutNum = cut.replace('p', '');
-        return `${baseModel}-efd${cutNum}`;
+        return `${baseModel}-bin${cutNum}q`;
     } else if (disc === 'equal_width') {
+        // Igual amplitud usa 'binXu' (u = equal width)
         const cutNum = cut.replace('p', '');
-        return `${baseModel}-ewd${cutNum}`;
-    } else if (disc === 'pki') {
-        // PKI siempre usa 'up' y tiene variantes sqrt/log
-        // Por ahora tomamos sqrt por defecto
+        return `${baseModel}-bin${cutNum}u`;
+    } else if (disc === 'pki-sqrt') {
         return `${baseModel}-pkisqrt`;
+    } else if (disc === 'pki-log') {
+        return `${baseModel}-pkilog`;
     }
     return baseModel;
 }
@@ -246,7 +257,8 @@ function getDiscLabel(disc) {
         'mdlp': 'MDLP',
         'equal_freq': 'Igual Freq',
         'equal_width': 'Igual Amp',
-        'pki': 'PKI'
+        'pki-sqrt': 'PKI-sqrt',
+        'pki-log': 'PKI-log'
     };
     return labels[disc] || disc;
 }
@@ -284,12 +296,17 @@ function renderRows(datasets, columns) {
         tbody.appendChild(tr);
     });
 
-    // Marcar mejores valores por fila
+    // Añadir fila de totales primero
+    renderTotalsRow(tbody, columns);
+
+    // Luego marcar mejores valores por fila (excluyendo totales)
     highlightBestValues(tbody, columns.length);
 }
 
 function highlightBestValues(tbody, numColumns) {
-    Array.from(tbody.children).forEach(row => {
+    // Excluir la última fila (totales) del resaltado
+    const rows = Array.from(tbody.children).slice(0, -1);
+    rows.forEach(row => {
         let bestValue = -1;
         let bestCells = [];
 
@@ -311,6 +328,37 @@ function highlightBestValues(tbody, numColumns) {
         // Marcar las mejores celdas
         bestCells.forEach(cell => cell.classList.add('cell-best'));
     });
+}
+
+function renderTotalsRow(tbody, columns) {
+    const tr = document.createElement('tr');
+    tr.className = 'totals-row';
+
+    // Primera columna: etiqueta "Media"
+    const tdLabel = document.createElement('td');
+    tdLabel.className = 'fixed-col';
+    tdLabel.textContent = 'Media';
+    tr.appendChild(tdLabel);
+
+    // Para cada columna, calcular y mostrar la media
+    columns.forEach(col => {
+        const td = document.createElement('td');
+        const values = getColumnValues(col);
+        const validValues = values.filter(v => v !== null);
+
+        if (validValues.length > 0) {
+            const avg = validValues.reduce((sum, v) => sum + v, 0) / validValues.length;
+            const avgPercent = avg * 100;
+            td.textContent = formatNum(avgPercent);
+            td.title = `Media de ${validValues.length} datasets`;
+        } else {
+            td.textContent = '-';
+        }
+
+        tr.appendChild(td);
+    });
+
+    tbody.appendChild(tr);
 }
 
 function updateInfo(numColumns, numDatasets) {
