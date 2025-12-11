@@ -13,7 +13,8 @@ const state = {
     data: null,
     chartType: 'accuracy-comparison',
     iterations: 'all',
-    cuts: 'all'
+    cuts: 'all',
+    discretizers: ['local', 'mdlp', 'equal_freq', 'equal_width', 'pki-sqrt', 'pki-log']
 };
 
 // Colores para los gráficos
@@ -38,7 +39,7 @@ const discTypeLabels = {
 
 const chartTitles = {
     'accuracy-comparison': 'Comparación de Accuracy por Clasificador',
-    'box-plot': 'Distribución de Accuracy (Box Plot)',
+    'box-plot': 'Distribución de Accuracy por Discretizador',
     'trend-cuts': 'Tendencia por Puntos de Corte',
     'top-improvements': 'Top 15 Datasets con Mayores Mejoras',
     'size-vs-improvement': 'Relación Tamaño vs Mejora',
@@ -131,6 +132,7 @@ function setupEventListeners() {
     document.getElementById('chart-type').addEventListener('change', (e) => {
         state.chartType = e.target.value;
         updateChartInfo();
+        updateDiscretizerFiltersVisibility();
         renderChart();
     });
 
@@ -144,7 +146,27 @@ function setupEventListeners() {
         renderChart();
     });
 
+    // Discretizer checkboxes
+    document.querySelectorAll('input[name="discretizer"]').forEach(cb => {
+        cb.addEventListener('change', () => {
+            state.discretizers = getCheckedDiscretizers();
+            renderChart();
+        });
+    });
+
     document.getElementById('download-png').addEventListener('click', downloadChart);
+}
+
+function getCheckedDiscretizers() {
+    return Array.from(document.querySelectorAll('input[name="discretizer"]:checked'))
+        .map(cb => cb.value);
+}
+
+function updateDiscretizerFiltersVisibility() {
+    const filtersDiv = document.getElementById('discretizer-filters');
+    // Mostrar filtros solo para box-plot y top-improvements
+    const showFilters = ['box-plot', 'top-improvements'].includes(state.chartType);
+    filtersDiv.style.display = showFilters ? 'block' : 'none';
 }
 
 function updateChartInfo() {
@@ -258,21 +280,50 @@ function renderAccuracyChart() {
 }
 
 /**
- * 2. Box Plot (Distribución)
+ * 2. Box Plot (Distribución por Discretizador)
  */
 function renderBoxPlotChart() {
     const ctx = document.getElementById('main-chart').getContext('2d');
     const data = getFilteredData();
-    const modelBases = ['TAN', 'KDB', 'AODE'];
 
-    const stats = modelBases.map(modelBase => {
-        const values = data.filter(r => r.model_base === modelBase).map(r => r.accuracy * 100).sort((a, b) => a - b);
+    // Mapeo de nombres de discretizadores a sus variantes en los datos
+    const discMapping = {
+        'local': { type: 'local', label: 'Local' },
+        'mdlp': { type: 'mdlp', label: 'MDLP' },
+        'equal_freq': { type: 'equal_freq', label: 'Igual Freq' },
+        'equal_width': { type: 'equal_width', label: 'Igual Amp' },
+        'pki-sqrt': { type: 'pki', variant: 'sqrt', label: 'PKI-sqrt' },
+        'pki-log': { type: 'pki', variant: 'log', label: 'PKI-log' }
+    };
+
+    // Filtrar solo los discretizadores seleccionados
+    const selectedDiscs = state.discretizers
+        .filter(d => discMapping[d])
+        .map(d => ({ key: d, ...discMapping[d] }));
+
+    const stats = selectedDiscs.map(disc => {
+        let values;
+        if (disc.variant) {
+            // Para PKI con variantes
+            values = data.filter(r => {
+                const isPKI = r.discretization_type === 'pki';
+                const matchesVariant = r.model?.includes(`pki${disc.variant}`);
+                return isPKI && matchesVariant;
+            }).map(r => r.accuracy * 100).sort((a, b) => a - b);
+        } else {
+            values = data.filter(r => r.discretization_type === disc.type)
+                .map(r => r.accuracy * 100)
+                .sort((a, b) => a - b);
+        }
+
         if (values.length === 0) return { min: 0, q1: 0, median: 0, q3: 0, max: 0, mean: 0 };
+
         const percentile = (arr, p) => {
             const idx = (p / 100) * (arr.length - 1);
             const lo = Math.floor(idx), hi = Math.ceil(idx);
             return lo === hi ? arr[lo] : arr[lo] + (arr[hi] - arr[lo]) * (idx - lo);
         };
+
         return {
             min: values[0],
             q1: percentile(values, 25),
@@ -283,15 +334,21 @@ function renderBoxPlotChart() {
         };
     });
 
+    const labels = selectedDiscs.map(d => d.label);
+    const colors = selectedDiscs.map(d => {
+        const colorKey = d.type === 'pki' ? 'pki' : d.type;
+        return chartColors[colorKey] || chartColors.local;
+    });
+
     currentChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: modelBases,
+            labels,
             datasets: [{
                 label: 'Mediana',
                 data: stats.map(s => s.median),
-                backgroundColor: modelBases.map(m => chartColors[m].bg),
-                borderColor: modelBases.map(m => chartColors[m].border),
+                backgroundColor: colors.map(c => c.bg),
+                borderColor: colors.map(c => c.border),
                 borderWidth: 2
             }]
         },
@@ -439,27 +496,102 @@ function renderTrendChart() {
 }
 
 /**
- * 4. Top 15 Datasets con Mejoras
+ * 4. Top 15 Datasets con Mejoras (filtrado por discretizadores)
  */
 function renderTop15Chart() {
     const ctx = document.getElementById('main-chart').getContext('2d');
     const data = getFilteredData();
 
-    const localResults = data.filter(r => r.discretization_type === 'local' && r.improvement_vs_base !== undefined);
+    // Mapeo para identificar discretizadores
+    const discMapping = {
+        'local': { type: 'local' },
+        'mdlp': { type: 'mdlp' },
+        'equal_freq': { type: 'equal_freq' },
+        'equal_width': { type: 'equal_width' },
+        'pki-sqrt': { type: 'pki', variant: 'sqrt' },
+        'pki-log': { type: 'pki', variant: 'log' }
+    };
 
-    const datasetImprovements = {};
-    localResults.forEach(r => {
-        if (!datasetImprovements[r.dataset]) datasetImprovements[r.dataset] = [];
-        datasetImprovements[r.dataset].push(r.improvement_vs_base);
+    // Verificar si local está seleccionado
+    const hasLocal = state.discretizers.includes('local');
+    if (!hasLocal) {
+        // Si no hay local seleccionado, no podemos calcular mejoras
+        currentChart = new Chart(ctx, {
+            type: 'bar',
+            data: { labels: [], datasets: [] },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Selecciona "Local" para ver las mejoras'
+                    }
+                }
+            }
+        });
+        return;
+    }
+
+    // Obtener todos los datasets únicos
+    const datasets = [...new Set(data.map(r => r.dataset))];
+
+    const datasetImprovements = [];
+
+    datasets.forEach(dataset => {
+        // Obtener resultados locales para este dataset
+        const localResults = data.filter(r =>
+            r.dataset === dataset && r.discretization_type === 'local'
+        );
+
+        if (localResults.length === 0) return;
+
+        // Obtener resultados de otros discretizadores seleccionados (excluyendo local)
+        const baseResults = data.filter(r => {
+            if (r.dataset !== dataset) return false;
+
+            return state.discretizers
+                .filter(d => d !== 'local')  // Excluir local
+                .some(disc => {
+                    const mapping = discMapping[disc];
+                    if (!mapping) return false;
+
+                    if (mapping.variant) {
+                        return r.discretization_type === 'pki' && r.model?.includes(`pki${mapping.variant}`);
+                    } else {
+                        return r.discretization_type === mapping.type;
+                    }
+                });
+        });
+
+        if (baseResults.length === 0) return;
+
+        // Calcular mejora promedio de local vs mejor base
+        const improvements = [];
+        localResults.forEach(localResult => {
+            // Encontrar el mejor resultado base con las mismas características (iteraciones, puntos de corte, modelo base)
+            const matchingBases = baseResults.filter(b =>
+                b.iterations === localResult.iterations &&
+                b.cuts === localResult.cuts &&
+                b.model_base === localResult.model_base
+            );
+
+            if (matchingBases.length > 0) {
+                const bestBase = Math.max(...matchingBases.map(b => b.accuracy));
+                const improvement = (localResult.accuracy - bestBase) * 100;
+                improvements.push(improvement);
+            }
+        });
+
+        if (improvements.length > 0) {
+            const avgImprovement = improvements.reduce((a, b) => a + b, 0) / improvements.length;
+            datasetImprovements.push({ dataset, avg: avgImprovement });
+        }
     });
 
-    const datasetAvg = Object.entries(datasetImprovements).map(([dataset, imps]) => ({
-        dataset,
-        avg: imps.reduce((a, b) => a + b, 0) / imps.length
-    }));
-
-    datasetAvg.sort((a, b) => b.avg - a.avg);
-    const top15 = datasetAvg.slice(0, 15).reverse();
+    // Ordenar y tomar top 15
+    datasetImprovements.sort((a, b) => b.avg - a.avg);
+    const top15 = datasetImprovements.slice(0, 15).reverse();
 
     const labels = top15.map(d => d.dataset);
     const values = top15.map(d => d.avg);

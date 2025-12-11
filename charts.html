@@ -86,7 +86,7 @@
                     <label for="chart-type">Tipo de Gráfico:</label>
                     <select id="chart-type">
                         <option value="accuracy-comparison">Comparación de Accuracy por Clasificador</option>
-                        <option value="box-plot">Distribución de Accuracy (Box Plot)</option>
+                        <option value="box-plot">Distribución de Accuracy por Discretizador</option>
                         <option value="trend-cuts">Tendencia por Puntos de Corte</option>
                         <option value="top-improvements">Top 15 Datasets con Mayores Mejoras</option>
                         <option value="size-vs-improvement">Relación Tamaño vs Mejora</option>
@@ -106,7 +106,7 @@
                     <select id="filter-cuts">
                         <option value="all">Todos</option>
                         <option value="3p">3 puntos</option>
-                                <option value="4p">4 puntos</option>
+                        <option value="4p">4 puntos</option>
                         <option value="5p">5 puntos</option>
                         <option value="up">Ilimitado</option>
                     </select>
@@ -119,6 +119,31 @@
                     </svg>
                     Descargar PNG
                 </button>
+            </div>
+
+            <!-- Filtros de discretizadores (se muestran según el tipo de gráfico) -->
+            <div id="discretizer-filters" class="discretizer-filters" style="display: none;">
+                <label>Algoritmos de Discretización:</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="discretizer" value="local" checked> Local
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="discretizer" value="mdlp" checked> MDLP
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="discretizer" value="equal_freq" checked> Igual Freq
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="discretizer" value="equal_width" checked> Igual Amp
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="discretizer" value="pki-sqrt" checked> PKI-sqrt
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="discretizer" value="pki-log" checked> PKI-log
+                    </label>
+                </div>
             </div>
         </section>
 
