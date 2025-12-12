@@ -74,7 +74,42 @@
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <h1>Vista Comparativa por Dataset</h1>
+            <h1 class="title-with-info">
+                Vista Comparativa por Dataset
+                <span class="info-tooltip" tabindex="0" aria-label="Descripción de la página" role="tooltip">
+                    i
+                    <span class="tooltip-text">
+                        <div class="tooltip-section">
+                            <strong>¿Qué ves aquí?</strong>
+                            <ul>
+                                <li>Comparación directa por dataset: modelos base vs su versión Local.</li>
+                                <li>Barras de accuracy y diferencial (Local vs base) por clasificador.</li>
+                            </ul>
+                        </div>
+                        <div class="tooltip-section">
+                            <strong>Cómo usarla</strong>
+                            <ul>
+                                <li>Elige iteraciones (10/100), discretizador base (mdlp, igual freq/amp, PKI) y puntos de corte.</li>
+                                <li>Cambia de dataset con los controles de navegación de la tarjeta.</li>
+                            </ul>
+                        </div>
+                        <div class="tooltip-section">
+                            <strong>Qué preguntas responde</strong>
+                            <ul>
+                                <li>¿Cuánto mejora o empeora Local frente al mejor base en este dataset?</li>
+                                <li>¿Cómo rinde cada clasificador (TAN, KDB, AODE) con el mismo discretizador/corte?</li>
+                            </ul>
+                        </div>
+                        <div class="tooltip-section">
+                            <strong>Consejos</strong>
+                            <ul>
+                                <li>Usa 10it para las conclusiones principales y recorre datasets para ver patrones.</li>
+                                <li>Cambia discretizador base para ver si las mejoras dependen del corte.</li>
+                            </ul>
+                        </div>
+                    </span>
+                </span>
+            </h1>
             <p class="subtitle">Clasificadores base vs discretización local</p>
         </header>
 

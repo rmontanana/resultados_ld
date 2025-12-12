@@ -75,7 +75,46 @@
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <h1>Gráficos Comparativos</h1>
+            <h1 class="title-with-info">
+                Gráficos Comparativos
+                <span class="info-tooltip" tabindex="0" aria-label="Descripción de la página" role="tooltip">
+                    i
+                    <span class="tooltip-text">
+                        <div class="tooltip-section">
+                            <strong>¿Qué ves aquí?</strong>
+                            <ul>
+                                <li>Panel de gráficos interactivos: comparaciones, box-plots, tendencias por cortes, top mejoras, tamaño vs mejora y heatmap.</li>
+                                <li>Filtrado por iteraciones, puntos de corte y discretizadores (según gráfico).</li>
+                            </ul>
+                        </div>
+                        <div class="tooltip-section">
+                            <strong>Qué responde cada gráfico</strong>
+                            <ul>
+                                <li>Comparación de accuracy: medias por clasificador.</li>
+                                <li>Box-plot: dispersión por discretizador.</li>
+                                <li>Tendencia por cortes: evolución 3p/4p/5p/up (solo Local/MDLP).</li>
+                                <li>Top mejoras: dónde Local supera más a las bases.</li>
+                                <li>Tamaño vs mejora: efecto de muestras (línea log y lineal).</li>
+                                <li>Heatmap: quién gana vs Local por discretizador y dataset.</li>
+                            </ul>
+                        </div>
+                        <div class="tooltip-section">
+                            <strong>Cómo usarla</strong>
+                            <ul>
+                                <li>Elige el gráfico, aplica filtros y activa/desactiva discretizadores.</li>
+                                <li>Descarga cualquier visual como PNG desde el botón lateral.</li>
+                            </ul>
+                        </div>
+                        <div class="tooltip-section">
+                            <strong>Consejos</strong>
+                            <ul>
+                                <li>Iteraciones=10it es la base de las conclusiones principales.</li>
+                                <li>En “trend-cuts” deja solo Local/MDLP; en heatmap observa rápidamente dónde Local pierde/gana.</li>
+                            </ul>
+                        </div>
+                    </span>
+                </span>
+            </h1>
             <p class="subtitle">Análisis visual de resultados</p>
         </header>
 

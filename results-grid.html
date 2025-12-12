@@ -74,14 +74,50 @@
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <h1>Grid de Resultados Completo</h1>
+            <h1 class="title-with-info">
+                Grid de Resultados Completo
+                <span class="info-tooltip" tabindex="0" aria-label="Descripción de la página" role="tooltip">
+                    i
+                    <span class="tooltip-text">
+                        <div class="tooltip-section">
+                            <strong>¿Qué ves aquí?</strong>
+                            <ul>
+                                <li>Tabla completa de todas las ejecuciones: iteraciones, cortes, modelo, dataset, accuracy, std, tamaño y clases.</li>
+                                <li>Filtros y ordenaciones para análisis fino.</li>
+                            </ul>
+                        </div>
+                        <div class="tooltip-section">
+                            <strong>Cómo usarla</strong>
+                            <ul>
+                                <li>Filtra por iteraciones, modelo base, discretizador, puntos de corte y datasets.</li>
+                                <li>Ordena por accuracy, desviación o tamaño; usa búsqueda rápida para filas concretas.</li>
+                            </ul>
+                        </div>
+                        <div class="tooltip-section">
+                            <strong>Qué preguntas responde</strong>
+                            <ul>
+                                <li>¿Cuál es el mejor resultado para una combinación específica?</li>
+                                <li>¿Cómo varía el rendimiento entre cortes o discretizadores en un dataset?</li>
+                                <li>¿Qué configuraciones son más estables (std baja)?</li>
+                            </ul>
+                        </div>
+                        <div class="tooltip-section">
+                            <strong>Consejos</strong>
+                            <ul>
+                                <li>Combina filtros finos (ej. AODE + mdLp + 4p + 10it) para aislar configuraciones.</li>
+                                <li>Ordena por std para estabilidad y por accuracy para ver líderes.</li>
+                            </ul>
+                        </div>
+                    </span>
+                </span>
+            </h1>
             <p class="subtitle">Todos los experimentos en formato tabla</p>
         </header>
 
         <!-- Controls Panel -->
         <section class="controls-panel">
             <div class="controls-header">
-                <h2>Filtros y Ordenación</h2>
+                <h2 style="position: relative; z-index: 2;">Filtros y Ordenación</h2>
             </div>
 
             <!-- Filters -->

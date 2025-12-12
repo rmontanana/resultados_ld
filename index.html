@@ -73,7 +73,43 @@
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <h1>Explorador de Resultados Experimentales</h1>
+            <h1 class="title-with-info">
+                Explorador de Resultados Experimentales
+                <span class="info-tooltip" tabindex="0" aria-label="Descripción de la página" role="tooltip">
+                    i
+                    <span class="tooltip-text">
+                        <div class="tooltip-section">
+                            <strong>¿Qué ves aquí?</strong>
+                            <ul>
+                                <li>Vista global de todos los experimentos (Local y bases TAN/KDB/AODE) con búsqueda y filtros.</li>
+                                <li>Permite acotar por iteraciones (10/100), puntos de corte (3/4/5/up) y modelos base.</li>
+                            </ul>
+                        </div>
+                        <div class="tooltip-section">
+                            <strong>Cómo usarla</strong>
+                            <ul>
+                                <li>Filtra en la izquierda; ordena por accuracy, std o tiempo según tu foco.</li>
+                                <li>Usa el buscador para ubicar un dataset concreto; “Resetear” limpia todo.</li>
+                            </ul>
+                        </div>
+                        <div class="tooltip-section">
+                            <strong>Qué preguntas responde</strong>
+                            <ul>
+                                <li>¿Qué rendimiento obtiene cada modelo en un dataset concreto?</li>
+                                <li>¿Cómo cambia el accuracy según puntos de corte y discretizador?</li>
+                                <li>¿Dónde mejora o no la discretización local frente a las bases?</li>
+                            </ul>
+                        </div>
+                        <div class="tooltip-section">
+                            <strong>Consejos</strong>
+                            <ul>
+                                <li>Combina filtros (ej. 10it + 3p + TAN) para aislar escenarios.</li>
+                                <li>Fíjate en el marcador del mejor resultado por grupo para ver al líder rápido.</li>
+                            </ul>
+                        </div>
+                    </span>
+                </span>
+            </h1>
             <p class="subtitle">Análisis de discretización local en clasificadores basados en redes bayesianas</p>
         </header>
 
