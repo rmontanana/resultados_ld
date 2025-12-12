@@ -44,7 +44,7 @@ window.state = {
         iterations: 'all',
         cuts: ['3p', '4p', '5p', 'up'],
         model_base: ['TAN', 'KDB', 'AODE'],
-        disc_type: ['local', 'mdlp', 'equal_freq', 'equal_width', 'pki'],
+        disc_type: ['local', 'mdlp', 'equal_freq', 'equal_width', 'pki-sqrt', 'pki-log'],
         onlyImprovements: false
     }
 };
@@ -222,7 +222,7 @@ function resetFilters() {
 
     state.filters.cuts = ['3p', '4p', '5p', 'up'];
     state.filters.model_base = ['TAN', 'KDB', 'AODE'];
-    state.filters.disc_type = ['local', 'mdlp', 'equal_freq', 'equal_width', 'pki'];
+    state.filters.disc_type = ['local', 'mdlp', 'equal_freq', 'equal_width', 'pki-sqrt', 'pki-log'];
     state.filters.onlyImprovements = false;
 
     state.currentPage = 1;

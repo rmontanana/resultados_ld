@@ -149,6 +149,12 @@
     gap: var(--spacing-sm);
 }
 
+.chart-title-with-info {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
 .chart-display .chart-card-header h3 {
     font-size: 1.1rem;
     font-weight: 600;

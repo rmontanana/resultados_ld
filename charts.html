@@ -189,7 +189,13 @@
         <!-- Chart Display -->
         <section class="chart-display">
             <div class="chart-card-header">
-                <h3 id="chart-title">Comparación de Accuracy por Clasificador</h3>
+                <div class="chart-title-with-info">
+                    <h3 id="chart-title">Comparación de Accuracy por Clasificador</h3>
+                    <span id="chart-info" class="info-tooltip" tabindex="0" aria-label="Información del gráfico" role="tooltip">
+                        i
+                        <span class="tooltip-text" id="chart-info-text"></span>
+                    </span>
+                </div>
                 <span class="chart-hint" id="chart-hint"></span>
             </div>
             <div class="chart-canvas-container">

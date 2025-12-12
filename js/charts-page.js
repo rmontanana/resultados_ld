@@ -55,6 +55,150 @@ const chartHints = {
     'heatmap': 'Verde: mejor que Local, Rojo: peor que Local'
 };
 
+const chartInfoDetails = {
+    'accuracy-comparison': `
+        <div class="tooltip-section">
+            <strong>Qué muestra</strong>
+            <ul>
+                <li>Media de accuracy (%) por clasificador base (TAN, KDB, AODE) usando los filtros activos.</li>
+                <li>Incluye solo los discretizadores seleccionados y los filtros de iteraciones/cortes.</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Cálculo</strong>
+            <ul>
+                <li>Agrupa resultados por model_base y promedia accuracy×100 de cada resultado filtrado.</li>
+                <li>El eje Y muestra la media porcentual; cada barra representa un clasificador base.</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Uso</strong>
+            <ul>
+                <li>Combina filtros de iteraciones/cortes/discretizadores para comparar escenarios.</li>
+                <li>Útil para ver rápidamente quién lidera en el subconjunto filtrado.</li>
+            </ul>
+        </div>
+    `,
+    'box-plot': `
+        <div class="tooltip-section">
+            <strong>Qué muestra</strong>
+            <ul>
+                <li>Distribución de accuracy (%) por discretizador seleccionado.</li>
+                <li>Cada caja resume los valores de accuracy de todas las ejecuciones filtradas de ese discretizador.</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Cálculo</strong>
+            <ul>
+                <li>Aplica filtros de iteraciones/cortes y discretizadores.</li>
+                <li>Calcula percentiles (min, Q1, mediana, Q3, max) sobre accuracy×100.</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Uso</strong>
+            <ul>
+                <li>Compara dispersión y mediana entre discretizadores.</li>
+                <li>El tooltip del gráfico muestra estadísticas completas por caja.</li>
+            </ul>
+        </div>
+    `,
+    'trend-cuts': `
+        <div class="tooltip-section">
+            <strong>Qué muestra</strong>
+            <ul>
+                <li>Evolución del accuracy medio (%) a través de puntos de corte (3p, 4p, 5p, up).</li>
+                <li>Sólo Local y MDLP (tienen datos en todos los cortes); se promedia por clasificador base.</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Cálculo</strong>
+            <ul>
+                <li>Filtra por iteraciones; no limita por cortes para trazar la curva completa.</li>
+                <li>Media de accuracy×100 y desviación típica por corte y clasificador base.</li>
+                <li>Banda ±σ sólo para Local; MDLP se dibuja con línea punteada.</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Uso</strong>
+            <ul>
+                <li>Compara cómo varía el rendimiento al cambiar el número de cortes.</li>
+                <li>Mantén sólo Local/MDLP seleccionados para ver el gráfico.</li>
+            </ul>
+        </div>
+    `,
+    'top-improvements': `
+        <div class="tooltip-section">
+            <strong>Qué muestra</strong>
+            <ul>
+                <li>Top 15 datasets con mayor mejora media de Local respecto al mejor modelo base.</li>
+                <li>Signo positivo = Local supera; negativo = Local pierde.</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Cálculo</strong>
+            <ul>
+                <li>Requiere Local seleccionado; aplica filtros de iteraciones y cortes.</li>
+                <li>Para cada dataset: compara cada resultado Local con el mejor base coincidente (iteraciones/cortes/model_base) dentro de discretizadores seleccionados (excluye Local).</li>
+                <li>Promedia mejoras ((acc_local - acc_base)×100) por dataset y ordena el top.</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Uso</strong>
+            <ul>
+                <li>Identifica dónde la discretización local aporta más o menos.</li>
+                <li>Ajusta discretizadores para ver cómo cambian las mejoras.</li>
+            </ul>
+        </div>
+    `,
+    'size-vs-improvement': `
+        <div class="tooltip-section">
+            <strong>Qué muestra</strong>
+            <ul>
+                <li>Dispersión de la mejora promedio de Local vs mejor base en función del tamaño (muestras).</li>
+                <li>Incluye dos líneas de tendencia: ajuste logarítmico (sobre log10(x)) y lineal.</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Cálculo</strong>
+            <ul>
+                <li>Filtra por iteraciones/cortes y discretizadores (Local obligatorio).</li>
+                <li>Por dataset: mejora media de Local vs mejor base coincidente (iteraciones/cortes/model_base) con discretizadores seleccionados distintos de Local.</li>
+                <li>Tendencia log: regresión lineal sobre log10(tamaño); Tendencia lineal: regresión en escala original.</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Uso</strong>
+            <ul>
+                <li>Explora si el beneficio de Local cambia con el tamaño del dataset.</li>
+                <li>Activa/desactiva las líneas en la leyenda para comparar ajustes.</li>
+            </ul>
+        </div>
+    `,
+    'heatmap': `
+        <div class="tooltip-section">
+            <strong>Qué muestra</strong>
+            <ul>
+                <li>Diferencia (pp) entre el mejor resultado de cada discretizador seleccionado y el mejor Local, por dataset.</li>
+                <li>Verde = discretizador supera a Local; rojo = peor que Local.</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Cálculo</strong>
+            <ul>
+                <li>Local es referencia: se toma su mejor accuracy por dataset con los filtros vigentes.</li>
+                <li>Para cada discretizador seleccionado (no Local) se toma su mejor accuracy por dataset con los mismos filtros.</li>
+                <li>Se muestra la diferencia (best_disc - best_local)×100.</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Uso</strong>
+            <ul>
+                <li>Detecta rápidamente dónde Local gana o pierde frente a cada discretizador.</li>
+                <li>Combina con filtros de iteraciones/cortes para escenarios concretos.</li>
+            </ul>
+        </div>
+    `
+};
 // Referencia al gráfico actual
 let currentChart = null;
 
@@ -196,6 +340,10 @@ function updateDiscretizerFiltersVisibility() {
 function updateChartInfo() {
     document.getElementById('chart-title').textContent = chartTitles[state.chartType] || '';
     document.getElementById('chart-hint').textContent = chartHints[state.chartType] || '';
+    const infoText = document.getElementById('chart-info-text');
+    if (infoText) {
+        infoText.innerHTML = chartInfoDetails[state.chartType] || '';
+    }
 }
 
 function downloadChart() {
