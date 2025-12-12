@@ -43,7 +43,7 @@ const chartTitles = {
     'trend-cuts': 'Tendencia por Puntos de Corte',
     'top-improvements': 'Top 15 Datasets con Mayores Mejoras',
     'size-vs-improvement': 'Relación Tamaño vs Mejora',
-    'heatmap': 'Heatmap de Mejoras por Dataset'
+    'heatmap': 'Heatmap: Comparación de Discretizadores vs Local'
 };
 
 const chartHints = {
@@ -52,7 +52,7 @@ const chartHints = {
     'trend-cuts': 'Línea sólida = Local, punteada = MDLP. Sombra = desviación típica',
     'top-improvements': 'Mejora promedio de discretización local vs mejor base',
     'size-vs-improvement': 'Relación logarítmica entre tamaño y mejora',
-    'heatmap': 'Verde = mejora, Rojo = pérdida. Tamaño = magnitud del cambio'
+    'heatmap': 'Verde: mejor que Local, Rojo: peor que Local'
 };
 
 // Referencia al gráfico actual
@@ -164,8 +164,8 @@ function getCheckedDiscretizers() {
 
 function updateDiscretizerFiltersVisibility() {
     const filtersDiv = document.getElementById('discretizer-filters');
-    // Mostrar filtros solo para box-plot y top-improvements
-    const showFilters = ['box-plot', 'top-improvements'].includes(state.chartType);
+    // Mostrar filtros para box-plot, top-improvements y heatmap
+    const showFilters = ['box-plot', 'top-improvements', 'heatmap'].includes(state.chartType);
     filtersDiv.style.display = showFilters ? 'block' : 'none';
 }
 
@@ -236,12 +236,38 @@ function renderChart() {
 function renderAccuracyChart() {
     const ctx = document.getElementById('main-chart').getContext('2d');
     const data = getFilteredData();
-    const discTypes = ['local', 'mdlp', 'equal_freq', 'equal_width', 'pki'];
+
+    // Mapeo de discretizadores
+    const discMapping = {
+        'local': 'local',
+        'mdlp': 'mdlp',
+        'equal_freq': 'equal_freq',
+        'equal_width': 'equal_width',
+        'pki-sqrt': 'pki',
+        'pki-log': 'pki'
+    };
+
+    // Filtrar tipos de discretización según selección
+    const discTypes = [...new Set(state.discretizers.map(d => discMapping[d]))].filter(Boolean);
     const modelBases = ['TAN', 'KDB', 'AODE'];
 
     const datasets = discTypes.map(discType => {
         const accuracies = modelBases.map(modelBase => {
-            const filtered = data.filter(r => r.model_base === modelBase && r.discretization_type === discType);
+            let filtered;
+
+            // Para PKI, incluir ambas variantes si están seleccionadas
+            if (discType === 'pki') {
+                filtered = data.filter(r =>
+                    r.model_base === modelBase &&
+                    r.discretization_type === 'pki'
+                );
+            } else {
+                filtered = data.filter(r =>
+                    r.model_base === modelBase &&
+                    r.discretization_type === discType
+                );
+            }
+
             if (filtered.length === 0) return null;
             return filtered.reduce((sum, r) => sum + r.accuracy, 0) / filtered.length * 100;
         });
@@ -385,22 +411,52 @@ function renderBoxPlotChart() {
 function renderTrendChart() {
     const ctx = document.getElementById('main-chart').getContext('2d');
 
-    let data = state.data.results;
-    if (state.iterations !== 'all') {
-        data = data.filter(r => r.iterations === state.iterations);
+    // Usar datos filtrados
+    const data = getFilteredData();
+
+    // Este gráfico muestra tendencias a través de diferentes puntos de corte
+    // Solo tiene sentido para Local y MDLP (que tienen datos en todos los puntos de corte)
+    const hasLocal = state.discretizers.includes('local');
+    const hasMdlp = state.discretizers.includes('mdlp');
+
+    if (!hasLocal && !hasMdlp) {
+        // Mostrar mensaje si no hay discretizadores compatibles seleccionados
+        currentChart = new Chart(ctx, {
+            type: 'line',
+            data: { labels: [], datasets: [] },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Selecciona Local o MDLP para ver este gráfico',
+                        font: { size: 16 }
+                    }
+                }
+            }
+        });
+        return;
     }
 
     const cuts = ['3p', '4p', '5p', 'up'];
     const cutsLabels = ['3 puntos', '4 puntos', '5 puntos', 'Ilimitado'];
 
-    const classifiers = [
-        { name: 'TANLd', isLocal: true, base: 'TAN' },
-        { name: 'KDBLd', isLocal: true, base: 'KDB' },
-        { name: 'AODELd', isLocal: true, base: 'AODE' },
-        { name: 'TAN-mdlp', isLocal: false, base: 'TAN' },
-        { name: 'KDB-mdlp', isLocal: false, base: 'KDB' },
-        { name: 'AODE-mdlp', isLocal: false, base: 'AODE' }
-    ];
+    // Construir lista de clasificadores según discretizadores seleccionados
+    const classifiers = [];
+    const modelBases = ['TAN', 'KDB', 'AODE'];
+
+    if (hasLocal) {
+        modelBases.forEach(base => {
+            classifiers.push({ name: `${base}Ld`, isLocal: true, base });
+        });
+    }
+
+    if (hasMdlp) {
+        modelBases.forEach(base => {
+            classifiers.push({ name: `${base}-mdlp`, isLocal: false, base });
+        });
+    }
 
     const datasets = [];
 
@@ -654,12 +710,89 @@ function renderSizeChart() {
     const ctx = document.getElementById('main-chart').getContext('2d');
     const data = getFilteredData();
 
-    const localResults = data.filter(r => r.discretization_type === 'local' && r.improvement_vs_base !== undefined && r.samples);
+    // Verificar que Local esté seleccionado
+    const hasLocal = state.discretizers.includes('local');
+    if (!hasLocal) {
+        currentChart = new Chart(ctx, {
+            type: 'scatter',
+            data: { datasets: [] },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Este gráfico requiere que Local esté seleccionado',
+                        font: { size: 16 }
+                    }
+                }
+            }
+        });
+        return;
+    }
 
+    // Mapping de discretizadores
+    const discMapping = {
+        'local': { type: 'local', label: 'Local' },
+        'mdlp': { type: 'mdlp', label: 'MDLP' },
+        'equal_freq': { type: 'equal_freq', label: 'Igual Freq' },
+        'equal_width': { type: 'equal_width', label: 'Igual Amp' },
+        'pki-sqrt': { type: 'pki', variant: 'sqrt', label: 'PKI-sqrt' },
+        'pki-log': { type: 'pki', variant: 'log', label: 'PKI-log' }
+    };
+
+    const localResults = data.filter(r => r.discretization_type === 'local' && r.samples);
+
+    // Calcular mejoras dinámicamente
     const datasetStats = {};
-    localResults.forEach(r => {
-        if (!datasetStats[r.dataset]) datasetStats[r.dataset] = { samples: r.samples, imps: [] };
-        datasetStats[r.dataset].imps.push(r.improvement_vs_base);
+    const datasets = [...new Set(localResults.map(r => r.dataset))];
+
+    datasets.forEach(dataset => {
+        const localForDataset = localResults.filter(r => r.dataset === dataset);
+        if (localForDataset.length === 0) return;
+
+        const samples = localForDataset[0].samples;
+
+        // Obtener resultados base para comparación
+        const baseResults = data.filter(r => {
+            if (r.dataset !== dataset) return false;
+
+            return state.discretizers
+                .filter(d => d !== 'local')  // Excluir local
+                .some(disc => {
+                    const mapping = discMapping[disc];
+                    if (!mapping) return false;
+
+                    if (mapping.variant) {
+                        return r.discretization_type === 'pki' && r.model?.includes(`pki${mapping.variant}`);
+                    } else {
+                        return r.discretization_type === mapping.type;
+                    }
+                });
+        });
+
+        if (baseResults.length === 0) return;
+
+        // Calcular mejoras
+        const improvements = [];
+        localForDataset.forEach(localResult => {
+            const matchingBases = baseResults.filter(b =>
+                b.iterations === localResult.iterations &&
+                b.cuts === localResult.cuts &&
+                b.model_base === localResult.model_base
+            );
+
+            if (matchingBases.length > 0) {
+                const bestBase = Math.max(...matchingBases.map(b => b.accuracy));
+                const improvement = (localResult.accuracy - bestBase) * 100;
+                improvements.push(improvement);
+            }
+        });
+
+        if (improvements.length > 0) {
+            const avgImprovement = improvements.reduce((a, b) => a + b, 0) / improvements.length;
+            datasetStats[dataset] = { samples, imps: [avgImprovement] };
+        }
     });
 
     const scatterData = Object.entries(datasetStats).map(([dataset, s]) => ({
@@ -760,45 +893,182 @@ function renderSizeChart() {
 }
 
 /**
- * 6. Heatmap de Mejoras
+ * 6. Heatmap: Comparación de Discretizadores vs Local
  */
 function renderHeatmapChart() {
     const ctx = document.getElementById('main-chart').getContext('2d');
+    const data = getFilteredData();
 
-    const data = state.data.results.filter(r => r.discretization_type === 'local' && r.improvement_vs_base !== undefined);
+    // Verificar que Local esté seleccionado
+    const hasLocal = state.discretizers.includes('local');
+    if (!hasLocal) {
+        currentChart = new Chart(ctx, {
+            type: 'bubble',
+            data: { datasets: [] },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Este gráfico requiere que Local esté seleccionado como base de comparación',
+                        font: { size: 16 }
+                    }
+                }
+            }
+        });
+        return;
+    }
+
+    // Mapeo para identificar discretizadores
+    const discMapping = {
+        'mdlp': { type: 'mdlp', label: 'MDLP' },
+        'equal_freq': { type: 'equal_freq', label: 'Igual Freq' },
+        'equal_width': { type: 'equal_width', label: 'Igual Amp' },
+        'pki-sqrt': { type: 'pki', variant: 'sqrt', label: 'PKI-sqrt' },
+        'pki-log': { type: 'pki', variant: 'log', label: 'PKI-log' }
+    };
+
+    // Obtener discretizadores seleccionados (excluyendo local)
+    const selectedDiscs = state.discretizers
+        .filter(d => d !== 'local' && discMapping[d])
+        .map(d => ({ key: d, ...discMapping[d] }));
+
+    if (selectedDiscs.length === 0) {
+        currentChart = new Chart(ctx, {
+            type: 'bubble',
+            data: { datasets: [] },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Selecciona al menos un discretizador además de Local para comparar',
+                        font: { size: 16 }
+                    }
+                }
+            }
+        });
+        return;
+    }
+
     const datasetList = getUniqueDatasets();
-    const classifiers = ['TANLd', 'KDBLd', 'AODELd'];
+    const discretizerLabels = selectedDiscs.map(d => d.label);
 
-    const improvements = {};
+    // Calcular accuracy promedio de Local para cada dataset
+    const localAccuracies = {};
     datasetList.forEach(dataset => {
-        improvements[dataset] = {};
-        classifiers.forEach(clf => {
-            const filtered = data.filter(r => r.dataset === dataset && r.model === clf);
-            improvements[dataset][clf] = filtered.length > 0
-                ? filtered.reduce((sum, r) => sum + (r.improvement_vs_base || 0), 0) / filtered.length
-                : 0;
+        const localResults = data.filter(r =>
+            r.dataset === dataset &&
+            r.discretization_type === 'local'
+        );
+
+        if (localResults.length > 0) {
+            localAccuracies[dataset] = localResults.reduce((sum, r) => sum + r.accuracy, 0) / localResults.length;
+        } else {
+            localAccuracies[dataset] = null;
+        }
+    });
+
+    // Calcular diferencias vs Local para cada combinación dataset-discretizador
+    const differences = {};
+    datasetList.forEach(dataset => {
+        differences[dataset] = {};
+
+        selectedDiscs.forEach(disc => {
+            let results;
+
+            if (disc.variant) {
+                // Para PKI con variantes
+                results = data.filter(r =>
+                    r.dataset === dataset &&
+                    r.discretization_type === 'pki' &&
+                    r.model?.includes(`pki${disc.variant}`)
+                );
+            } else {
+                // Para otros discretizadores
+                results = data.filter(r =>
+                    r.dataset === dataset &&
+                    r.discretization_type === disc.type
+                );
+            }
+
+            if (results.length > 0 && localAccuracies[dataset] !== null) {
+                const avgAccuracy = results.reduce((sum, r) => sum + r.accuracy, 0) / results.length;
+                // Diferencia en puntos porcentuales
+                const diff = (avgAccuracy - localAccuracies[dataset]) * 100;
+                differences[dataset][disc.label] = diff;
+            } else {
+                differences[dataset][disc.label] = null;
+            }
         });
     });
 
+    // Crear datos de burbujas
     const bubbleData = datasetList.flatMap((dataset, yIdx) =>
-        classifiers.map((clf, xIdx) => ({
-            x: xIdx,
-            y: yIdx,
-            r: Math.min(Math.abs(improvements[dataset][clf]) * 6 + 4, 20),
-            value: improvements[dataset][clf],
-            dataset,
-            classifier: clf
-        }))
+        discretizerLabels.map((discLabel, xIdx) => {
+            const diff = differences[dataset][discLabel];
+            if (diff === null) return null;
+
+            return {
+                x: xIdx,
+                y: yIdx,
+                r: 8,
+                value: diff,
+                dataset,
+                discretizer: discLabel
+            };
+        }).filter(d => d !== null)
     );
+
+    if (bubbleData.length === 0) {
+        currentChart = new Chart(ctx, {
+            type: 'bubble',
+            data: { datasets: [] },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'No hay datos disponibles para la comparación',
+                        font: { size: 16 }
+                    }
+                }
+            }
+        });
+        return;
+    }
 
     currentChart = new Chart(ctx, {
         type: 'bubble',
         data: {
             datasets: [{
                 data: bubbleData,
-                backgroundColor: bubbleData.map(d => d.value > 0.1 ? 'rgba(46, 204, 113, 0.7)' : d.value < -0.1 ? 'rgba(231, 76, 60, 0.7)' : 'rgba(149, 165, 166, 0.7)'),
-                borderColor: bubbleData.map(d => d.value > 0.1 ? 'rgb(39, 174, 96)' : d.value < -0.1 ? 'rgb(192, 57, 43)' : 'rgb(127, 140, 141)'),
-                borderWidth: 1
+                backgroundColor: bubbleData.map(d => {
+                    // Verde si es mejor que Local (valor positivo)
+                    // Rojo si es peor que Local (valor negativo)
+                    if (d.value > 0) {
+                        // Verde con intensidad según la magnitud
+                        const intensity = Math.min(Math.abs(d.value) / 5, 1); // Normalizar a máx 5%
+                        const g = Math.round(204 * (0.5 + intensity * 0.5));
+                        return `rgba(46, ${g}, 113, 0.7)`;
+                    } else {
+                        // Rojo con intensidad según la magnitud
+                        const intensity = Math.min(Math.abs(d.value) / 5, 1); // Normalizar a máx 5%
+                        const r = Math.round(231 * (0.5 + intensity * 0.5));
+                        return `rgba(${r}, 76, 60, 0.7)`;
+                    }
+                }),
+                borderColor: bubbleData.map(d => {
+                    if (d.value > 0) {
+                        return 'rgb(39, 174, 96)';
+                    } else {
+                        return 'rgb(192, 57, 43)';
+                    }
+                }),
+                borderWidth: 2
             }]
         },
         options: {
@@ -810,8 +1080,8 @@ function renderHeatmapChart() {
                     callbacks: {
                         label: (c) => [
                             `Dataset: ${c.raw.dataset}`,
-                            `Clasificador: ${c.raw.classifier}`,
-                            `Mejora: ${c.raw.value >= 0 ? '+' : ''}${formatNum(c.raw.value)}%`
+                            `Discretizador: ${c.raw.discretizer}`,
+                            `Diferencia vs Local: ${c.raw.value >= 0 ? '+' : ''}${formatNum(c.raw.value)} pp`
                         ]
                     }
                 }
@@ -819,10 +1089,10 @@ function renderHeatmapChart() {
             scales: {
                 x: {
                     min: -0.5,
-                    max: 2.5,
+                    max: discretizerLabels.length - 0.5,
                     ticks: {
                         stepSize: 1,
-                        callback: (v) => classifiers[Math.round(v)] || '',
+                        callback: (v) => discretizerLabels[Math.round(v)] || '',
                         font: { size: 12, weight: 'bold' }
                     },
                     grid: { display: false }
