@@ -158,15 +158,39 @@ function setupEventListeners() {
 }
 
 function getCheckedDiscretizers() {
-    return Array.from(document.querySelectorAll('input[name="discretizer"]:checked'))
+    return Array.from(document.querySelectorAll('input[name="discretizer"]'))
+        .filter(cb => !cb.disabled && cb.checked)
         .map(cb => cb.value);
 }
 
 function updateDiscretizerFiltersVisibility() {
     const filtersDiv = document.getElementById('discretizer-filters');
-    // Mostrar filtros para box-plot, top-improvements, size-vs-improvement y heatmap
-    const showFilters = ['box-plot', 'top-improvements', 'size-vs-improvement', 'heatmap'].includes(state.chartType);
+    // Mostrar filtros para box-plot, top-improvements, size-vs-improvement, heatmap y trend-cuts
+    const showFilters = ['box-plot', 'top-improvements', 'size-vs-improvement', 'heatmap', 'trend-cuts'].includes(state.chartType);
     filtersDiv.style.display = showFilters ? 'block' : 'none';
+
+    // Ajustar disponibilidad de discretizadores según el gráfico
+    const isTrend = state.chartType === 'trend-cuts';
+    const allowedForTrend = ['local', 'mdlp'];
+    document.querySelectorAll('input[name="discretizer"]').forEach(cb => {
+        const wrapper = cb.closest('.checkbox-label');
+        if (isTrend && !allowedForTrend.includes(cb.value)) {
+            cb.disabled = true;
+            if (wrapper) wrapper.style.display = 'none';
+        } else {
+            cb.disabled = false;
+            if (wrapper) wrapper.style.display = '';
+        }
+    });
+
+    // Actualizar estado tras cambios de disponibilidad
+    state.discretizers = getCheckedDiscretizers();
+
+    // Habilitar/deshabilitar selector de puntos de corte según el gráfico
+    const cutsSelect = document.getElementById('filter-cuts');
+    if (cutsSelect) {
+        cutsSelect.disabled = isTrend;
+    }
 }
 
 function updateChartInfo() {
@@ -411,8 +435,12 @@ function renderBoxPlotChart() {
 function renderTrendChart() {
     const ctx = document.getElementById('main-chart').getContext('2d');
 
-    // Usar datos filtrados
-    const data = getFilteredData();
+    // Usar datos filtrados solo por iteraciones; para este gráfico queremos todas las
+    // combinaciones de puntos de corte para dibujar la tendencia entre 3p/4p/5p/up.
+    let data = state.data.results;
+    if (state.iterations !== 'all') {
+        data = data.filter(r => r.iterations === state.iterations);
+    }
 
     // Este gráfico muestra tendencias a través de diferentes puntos de corte
     // Solo tiene sentido para Local y MDLP (que tienen datos en todos los puntos de corte)
