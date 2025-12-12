@@ -164,8 +164,8 @@ function getCheckedDiscretizers() {
 
 function updateDiscretizerFiltersVisibility() {
     const filtersDiv = document.getElementById('discretizer-filters');
-    // Mostrar filtros para box-plot, top-improvements y heatmap
-    const showFilters = ['box-plot', 'top-improvements', 'heatmap'].includes(state.chartType);
+    // Mostrar filtros para box-plot, top-improvements, size-vs-improvement y heatmap
+    const showFilters = ['box-plot', 'top-improvements', 'size-vs-improvement', 'heatmap'].includes(state.chartType);
     filtersDiv.style.display = showFilters ? 'block' : 'none';
 }
 
@@ -801,7 +801,7 @@ function renderSizeChart() {
         dataset
     }));
 
-    // Regresión logarítmica
+    // Regresión logarítmica (ajuste sobre log10(x))
     const xLog = scatterData.map(d => Math.log10(d.x));
     const y = scatterData.map(d => d.y);
     const n = xLog.length;
@@ -817,6 +817,19 @@ function renderSizeChart() {
     const trendPoints = [];
     for (let x = minX; x <= maxX; x += (maxX - minX) / 50) {
         trendPoints.push({ x, y: slope * Math.log10(x) + intercept });
+    }
+
+    // Regresión lineal simple en escala original (x sin log) para comparar
+    const xs = scatterData.map(d => d.x);
+    const sumXlin = xs.reduce((a, b) => a + b, 0);
+    const sumYlin = sumY; // ya calculado
+    const sumXYlin = xs.reduce((sum, x, i) => sum + x * y[i], 0);
+    const sumX2lin = xs.reduce((sum, x) => sum + x * x, 0);
+    const slopeLin = (n * sumXYlin - sumXlin * sumYlin) / (n * sumX2lin - sumXlin * sumXlin);
+    const interceptLin = (sumYlin - slopeLin * sumXlin) / n;
+    const trendPointsLinear = [];
+    for (let x = minX; x <= maxX; x += (maxX - minX) / 50) {
+        trendPointsLinear.push({ x, y: slopeLin * x + interceptLin });
     }
 
     currentChart = new Chart(ctx, {
@@ -840,6 +853,16 @@ function renderSizeChart() {
                     borderDash: [8, 4],
                     pointRadius: 0,
                     fill: false
+                },
+                {
+                    label: 'Tendencia lineal',
+                    data: trendPointsLinear,
+                    type: 'line',
+                    borderColor: 'rgba(52, 152, 219, 0.8)',
+                    borderWidth: 2,
+                    borderDash: [6, 3],
+                    pointRadius: 0,
+                    fill: false
                 }
             ]
         },
@@ -858,7 +881,7 @@ function renderSizeChart() {
                     }
                 },
                 legend: {
-                    labels: { filter: (item) => item.text === 'Tendencia logarítmica' }
+                    labels: { filter: (item) => item.text.includes('Tendencia') }
                 }
             },
             scales: {
@@ -882,7 +905,8 @@ function renderSizeChart() {
                 meta.data.forEach((pt, i) => {
                     const d = chart.data.datasets[0].data[i];
                     ctx.save();
-                    ctx.fillStyle = 'rgba(0,0,0,0.7)';
+                    // Usar el color del tema actual (Chart.defaults.color)
+                    ctx.fillStyle = Chart.defaults.color;
                     ctx.font = '10px sans-serif';
                     ctx.fillText(d.dataset, pt.x + 8, pt.y - 8);
                     ctx.restore();
