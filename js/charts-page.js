@@ -956,8 +956,8 @@ function renderHeatmapChart() {
     const datasetList = getUniqueDatasets();
     const discretizerLabels = selectedDiscs.map(d => d.label);
 
-    // Calcular accuracy promedio de Local para cada dataset
-    const localAccuracies = {};
+    // Calcular el MÁXIMO accuracy de Local para cada dataset
+    const localBest = {};
     datasetList.forEach(dataset => {
         const localResults = data.filter(r =>
             r.dataset === dataset &&
@@ -965,9 +965,16 @@ function renderHeatmapChart() {
         );
 
         if (localResults.length > 0) {
-            localAccuracies[dataset] = localResults.reduce((sum, r) => sum + r.accuracy, 0) / localResults.length;
+            // Encontrar el resultado con mayor accuracy
+            const best = localResults.reduce((max, r) =>
+                r.accuracy > max.accuracy ? r : max
+            );
+            localBest[dataset] = {
+                accuracy: best.accuracy,
+                model: best.model
+            };
         } else {
-            localAccuracies[dataset] = null;
+            localBest[dataset] = null;
         }
     });
 
@@ -994,11 +1001,21 @@ function renderHeatmapChart() {
                 );
             }
 
-            if (results.length > 0 && localAccuracies[dataset] !== null) {
-                const avgAccuracy = results.reduce((sum, r) => sum + r.accuracy, 0) / results.length;
+            if (results.length > 0 && localBest[dataset] !== null) {
+                // Encontrar el MÁXIMO accuracy para este discretizador
+                const best = results.reduce((max, r) =>
+                    r.accuracy > max.accuracy ? r : max
+                );
+
                 // Diferencia en puntos porcentuales
-                const diff = (avgAccuracy - localAccuracies[dataset]) * 100;
-                differences[dataset][disc.label] = diff;
+                const diff = (best.accuracy - localBest[dataset].accuracy) * 100;
+                differences[dataset][disc.label] = {
+                    diff: diff,
+                    model: best.model,
+                    accuracy: best.accuracy * 100,
+                    localModel: localBest[dataset].model,
+                    localAccuracy: localBest[dataset].accuracy * 100
+                };
             } else {
                 differences[dataset][disc.label] = null;
             }
@@ -1008,16 +1025,20 @@ function renderHeatmapChart() {
     // Crear datos de burbujas
     const bubbleData = datasetList.flatMap((dataset, yIdx) =>
         discretizerLabels.map((discLabel, xIdx) => {
-            const diff = differences[dataset][discLabel];
-            if (diff === null) return null;
+            const diffData = differences[dataset][discLabel];
+            if (diffData === null) return null;
 
             return {
                 x: xIdx,
                 y: yIdx,
                 r: 8,
-                value: diff,
+                value: diffData.diff,
                 dataset,
-                discretizer: discLabel
+                discretizer: discLabel,
+                model: diffData.model,
+                accuracy: diffData.accuracy,
+                localModel: diffData.localModel,
+                localAccuracy: diffData.localAccuracy
             };
         }).filter(d => d !== null)
     );
@@ -1080,22 +1101,51 @@ function renderHeatmapChart() {
                     callbacks: {
                         label: (c) => [
                             `Dataset: ${c.raw.dataset}`,
-                            `Discretizador: ${c.raw.discretizer}`,
-                            `Diferencia vs Local: ${c.raw.value >= 0 ? '+' : ''}${formatNum(c.raw.value)} pp`
+                            ``,
+                            `${c.raw.discretizer}: ${c.raw.model}`,
+                            `Accuracy: ${formatNum(c.raw.accuracy)}%`,
+                            ``,
+                            `Local: ${c.raw.localModel}`,
+                            `Accuracy: ${formatNum(c.raw.localAccuracy)}%`,
+                            ``,
+                            `Diferencia: ${c.raw.value >= 0 ? '+' : ''}${formatNum(c.raw.value)} pp`
                         ]
                     }
                 }
             },
             scales: {
                 x: {
+                    type: 'linear',
                     min: -0.5,
                     max: discretizerLabels.length - 0.5,
                     ticks: {
                         stepSize: 1,
-                        callback: (v) => discretizerLabels[Math.round(v)] || '',
-                        font: { size: 12, weight: 'bold' }
+                        callback: function(value, index, ticks) {
+                            const idx = Math.round(value);
+                            return discretizerLabels[idx] || '';
+                        },
+                        font: { size: 12, weight: 'bold' },
+                        autoSkip: false,
+                        maxRotation: 0,
+                        minRotation: 0
                     },
-                    grid: { display: false }
+                    grid: {
+                        display: true,
+                        drawOnChartArea: false,
+                        drawTicks: true,
+                        tickLength: 8
+                    },
+                    title: {
+                        display: true,
+                        text: 'Discretizadores',
+                        font: { size: 13, weight: 'bold' }
+                    },
+                    afterBuildTicks: function(axis) {
+                        axis.ticks = [];
+                        for (let i = 0; i < discretizerLabels.length; i++) {
+                            axis.ticks.push({ value: i });
+                        }
+                    }
                 },
                 y: {
                     min: -0.5,
@@ -1103,7 +1153,13 @@ function renderHeatmapChart() {
                     ticks: {
                         stepSize: 1,
                         callback: (v) => datasetList[Math.round(v)] || '',
-                        font: { size: 10 }
+                        font: { size: 10 },
+                        align: 'end'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Datasets',
+                        font: { size: 13, weight: 'bold' }
                     }
                 }
             }

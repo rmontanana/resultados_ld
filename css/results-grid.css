@@ -207,7 +207,7 @@
     max-width: 150px;
 }
 
-.results-grid tbody tr:nth-child(even) td {
+.results-grid tbody tr:nth-child(even) td:not(.cell-best) {
     background: var(--bg-color);
 }
 
@@ -215,7 +215,7 @@
     background: var(--bg-color);
 }
 
-.results-grid tbody tr:hover td {
+.results-grid tbody tr:hover td:not(.cell-best) {
     background: rgba(52, 152, 219, 0.08);
 }
 
@@ -225,7 +225,7 @@
 }
 
 .cell-best {
-    background: rgba(46, 204, 113, 0.15);
+    background: rgba(46, 204, 113, 0.2) !important;
     color: var(--secondary-color);
     font-weight: 600;
 }

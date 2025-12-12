@@ -318,37 +318,46 @@ function renderRows(datasets, columns) {
         tbody.appendChild(tr);
     });
 
-    // Añadir fila de totales primero
+    // Añadir fila de totales
     renderTotalsRow(tbody, columns);
 
     // Luego marcar mejores valores por fila (excluyendo totales)
-    highlightBestValues(tbody, columns.length);
+    highlightBestValues(tbody);
 }
 
-function highlightBestValues(tbody, numColumns) {
-    // Excluir la última fila (totales) del resaltado
-    const rows = Array.from(tbody.children).slice(0, -1);
-    rows.forEach(row => {
-        let bestValue = -1;
-        let bestCells = [];
+function highlightBestValues(tbody) {
+    // Obtener todas las filas excepto la de totales usando selector CSS
+    const dataRows = tbody.querySelectorAll('tr:not(.totals-row)');
 
-        // Encontrar el mejor valor en la fila (ignorando la primera columna)
-        for (let i = 1; i <= numColumns; i++) {
-            const cell = row.children[i];
+    dataRows.forEach(row => {
+        // Obtener todas las celdas de datos (excluir la columna fija del dataset)
+        const dataCells = Array.from(row.querySelectorAll('td:not(.fixed-col)'));
+
+        // Limpiar clases previas de todas las celdas
+        dataCells.forEach(cell => cell.classList.remove('cell-best'));
+
+        // Extraer valores numéricos de cada celda
+        const cellValues = dataCells.map(cell => {
             const valueSpan = cell.querySelector('.cell-value');
-            if (valueSpan) {
-                const value = parseFloat(valueSpan.textContent.replace(',', '.'));
-                if (value > bestValue) {
-                    bestValue = value;
-                    bestCells = [cell];
-                } else if (value === bestValue) {
-                    bestCells.push(cell);
-                }
-            }
-        }
+            if (!valueSpan) return null;
 
-        // Marcar las mejores celdas
-        bestCells.forEach(cell => cell.classList.add('cell-best'));
+            const text = valueSpan.textContent.trim();
+            const num = parseFloat(text.replace(',', '.'));
+            return isNaN(num) ? null : num;
+        });
+
+        // Encontrar el valor máximo
+        const validValues = cellValues.filter(v => v !== null);
+        if (validValues.length === 0) return; // Si no hay valores válidos, saltar esta fila
+
+        const maxValue = Math.max(...validValues);
+
+        // Marcar las celdas que tienen el valor máximo
+        cellValues.forEach((value, index) => {
+            if (value === maxValue) {
+                dataCells[index].classList.add('cell-best');
+            }
+        });
     });
 }
 
