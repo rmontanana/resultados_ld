@@ -41,7 +41,7 @@ window.state = {
     sortDirection: 'desc',
     filters: {
         search: '',
-        iterations: 'all',
+        iterations: ['10it', '100it'],
         cuts: ['3p', '4p', '5p', 'up'],
         model_base: ['TAN', 'KDB', 'AODE'],
         disc_type: ['local', 'mdlp', 'equal_freq', 'equal_width', 'pki-sqrt', 'pki-log'],
@@ -113,11 +113,13 @@ function setupEventListeners() {
         applyFilters();
     });
 
-    // Selector de iteraciones
-    document.getElementById('filter-iterations').addEventListener('change', (e) => {
-        state.filters.iterations = e.target.value;
-        state.currentPage = 1;
-        applyFilters();
+    // Checkboxes de iteraciones
+    document.querySelectorAll('input[name="iterations"]').forEach(cb => {
+        cb.addEventListener('change', () => {
+            state.filters.iterations = getCheckedValues('iterations');
+            state.currentPage = 1;
+            applyFilters();
+        });
     });
 
     // Checkboxes de puntos de corte
@@ -211,8 +213,8 @@ function resetFilters() {
     state.filters.search = '';
 
     // Resetear iteraciones
-    document.getElementById('filter-iterations').value = 'all';
-    state.filters.iterations = 'all';
+    document.querySelectorAll('input[name="iterations"]').forEach(cb => cb.checked = true);
+    state.filters.iterations = ['10it', '100it'];
 
     // Marcar todos los checkboxes
     document.querySelectorAll('input[name="cuts"]').forEach(cb => cb.checked = true);
@@ -240,7 +242,7 @@ function applyFilters() {
         }
 
         // Filtro de iteraciones
-        if (state.filters.iterations !== 'all' && r.iterations !== state.filters.iterations) {
+        if (state.filters.iterations.length > 0 && !state.filters.iterations.includes(r.iterations)) {
             return false;
         }
 

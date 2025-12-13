@@ -135,12 +135,15 @@
 
                 <!-- Iterations -->
                 <div class="filter-group">
-                    <label for="filter-iterations">Iteraciones</label>
-                    <select id="filter-iterations">
-                        <option value="all">Todas</option>
-                        <option value="10it">10 iteraciones</option>
-                        <option value="100it">100 iteraciones</option>
-                    </select>
+                    <label>Iteraciones</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="iterations" value="10it" checked> 10 iteraciones
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="iterations" value="100it" checked> 100 iteraciones
+                        </label>
+                    </div>
                 </div>
 
                 <!-- Cut Points -->
@@ -206,15 +209,11 @@
                             <input type="checkbox" name="disc_type" value="pki-log" checked>
                             <span class="badge badge-pki">PKI-log</span>
                         </label>
+                        <label class="checkbox-label inline-toggle">
+                            <input type="checkbox" id="only-improvements">
+                            <span>Solo mejoras de discretización local</span>
+                        </label>
                     </div>
-                </div>
-
-                <!-- Only Improvements -->
-                <div class="filter-group">
-                    <label class="checkbox-label toggle-label">
-                        <input type="checkbox" id="only-improvements">
-                        <span>Solo mejoras de discretización local</span>
-                    </label>
                 </div>
             </div>
         </section>

@@ -311,6 +311,34 @@ body {
     padding-bottom: 0;
 }
 
+/* Tooltip alignment overrides for tight headers */
+.header-with-info .info-tooltip .tooltip-text {
+    left: auto;
+    right: 0;
+    max-width: 520px;
+}
+
+.inline-toggle {
+    margin-left: var(--spacing-md);
+}
+
+.inline-toggle input[type="checkbox"] {
+    accent-color: var(--secondary-color);
+}
+
+.inline-toggle:hover {
+    background: rgba(52, 152, 219, 0.12);
+    border-radius: var(--radius-sm);
+    padding: 2px 4px;
+}
+
+.inline-toggle input[type="checkbox"]:checked + span {
+    background: rgba(46, 204, 113, 0.2);
+    color: var(--secondary-color);
+    border-radius: var(--radius-sm);
+    padding: 2px 4px;
+}
+
 /* Filters Panel */
 .filters-panel {
     background: var(--card-bg);
@@ -354,8 +382,8 @@ body {
 }
 
 .filters-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: var(--spacing-lg);
 }
 
