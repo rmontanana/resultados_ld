@@ -243,14 +243,48 @@
         <section class="results-section" id="results-section">
             <div class="table-header">
                 <h2>Resultados <span id="results-count">(0)</span></h2>
-                <button id="export-csv" class="btn-export">
-                    Exportar CSV
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                        <polyline points="7 10 12 15 17 10"/>
-                        <line x1="12" y1="15" x2="12" y2="3"/>
-                    </svg>
-                </button>
+                <div class="table-actions">
+                    <span class="help-label" tabindex="0" aria-label="Información sobre Mejora" role="button">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="10" x2="12" y2="16"></line>
+                            <circle cx="12" cy="7.5" r="1.5" fill="currentColor" stroke="none"></circle>
+                        </svg>
+                        Mejora
+                        <span class="tooltip-text">
+                            <div>
+                                <strong>Qué es</strong>
+                                <ul>
+                                    <li>Diferencia (puntos porcentuales) entre un modelo Local y el mejor modelo base comparable.</li>
+                                    <li>Solo aplica a filas Local; las demás quedan en “-”.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong>Cálculo</strong>
+                                <ul>
+                                    <li>Se toma cada resultado Local y se busca el mejor accuracy de modelos con el mismo <em>model_base</em>, mismas <em>iterations</em> y mismos <em>cuts</em>, pero discretización distinta de Local.</li>
+                                    <li>Mejora = (accuracy_local − best_base_accuracy) × 100.</li>
+                                    <li>best_base_model y best_base_accuracy provienen de los datos precomputados en results.json.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong>Uso</strong>
+                                <ul>
+                                    <li>Valores positivos: Local supera al mejor base en ese escenario.</li>
+                                    <li>Valores negativos: el mejor base es superior al Local.</li>
+                                </ul>
+                            </div>
+                        </span>
+                    </span>
+                    <button id="export-csv" class="btn-export">
+                        Exportar CSV
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
 
             <div class="table-container">
@@ -264,7 +298,10 @@
                             <th data-sort="discretization_type">Tipo <span class="sort-icon"></span></th>
                             <th data-sort="accuracy" class="num">Accuracy <span class="sort-icon"></span></th>
                             <th data-sort="std" class="num">Std <span class="sort-icon"></span></th>
-                            <th data-sort="improvement_vs_base" class="num">Mejora <span class="sort-icon"></span></th>
+                            <th data-sort="improvement_vs_base" class="num header-with-info">
+                                <span>Mejora</span>
+                                <span class="sort-icon"></span>
+                            </th>
                             <th data-sort="samples" class="num">Muestras <span class="sort-icon"></span></th>
                             <th data-sort="features" class="num">Attrs <span class="sort-icon"></span></th>
                         </tr>

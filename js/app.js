@@ -232,7 +232,8 @@ function resetFilters() {
 function applyFilters() {
     if (!state.data) return;
 
-    state.filteredData = state.data.results.filter(r => {
+    // Filtrar por búsqueda, iteraciones, cortes, modelo base y discretización
+    let interim = state.data.results.filter(r => {
         // Filtro de búsqueda
         if (state.filters.search && !r.dataset.toLowerCase().includes(state.filters.search)) {
             return false;
@@ -258,15 +259,25 @@ function applyFilters() {
             return false;
         }
 
-        // Filtro solo mejoras
-        if (state.filters.onlyImprovements) {
-            if (r.discretization_type !== 'local' || !r.improvement_vs_base || r.improvement_vs_base <= 0) {
-                return false;
-            }
-        }
-
         return true;
     });
+
+    // Clonar para no mutar los datos originales al recalcular mejoras
+    interim = interim.map(r => ({ ...r }));
+
+    // Recalcular mejoras dinámicamente según filtros actuales
+    recomputeImprovements(interim);
+
+    // Aplicar filtro "solo mejoras" sobre los valores recalculados
+    if (state.filters.onlyImprovements) {
+        interim = interim.filter(r =>
+            r.discretization_type === 'local' &&
+            r.improvement_vs_base !== undefined &&
+            r.improvement_vs_base > 0
+        );
+    }
+
+    state.filteredData = interim;
 
     // Ordenar
     sortData();
@@ -275,6 +286,47 @@ function applyFilters() {
     renderTable();
     updateStats();
     updatePagination();
+}
+
+// Recalcula improvement_vs_base para resultados locales considerando el conjunto filtrado actual
+function recomputeImprovements(list) {
+    // Agrupar por dataset, iteraciones, cortes y modelo_base
+    const groups = {};
+    list.forEach(r => {
+        const key = `${r.dataset}|${r.iterations}|${r.cuts}|${r.model_base}`;
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(r);
+    });
+
+    Object.values(groups).forEach(group => {
+        // Bases disponibles dentro del grupo (excluye local)
+        const baseResults = group.filter(x => x.discretization_type !== 'local');
+        if (baseResults.length === 0) {
+            // Sin base válida bajo filtros: limpiar mejoras de locales
+            group.forEach(x => {
+                if (x.discretization_type === 'local') {
+                    x.improvement_vs_base = undefined;
+                    x.best_base_model = undefined;
+                    x.best_base_accuracy = undefined;
+                }
+            });
+            return;
+        }
+
+        // Mejor base por accuracy
+        const bestBase = baseResults.reduce((best, curr) =>
+            (!best || curr.accuracy > best.accuracy) ? curr : best, null);
+
+        // Asignar mejora a cada local del grupo
+        group.forEach(x => {
+            if (x.discretization_type === 'local') {
+                const improvement = (x.accuracy - bestBase.accuracy) * 100;
+                x.improvement_vs_base = Number(improvement.toFixed(2));
+                x.best_base_model = bestBase.model;
+                x.best_base_accuracy = bestBase.accuracy;
+            }
+        });
+    });
 }
 
 function sortData() {
