@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe PDF - Discretización Local en Clasificadores basados en redes bayesianas</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/report.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="index.html" class="navbar-brand">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                    <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+                Discretización Local
+            </a>
+            <div class="navbar-menu">
+                <a href="index.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    </svg>
+                    Principal
+                </a>
+                <a href="compare.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                    Comparativa
+                </a>
+                <a href="charts.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="20" x2="18" y2="10"/>
+                        <line x1="12" y1="20" x2="12" y2="4"/>
+                        <line x1="6" y1="20" x2="6" y2="14"/>
+                    </svg>
+                    Gráficos
+                </a>
+                <a href="results-grid.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <line x1="3" y1="9" x2="21" y2="9"/>
+                        <line x1="3" y1="15" x2="21" y2="15"/>
+                        <line x1="9" y1="3" x2="9" y2="21"/>
+                    </svg>
+                    Grid
+                </a>
+                <a href="ai-chat.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    IA
+                </a>
+                <button id="theme-toggle" class="btn-theme" title="Cambiar tema claro/oscuro">
+                    <svg id="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                    <svg id="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="title-with-info">
+                Informe de Experimentación (PDF)
+                <span class="info-tooltip" tabindex="0" aria-label="Descripción de la página" role="tooltip">
+                    i
+                    <span class="tooltip-text">
+                        <div class="tooltip-section">
+                            <strong>Qué es</strong>
+                            <ul>
+                                <li>Visor embebido del PDF del informe generado para la experimentación.</li>
+                                <li>Útil para revisar el documento sin salir del explorador de resultados.</li>
+                            </ul>
+                        </div>
+                        <div class="tooltip-section">
+                            <strong>Consejos</strong>
+                            <ul>
+                                <li>Usa “Abrir” para pantalla completa en una pestaña nueva.</li>
+                                <li>Usa “Descargar” si tu navegador no permite incrustar PDFs.</li>
+                            </ul>
+                        </div>
+                    </span>
+                </span>
+            </h1>
+            <p class="subtitle">Revisión del informe generado</p>
+        </header>
+
+        <section class="report-card">
+            <div class="report-card-header">
+                <div class="report-card-title">Visor PDF</div>
+                <div class="report-actions">
+                    <a class="report-action" href="data/final_report.pdf" target="_blank" rel="noopener">Abrir</a>
+                    <a class="report-action primary" href="data/final_report.pdf" download>Descargar</a>
+                </div>
+            </div>
+            <div class="report-frame">
+                <iframe
+                    class="pdf-frame"
+                    src="data/final_report.pdf#view=FitH"
+                    title="Informe de experimentación (PDF)"
+                ></iframe>
+                <div class="pdf-fallback">
+                    Si no se muestra el PDF, abre <a href="data/final_report.pdf" target="_blank" rel="noopener">el informe</a> en una pestaña nueva o descárgalo desde el botón superior.
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Informe PDF - Discretización Local</p>
+        </footer>
+    </div>
+
+    <script src="js/report.js"></script>
+</body>
+</html>
