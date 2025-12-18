@@ -314,6 +314,111 @@
         </div>
     </div>
 
+    <!-- Modal para instrucciones de Ollama local -->
+    <div class="modal-overlay" id="ollama-help-modal">
+        <div class="modal modal-help">
+            <div class="modal-header">
+                <h3>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="16" x2="12" y2="12"/>
+                        <line x1="12" y1="8" x2="12.01" y2="8"/>
+                    </svg>
+                    Ollama no disponible online
+                </h3>
+                <button class="modal-close" id="ollama-help-close">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="help-intro">
+                    Ollama es un servidor de IA que corre en tu ordenador.
+                    Para usarlo con esta página, necesitas ejecutarla en local.
+                </p>
+
+                <div class="help-step">
+                    <div class="help-step-header">
+                        <span class="help-step-number">1</span>
+                        <span class="help-step-title">Instala Ollama</span>
+                    </div>
+                    <p class="help-step-desc">Descarga e instala desde <a href="https://ollama.ai" target="_blank">ollama.ai</a></p>
+                </div>
+
+                <div class="help-step">
+                    <div class="help-step-header">
+                        <span class="help-step-number">2</span>
+                        <span class="help-step-title">Descarga esta página</span>
+                    </div>
+                    <div class="help-command">
+                        <code>git clone https://github.com/rmontanana/resultados_ld.git</code>
+                        <button class="btn-copy-cmd" data-cmd="git clone https://github.com/rmontanana/resultados_ld.git" title="Copiar">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="help-step">
+                    <div class="help-step-header">
+                        <span class="help-step-number">3</span>
+                        <span class="help-step-title">Inicia un servidor local</span>
+                    </div>
+                    <div class="help-command">
+                        <code>cd resultados_ld && python -m http.server 8000</code>
+                        <button class="btn-copy-cmd" data-cmd="cd resultados_ld && python -m http.server 8000" title="Copiar">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <p class="help-alt">Alternativas: <code>npx serve</code> o <code>php -S localhost:8000</code></p>
+                </div>
+
+                <div class="help-step">
+                    <div class="help-step-header">
+                        <span class="help-step-number">4</span>
+                        <span class="help-step-title">Inicia Ollama con un modelo</span>
+                    </div>
+                    <div class="help-command">
+                        <code>ollama run llama3.2</code>
+                        <button class="btn-copy-cmd" data-cmd="ollama run llama3.2" title="Copiar">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="help-step">
+                    <div class="help-step-header">
+                        <span class="help-step-number">5</span>
+                        <span class="help-step-title">Abre la página local</span>
+                    </div>
+                    <p class="help-step-desc">
+                        Visita <a href="http://localhost:8000/ai-chat.html" target="_blank">http://localhost:8000/ai-chat.html</a>
+                    </p>
+                </div>
+
+                <div class="help-alternative">
+                    <strong>💡 Alternativa sin instalación:</strong>
+                    Usa el modo "Copiar contexto" para pegar directamente en
+                    <a href="https://claude.ai" target="_blank">claude.ai</a> o
+                    <a href="https://chatgpt.com" target="_blank">chatgpt.com</a>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="ollama-help-ok" class="btn btn-primary">Entendido</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer" style="margin-top: var(--spacing-xl); text-align: center; padding: var(--spacing-lg); color: var(--text-muted); font-size: 0.85rem;">
         <p>Discretización Local en Clasificadores Bayesianos - Resultados Experimentales</p>

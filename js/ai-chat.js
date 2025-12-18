@@ -113,12 +113,24 @@ function setupEventListeners() {
         });
     });
 
-    // Modal
+    // Modal de contexto
     document.getElementById('modal-close')?.addEventListener('click', hideModal);
     document.getElementById('modal-overlay')?.addEventListener('click', (e) => {
         if (e.target.id === 'modal-overlay') hideModal();
     });
     document.getElementById('btn-copy-to-clipboard')?.addEventListener('click', copyToClipboard);
+
+    // Modal de ayuda Ollama
+    document.getElementById('ollama-help-close')?.addEventListener('click', hideOllamaHelpModal);
+    document.getElementById('ollama-help-ok')?.addEventListener('click', hideOllamaHelpModal);
+    document.getElementById('ollama-help-modal')?.addEventListener('click', (e) => {
+        if (e.target.id === 'ollama-help-modal') hideOllamaHelpModal();
+    });
+
+    // Botones de copiar comando
+    document.querySelectorAll('.btn-copy-cmd').forEach(btn => {
+        btn.addEventListener('click', () => copyCommand(btn));
+    });
 
     // Refresh status
     document.getElementById('btn-refresh-status')?.addEventListener('click', checkOllamaConnection);
@@ -168,9 +180,13 @@ function updateUI() {
         if (state.ollamaStatus.available) {
             ollamaIndicator.className = 'status-indicator connected';
             ollamaIndicator.innerHTML = `<span class="status-dot"></span>${state.ollamaStatus.models.length} modelos`;
+            ollamaIndicator.onclick = null;
+            ollamaIndicator.title = '';
         } else {
             ollamaIndicator.className = 'status-indicator disconnected';
             ollamaIndicator.innerHTML = `<span class="status-dot"></span>${state.ollamaStatus.reason || 'No disponible'}`;
+            ollamaIndicator.onclick = showOllamaHelpModal;
+            ollamaIndicator.title = 'Clic para ver instrucciones';
         }
     }
 
@@ -719,5 +735,44 @@ async function copyToClipboard() {
         // Fallback para navegadores antiguos
         textarea.select();
         document.execCommand('copy');
+    }
+}
+
+/**
+ * Mostrar modal de ayuda de Ollama
+ */
+function showOllamaHelpModal() {
+    document.getElementById('ollama-help-modal').classList.add('active');
+}
+
+/**
+ * Ocultar modal de ayuda de Ollama
+ */
+function hideOllamaHelpModal() {
+    document.getElementById('ollama-help-modal').classList.remove('active');
+}
+
+/**
+ * Copiar comando al portapapeles
+ */
+async function copyCommand(btn) {
+    const cmd = btn.dataset.cmd;
+    try {
+        await navigator.clipboard.writeText(cmd);
+        btn.classList.add('copied');
+        const originalSvg = btn.innerHTML;
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+        setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.innerHTML = originalSvg;
+        }, 1500);
+    } catch (error) {
+        // Fallback
+        const textarea = document.createElement('textarea');
+        textarea.value = cmd;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
     }
 }
