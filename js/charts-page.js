@@ -1483,7 +1483,8 @@ function renderConfigHeatmapChart() {
         { key: 'mdlp', label: 'MDLP' },
         { key: 'equal_freq', label: 'Igual Freq' },
         { key: 'equal_width', label: 'Igual Amp' },
-        { key: 'pki', label: 'PKI' }
+        { key: 'pki-sqrt', label: 'PKI-sqrt', type: 'pki', variant: 'sqrt' },
+        { key: 'pki-log', label: 'PKI-log', type: 'pki', variant: 'log' }
     ];
 
     // Calcular victorias para cada celda
@@ -1512,13 +1513,18 @@ function renderConfigHeatmapChart() {
                     );
 
                     // Obtener resultado del adversario
-                    const advResult = data.find(r =>
-                        r.dataset === dataset &&
-                        r.model_base === modelBase &&
-                        r.discretization_type === adv.key &&
-                        r.iterations === iterations &&
-                        r.cuts === cuts
-                    );
+                    const advResult = data.find(r => {
+                        if (r.dataset !== dataset || r.model_base !== modelBase ||
+                            r.iterations !== iterations || r.cuts !== cuts) {
+                            return false;
+                        }
+                        // Para variantes de PKI, buscar por tipo y variante en el nombre del modelo
+                        if (adv.variant) {
+                            return r.discretization_type === adv.type &&
+                                   r.model?.includes(`pki${adv.variant}`);
+                        }
+                        return r.discretization_type === adv.key;
+                    });
 
                     if (localResult && advResult) {
                         total++;
@@ -1529,37 +1535,66 @@ function renderConfigHeatmapChart() {
                 });
             });
 
-            const winRate = total > 0 ? (wins / total) * 100 : 0;
-            heatmapData.push({
-                x: xIdx,
-                y: yIdx,
-                r: 12,
-                value: winRate,
-                wins: wins,
-                total: total,
-                config: config,
-                adversary: adv.label
-            });
+            // Solo añadir si hay datos para esta combinación
+            if (total > 0) {
+                const winRate = (wins / total) * 100;
+                heatmapData.push({
+                    x: xIdx,
+                    y: yIdx,
+                    r: 12,
+                    value: winRate,
+                    wins: wins,
+                    total: total,
+                    config: config,
+                    adversary: adv.label
+                });
+            }
         });
     });
 
     // Crear gráfico de burbujas como heatmap
+    // Escala de colores suave: 0% = rojo suave, 30% = neutro, 60% = verde suave
+    const minRange = 0;
+    const maxRange = 60;
+    const midPoint = 30;
+
     currentChart = new Chart(ctx, {
         type: 'bubble',
         data: {
             datasets: [{
                 data: heatmapData,
                 backgroundColor: heatmapData.map(d => {
-                    // Verde si > 50%, Rojo si < 50%
-                    if (d.value >= 50) {
-                        const intensity = (d.value - 50) / 50; // 0 a 1
-                        return `rgba(46, ${Math.round(150 + 54 * intensity)}, 113, 0.8)`;
+                    // Normalizar valor al rango 0-60
+                    const clampedValue = Math.max(minRange, Math.min(maxRange, d.value));
+
+                    if (clampedValue >= midPoint) {
+                        // De neutro a verde: 30-60% -> intensidad 0-1
+                        const intensity = (clampedValue - midPoint) / (maxRange - midPoint);
+                        // Verde suave: de gris-verde a verde
+                        const r = Math.round(120 - 70 * intensity);  // 120 -> 50
+                        const g = Math.round(160 + 60 * intensity);  // 160 -> 220
+                        const b = Math.round(120 - 20 * intensity);  // 120 -> 100
+                        return `rgba(${r}, ${g}, ${b}, 0.85)`;
                     } else {
-                        const intensity = (50 - d.value) / 50; // 0 a 1
-                        return `rgba(${Math.round(180 + 51 * intensity)}, 76, 60, 0.8)`;
+                        // De rojo a neutro: 0-30% -> intensidad 1-0
+                        const intensity = (midPoint - clampedValue) / midPoint;
+                        // Rojo suave: de gris-rojo a rojo
+                        const r = Math.round(160 + 70 * intensity);  // 160 -> 230
+                        const g = Math.round(130 - 50 * intensity);  // 130 -> 80
+                        const b = Math.round(130 - 40 * intensity);  // 130 -> 90
+                        return `rgba(${r}, ${g}, ${b}, 0.85)`;
                     }
                 }),
-                borderColor: heatmapData.map(d => d.value >= 50 ? 'rgb(39, 174, 96)' : 'rgb(192, 57, 43)'),
+                borderColor: heatmapData.map(d => {
+                    const clampedValue = Math.max(minRange, Math.min(maxRange, d.value));
+                    if (clampedValue >= midPoint) {
+                        const intensity = (clampedValue - midPoint) / (maxRange - midPoint);
+                        return `rgb(${Math.round(80 - 40 * intensity)}, ${Math.round(140 + 40 * intensity)}, ${Math.round(80 - 10 * intensity)})`;
+                    } else {
+                        const intensity = (midPoint - clampedValue) / midPoint;
+                        return `rgb(${Math.round(140 + 50 * intensity)}, ${Math.round(100 - 30 * intensity)}, ${Math.round(100 - 30 * intensity)})`;
+                    }
+                }),
                 borderWidth: 2
             }]
         },
@@ -1616,7 +1651,8 @@ function renderConfigHeatmapChart() {
                 meta.data.forEach((bubble, i) => {
                     const d = chart.data.datasets[0].data[i];
                     ctx.save();
-                    ctx.fillStyle = d.value >= 50 ? '#fff' : '#fff';
+                    // Texto oscuro para mejor legibilidad con colores suaves
+                    ctx.fillStyle = '#333';
                     ctx.font = 'bold 10px sans-serif';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
