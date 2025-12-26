@@ -6,6 +6,7 @@
     <title>Comparación por Dataset - Discretización Local</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/compare.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -162,6 +163,36 @@
                 <span class="legend-color base-wins"></span>
                 <span>Base supera a Local</span>
             </div>
+        </section>
+
+        <!-- Charts Section -->
+        <section class="charts-section">
+            <div class="charts-header">
+                <h2>Visualización Gráfica</h2>
+                <div class="chart-controls">
+                    <div class="chart-type-selector">
+                        <label for="chart-type-compare">Tipo de gráfico:</label>
+                        <select id="chart-type-compare">
+                            <option value="differences">Diferencias (Local - Base)</option>
+                            <option value="scatter">Scatter Base vs Local</option>
+                            <option value="grouped-bars">Barras por Clasificador</option>
+                            <option value="victories-donut">Resumen de Victorias</option>
+                        </select>
+                    </div>
+                    <button id="download-chart-png" class="btn-download" title="Descargar gráfico como PNG">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        PNG
+                    </button>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="compare-chart"></canvas>
+            </div>
+            <div id="chart-legend-container" class="chart-legend-container"></div>
         </section>
 
         <!-- Comparison Table -->
