@@ -43,7 +43,10 @@ const chartTitles = {
     'trend-cuts': 'Tendencia por Puntos de Corte',
     'top-improvements': 'Top 15 Datasets con Mayores Mejoras',
     'size-vs-improvement': 'Relación Tamaño vs Mejora',
-    'heatmap': 'Heatmap: Comparación de Discretizadores vs Local'
+    'heatmap': 'Heatmap: Comparación de Discretizadores vs Local',
+    'config-heatmap': 'Heatmap: Configuración vs Adversario',
+    'adversary-bars': 'Rendimiento Local vs Adversarios',
+    'classifier-radar': 'Perfil de Clasificadores Locales'
 };
 
 const chartHints = {
@@ -52,7 +55,10 @@ const chartHints = {
     'trend-cuts': 'Línea sólida = Local, punteada = MDLP. Sombra = desviación típica',
     'top-improvements': 'Mejora promedio de discretización local vs mejor base',
     'size-vs-improvement': 'Relación logarítmica entre tamaño y mejora',
-    'heatmap': 'Verde: mejor que Local, Rojo: peor que Local'
+    'heatmap': 'Verde: mejor que Local, Rojo: peor que Local',
+    'config-heatmap': '% victorias de Local por configuración y adversario',
+    'adversary-bars': 'Compara clasificadores locales contra cada método tradicional',
+    'classifier-radar': 'Perfil de victorias por clasificador y adversario'
 };
 
 const chartInfoDetails = {
@@ -197,6 +203,78 @@ const chartInfoDetails = {
                 <li>Combina con filtros de iteraciones/cortes para escenarios concretos.</li>
             </ul>
         </div>
+    `,
+    'config-heatmap': `
+        <div class="tooltip-section">
+            <strong>Qué muestra</strong>
+            <ul>
+                <li>Porcentaje de victorias de discretización local (TANLd+KDBLd+AODELd) contra cada adversario.</li>
+                <li>Matriz de configuraciones (10it/3p, 10it/4p, etc.) vs adversarios (MDLP, Igual Freq, etc.).</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Cálculo</strong>
+            <ul>
+                <li>Para cada celda: compara todos los resultados Local vs el adversario correspondiente.</li>
+                <li>Cuenta victorias cuando Local supera al adversario en el mismo dataset/modelo base.</li>
+                <li>Color más intenso = mayor % de victorias.</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Uso</strong>
+            <ul>
+                <li>Identifica qué configuraciones y adversarios son más/menos favorables para Local.</li>
+                <li>Compara rendimiento global entre configuraciones.</li>
+            </ul>
+        </div>
+    `,
+    'adversary-bars': `
+        <div class="tooltip-section">
+            <strong>Qué muestra</strong>
+            <ul>
+                <li>Barras agrupadas: TANLd, KDBLd y AODELd contra cada adversario.</li>
+                <li>Altura = porcentaje de victorias de Local contra ese adversario.</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Cálculo</strong>
+            <ul>
+                <li>Filtra por iteraciones y puntos de corte seleccionados.</li>
+                <li>Compara cada clasificador Local con su equivalente base.</li>
+                <li>Victoria = Local supera al adversario en ese dataset.</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Uso</strong>
+            <ul>
+                <li>Compara qué clasificador Local rinde mejor contra cada adversario.</li>
+                <li>Identifica fortalezas/debilidades por clasificador.</li>
+            </ul>
+        </div>
+    `,
+    'classifier-radar': `
+        <div class="tooltip-section">
+            <strong>Qué muestra</strong>
+            <ul>
+                <li>Perfil radar de cada clasificador local (TANLd, KDBLd, AODELd).</li>
+                <li>Cada eje representa un adversario; el radio = % de victorias.</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Cálculo</strong>
+            <ul>
+                <li>Aplica filtros de iteraciones y puntos de corte.</li>
+                <li>Por cada clasificador y adversario: % de datasets donde Local gana.</li>
+                <li>Escala: 0% (centro) a 100% (borde).</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Uso</strong>
+            <ul>
+                <li>Visualiza el perfil de fortalezas de cada clasificador.</li>
+                <li>TANLd: área azul, KDBLd: verde, AODELd: morado.</li>
+            </ul>
+        </div>
     `
 };
 // Referencia al gráfico actual
@@ -330,10 +408,25 @@ function updateDiscretizerFiltersVisibility() {
     // Actualizar estado tras cambios de disponibilidad
     state.discretizers = getCheckedDiscretizers();
 
-    // Habilitar/deshabilitar selector de puntos de corte según el gráfico
+    // Habilitar/deshabilitar selectores según el gráfico
     const cutsSelect = document.getElementById('filter-cuts');
+    const iterationsSelect = document.getElementById('filter-iterations');
+    const isConfigHeatmap = state.chartType === 'config-heatmap';
+
     if (cutsSelect) {
-        cutsSelect.disabled = isTrend;
+        cutsSelect.disabled = isTrend || isConfigHeatmap;
+        if (isConfigHeatmap) {
+            cutsSelect.value = 'all';
+            state.cuts = 'all';
+        }
+    }
+
+    if (iterationsSelect) {
+        iterationsSelect.disabled = isConfigHeatmap;
+        if (isConfigHeatmap) {
+            iterationsSelect.value = 'all';
+            state.iterations = 'all';
+        }
     }
 }
 
@@ -398,6 +491,15 @@ function renderChart() {
             break;
         case 'heatmap':
             renderHeatmapChart();
+            break;
+        case 'config-heatmap':
+            renderConfigHeatmapChart();
+            break;
+        case 'adversary-bars':
+            renderAdversaryBarsChart();
+            break;
+        case 'classifier-radar':
+            renderClassifierRadarChart();
             break;
     }
 }
@@ -1360,6 +1462,387 @@ function renderHeatmapChart() {
                         display: true,
                         text: 'Datasets',
                         font: { size: 13, weight: 'bold' }
+                    }
+                }
+            }
+        }
+    });
+}
+
+/**
+ * 7. Heatmap: Configuración vs Adversario
+ * Muestra el % de victorias de Local por cada combinación de configuración y adversario
+ */
+function renderConfigHeatmapChart() {
+    const ctx = document.getElementById('main-chart').getContext('2d');
+    const data = state.data.results;
+
+    // Definir configuraciones y adversarios
+    const configs = ['10it/3p', '10it/4p', '10it/5p', '10it/up', '100it/3p', '100it/4p', '100it/5p', '100it/up'];
+    const adversaries = [
+        { key: 'mdlp', label: 'MDLP' },
+        { key: 'equal_freq', label: 'Igual Freq' },
+        { key: 'equal_width', label: 'Igual Amp' },
+        { key: 'pki', label: 'PKI' }
+    ];
+
+    // Calcular victorias para cada celda
+    const heatmapData = [];
+    const modelBases = ['TAN', 'KDB', 'AODE'];
+
+    configs.forEach((config, yIdx) => {
+        const [iterations, cuts] = config.split('/');
+
+        adversaries.forEach((adv, xIdx) => {
+            let wins = 0;
+            let total = 0;
+
+            // Para cada dataset y modelo base
+            const datasets = [...new Set(data.map(r => r.dataset))];
+
+            datasets.forEach(dataset => {
+                modelBases.forEach(modelBase => {
+                    // Obtener resultado Local
+                    const localResult = data.find(r =>
+                        r.dataset === dataset &&
+                        r.model_base === modelBase &&
+                        r.discretization_type === 'local' &&
+                        r.iterations === iterations &&
+                        r.cuts === cuts
+                    );
+
+                    // Obtener resultado del adversario
+                    const advResult = data.find(r =>
+                        r.dataset === dataset &&
+                        r.model_base === modelBase &&
+                        r.discretization_type === adv.key &&
+                        r.iterations === iterations &&
+                        r.cuts === cuts
+                    );
+
+                    if (localResult && advResult) {
+                        total++;
+                        if (localResult.accuracy > advResult.accuracy) {
+                            wins++;
+                        }
+                    }
+                });
+            });
+
+            const winRate = total > 0 ? (wins / total) * 100 : 0;
+            heatmapData.push({
+                x: xIdx,
+                y: yIdx,
+                r: 12,
+                value: winRate,
+                wins: wins,
+                total: total,
+                config: config,
+                adversary: adv.label
+            });
+        });
+    });
+
+    // Crear gráfico de burbujas como heatmap
+    currentChart = new Chart(ctx, {
+        type: 'bubble',
+        data: {
+            datasets: [{
+                data: heatmapData,
+                backgroundColor: heatmapData.map(d => {
+                    // Verde si > 50%, Rojo si < 50%
+                    if (d.value >= 50) {
+                        const intensity = (d.value - 50) / 50; // 0 a 1
+                        return `rgba(46, ${Math.round(150 + 54 * intensity)}, 113, 0.8)`;
+                    } else {
+                        const intensity = (50 - d.value) / 50; // 0 a 1
+                        return `rgba(${Math.round(180 + 51 * intensity)}, 76, 60, 0.8)`;
+                    }
+                }),
+                borderColor: heatmapData.map(d => d.value >= 50 ? 'rgb(39, 174, 96)' : 'rgb(192, 57, 43)'),
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: (c) => [
+                            `Configuración: ${c.raw.config}`,
+                            `Adversario: ${c.raw.adversary}`,
+                            `Victorias Local: ${c.raw.wins}/${c.raw.total}`,
+                            `Ratio: ${formatNum(c.raw.value)}%`
+                        ]
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    min: -0.5,
+                    max: adversaries.length - 0.5,
+                    ticks: {
+                        stepSize: 1,
+                        callback: (v) => adversaries[Math.round(v)]?.label || '',
+                        font: { size: 12, weight: 'bold' }
+                    },
+                    title: { display: true, text: 'Adversario', font: { weight: 'bold' } },
+                    afterBuildTicks: function(axis) {
+                        axis.ticks = adversaries.map((_, i) => ({ value: i }));
+                    }
+                },
+                y: {
+                    min: -0.5,
+                    max: configs.length - 0.5,
+                    ticks: {
+                        stepSize: 1,
+                        callback: (v) => configs[Math.round(v)] || '',
+                        font: { size: 11 }
+                    },
+                    title: { display: true, text: 'Configuración', font: { weight: 'bold' } },
+                    afterBuildTicks: function(axis) {
+                        axis.ticks = configs.map((_, i) => ({ value: i }));
+                    }
+                }
+            }
+        },
+        plugins: [{
+            id: 'heatmapLabels',
+            afterDatasetsDraw: (chart) => {
+                const ctx = chart.ctx;
+                const meta = chart.getDatasetMeta(0);
+                meta.data.forEach((bubble, i) => {
+                    const d = chart.data.datasets[0].data[i];
+                    ctx.save();
+                    ctx.fillStyle = d.value >= 50 ? '#fff' : '#fff';
+                    ctx.font = 'bold 10px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(`${formatNum(d.value, 0)}%`, bubble.x, bubble.y);
+                    ctx.restore();
+                });
+            }
+        }]
+    });
+}
+
+/**
+ * 8. Barras por Adversario
+ * Muestra el % de victorias de TANLd, KDBLd y AODELd contra cada adversario
+ */
+function renderAdversaryBarsChart() {
+    const ctx = document.getElementById('main-chart').getContext('2d');
+    const data = getFilteredData();
+
+    const adversaries = [
+        { key: 'mdlp', label: 'MDLP' },
+        { key: 'equal_freq', label: 'Igual Freq' },
+        { key: 'equal_width', label: 'Igual Amp' },
+        { key: 'pki', label: 'PKI' }
+    ];
+
+    const classifiers = [
+        { base: 'TAN', local: 'TANLd', color: chartColors.TAN },
+        { base: 'KDB', local: 'KDBLd', color: chartColors.KDB },
+        { base: 'AODE', local: 'AODELd', color: chartColors.AODE }
+    ];
+
+    // Calcular victorias por clasificador y adversario
+    const datasets = classifiers.map(clf => {
+        const winRates = adversaries.map(adv => {
+            let wins = 0;
+            let total = 0;
+
+            const uniqueDatasets = [...new Set(data.map(r => r.dataset))];
+            uniqueDatasets.forEach(dataset => {
+                // Obtener resultado Local
+                const localResult = data.find(r =>
+                    r.dataset === dataset &&
+                    r.model_base === clf.base &&
+                    r.discretization_type === 'local'
+                );
+
+                // Obtener resultado del adversario
+                const advResult = data.find(r =>
+                    r.dataset === dataset &&
+                    r.model_base === clf.base &&
+                    r.discretization_type === adv.key
+                );
+
+                if (localResult && advResult) {
+                    total++;
+                    if (localResult.accuracy > advResult.accuracy) {
+                        wins++;
+                    }
+                }
+            });
+
+            return total > 0 ? (wins / total) * 100 : 0;
+        });
+
+        return {
+            label: clf.local,
+            data: winRates,
+            backgroundColor: clf.color.bg,
+            borderColor: clf.color.border,
+            borderWidth: 2
+        };
+    });
+
+    currentChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: adversaries.map(a => a.label),
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top' },
+                tooltip: {
+                    callbacks: {
+                        label: (c) => `${c.dataset.label}: ${formatNum(c.raw)}% victorias`
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    title: { display: true, text: '% Victorias de Local' },
+                    ticks: { callback: (v) => formatNum(v) + '%' }
+                },
+                x: {
+                    title: { display: true, text: 'Adversario' }
+                }
+            }
+        },
+        plugins: [{
+            id: 'referenceLine',
+            afterDraw: (chart) => {
+                const ctx = chart.ctx;
+                const yScale = chart.scales.y;
+                const y50 = yScale.getPixelForValue(50);
+
+                ctx.save();
+                ctx.strokeStyle = 'rgba(100, 100, 100, 0.5)';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(chart.chartArea.left, y50);
+                ctx.lineTo(chart.chartArea.right, y50);
+                ctx.stroke();
+                ctx.restore();
+            }
+        }]
+    });
+}
+
+/**
+ * 9. Radar de Clasificadores
+ * Muestra el perfil de cada clasificador local contra todos los adversarios
+ */
+function renderClassifierRadarChart() {
+    const ctx = document.getElementById('main-chart').getContext('2d');
+    const data = getFilteredData();
+
+    const adversaries = [
+        { key: 'mdlp', label: 'MDLP' },
+        { key: 'equal_freq', label: 'Igual Frecuencia' },
+        { key: 'equal_width', label: 'Igual Amplitud' },
+        { key: 'pki', label: 'PKI' }
+    ];
+
+    const classifiers = [
+        { base: 'TAN', local: 'TANLd', color: chartColors.TAN },
+        { base: 'KDB', local: 'KDBLd', color: chartColors.KDB },
+        { base: 'AODE', local: 'AODELd', color: chartColors.AODE }
+    ];
+
+    // Calcular victorias por clasificador y adversario
+    const datasets = classifiers.map(clf => {
+        const winRates = adversaries.map(adv => {
+            let wins = 0;
+            let total = 0;
+
+            const uniqueDatasets = [...new Set(data.map(r => r.dataset))];
+            uniqueDatasets.forEach(dataset => {
+                const localResult = data.find(r =>
+                    r.dataset === dataset &&
+                    r.model_base === clf.base &&
+                    r.discretization_type === 'local'
+                );
+
+                const advResult = data.find(r =>
+                    r.dataset === dataset &&
+                    r.model_base === clf.base &&
+                    r.discretization_type === adv.key
+                );
+
+                if (localResult && advResult) {
+                    total++;
+                    if (localResult.accuracy > advResult.accuracy) {
+                        wins++;
+                    }
+                }
+            });
+
+            return total > 0 ? (wins / total) * 100 : 0;
+        });
+
+        return {
+            label: clf.local,
+            data: winRates,
+            backgroundColor: clf.color.light || clf.color.bg.replace('0.7', '0.2'),
+            borderColor: clf.color.border,
+            borderWidth: 3,
+            pointBackgroundColor: clf.color.border,
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: clf.color.border,
+            pointRadius: 5,
+            pointHoverRadius: 7
+        };
+    });
+
+    currentChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: adversaries.map(a => a.label),
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top' },
+                tooltip: {
+                    callbacks: {
+                        label: (c) => `${c.dataset.label} vs ${c.label}: ${formatNum(c.raw)}% victorias`
+                    }
+                }
+            },
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    max: 100,
+                    min: 0,
+                    ticks: {
+                        stepSize: 20,
+                        callback: (v) => v + '%',
+                        backdropColor: 'transparent'
+                    },
+                    pointLabels: {
+                        font: { size: 12, weight: 'bold' }
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    },
+                    angleLines: {
+                        color: 'rgba(0, 0, 0, 0.1)'
                     }
                 }
             }
