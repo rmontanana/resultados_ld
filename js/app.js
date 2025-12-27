@@ -242,7 +242,7 @@ function applyFilters() {
         }
 
         // Filtro de iteraciones
-        if (state.filters.iterations.length > 0 && !state.filters.iterations.includes(r.iterations)) {
+        if (!state.filters.iterations.includes(r.iterations)) {
             return false;
         }
 
