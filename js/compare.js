@@ -39,8 +39,7 @@ const compareState = {
     data: null,
     iterations: '10it',
     discretizer: 'mdlp',
-    cuts: '3p',
-    pkiVariant: 'sqrt'  // sqrt o log para PKI
+    cuts: '3p'
 };
 
 // Inicialización
@@ -96,13 +95,7 @@ function setupEventListeners() {
     });
 
     document.getElementById('filter-cuts').addEventListener('change', (e) => {
-        if (compareState.discretizer === 'pki') {
-            // Para PKI, el valor es sqrt o log
-            compareState.pkiVariant = e.target.value;
-            compareState.cuts = 'up';  // Siempre 'up' para PKI
-        } else {
-            compareState.cuts = e.target.value;
-        }
+        compareState.cuts = e.target.value;
         renderTable();
     });
 }
@@ -115,13 +108,11 @@ function updateCutsOptions() {
     const discretizer = compareState.discretizer;
 
     if (discretizer === 'pki') {
-        // PKI tiene variantes sqrt/log en lugar de puntos de corte
+        // PKI solo tiene opción ilimitada
         cutsSelect.innerHTML = `
-            <option value="sqrt">PKI sqrt</option>
-            <option value="log">PKI log</option>
+            <option value="up">Ilimitado</option>
         `;
-        compareState.cuts = 'up';  // PKI siempre usa carpeta 'up'
-        compareState.pkiVariant = 'sqrt';
+        compareState.cuts = 'up';
     } else if (discretizer === 'mdlp') {
         // MDLP tiene 3, 4, 5 e ilimitado
         cutsSelect.innerHTML = `
@@ -148,15 +139,15 @@ function updateCutsOptions() {
  * - MDLP: TAN-mdlp3, TAN-mdlp4, TAN-mdlp5, TAN-mdlp (ilimitado)
  * - Equal freq: TAN-bin3q, TAN-bin4q, TAN-bin5q
  * - Equal width: TAN-bin3u, TAN-bin4u, TAN-bin5u
- * - PKI: TAN-pkisqrt, TAN-pkilog
+ * - PKI: TAN-pki
  */
 function getBaseModelName(classifier) {
     const discretizer = compareState.discretizer;
     const cuts = compareState.cuts;
 
     if (discretizer === 'pki') {
-        // PKI: TAN-pkisqrt o TAN-pkilog
-        return `${classifier}-pki${compareState.pkiVariant}`;
+        // PKI: TAN-pki
+        return `${classifier}-pki`;
     } else if (discretizer === 'mdlp') {
         // MDLP: TAN-mdlp3, TAN-mdlp4, TAN-mdlp5, TAN-mdlp (ilimitado)
         if (cuts === 'up') {

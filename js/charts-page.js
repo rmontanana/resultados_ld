@@ -14,7 +14,7 @@ const state = {
     chartType: 'accuracy-comparison',
     iterations: 'all',
     cuts: 'all',
-    discretizers: ['local', 'mdlp', 'equal_freq', 'equal_width', 'pki-sqrt', 'pki-log']
+    discretizers: ['local', 'mdlp', 'equal_freq', 'equal_width', 'pki']
 };
 
 // Colores para los gráficos
@@ -517,8 +517,7 @@ function renderAccuracyChart() {
         'mdlp': 'mdlp',
         'equal_freq': 'equal_freq',
         'equal_width': 'equal_width',
-        'pki-sqrt': 'pki',
-        'pki-log': 'pki'
+        'pki': 'pki'
     };
 
     // Filtrar tipos de discretización según selección
@@ -592,8 +591,7 @@ function renderBoxPlotChart() {
         'mdlp': { type: 'mdlp', label: 'MDLP' },
         'equal_freq': { type: 'equal_freq', label: 'Igual Freq' },
         'equal_width': { type: 'equal_width', label: 'Igual Amp' },
-        'pki-sqrt': { type: 'pki', variant: 'sqrt', label: 'PKI-sqrt' },
-        'pki-log': { type: 'pki', variant: 'log', label: 'PKI-log' }
+        'pki': { type: 'pki', label: 'PKI' }
     };
 
     // Filtrar solo los discretizadores seleccionados
@@ -603,18 +601,9 @@ function renderBoxPlotChart() {
 
     const stats = selectedDiscs.map(disc => {
         let values;
-        if (disc.variant) {
-            // Para PKI con variantes
-            values = data.filter(r => {
-                const isPKI = r.discretization_type === 'pki';
-                const matchesVariant = r.model?.includes(`pki${disc.variant}`);
-                return isPKI && matchesVariant;
-            }).map(r => r.accuracy * 100).sort((a, b) => a - b);
-        } else {
-            values = data.filter(r => r.discretization_type === disc.type)
-                .map(r => r.accuracy * 100)
-                .sort((a, b) => a - b);
-        }
+        values = data.filter(r => r.discretization_type === disc.type)
+            .map(r => r.accuracy * 100)
+            .sort((a, b) => a - b);
 
         if (values.length === 0) return { min: 0, q1: 0, median: 0, q3: 0, max: 0, mean: 0 };
 
@@ -842,8 +831,7 @@ function renderTop15Chart() {
         'mdlp': { type: 'mdlp' },
         'equal_freq': { type: 'equal_freq' },
         'equal_width': { type: 'equal_width' },
-        'pki-sqrt': { type: 'pki', variant: 'sqrt' },
-        'pki-log': { type: 'pki', variant: 'log' }
+        'pki': { type: 'pki' }
     };
 
     // Verificar si local está seleccionado
@@ -889,12 +877,7 @@ function renderTop15Chart() {
                 .some(disc => {
                     const mapping = discMapping[disc];
                     if (!mapping) return false;
-
-                    if (mapping.variant) {
-                        return r.discretization_type === 'pki' && r.model?.includes(`pki${mapping.variant}`);
-                    } else {
-                        return r.discretization_type === mapping.type;
-                    }
+                    return r.discretization_type === mapping.type;
                 });
         });
 
@@ -1015,8 +998,7 @@ function renderSizeChart() {
         'mdlp': { type: 'mdlp', label: 'MDLP' },
         'equal_freq': { type: 'equal_freq', label: 'Igual Freq' },
         'equal_width': { type: 'equal_width', label: 'Igual Amp' },
-        'pki-sqrt': { type: 'pki', variant: 'sqrt', label: 'PKI-sqrt' },
-        'pki-log': { type: 'pki', variant: 'log', label: 'PKI-log' }
+        'pki': { type: 'pki', label: 'PKI' }
     };
 
     const localResults = data.filter(r => r.discretization_type === 'local' && r.samples);
@@ -1040,12 +1022,7 @@ function renderSizeChart() {
                 .some(disc => {
                     const mapping = discMapping[disc];
                     if (!mapping) return false;
-
-                    if (mapping.variant) {
-                        return r.discretization_type === 'pki' && r.model?.includes(`pki${mapping.variant}`);
-                    } else {
-                        return r.discretization_type === mapping.type;
-                    }
+                    return r.discretization_type === mapping.type;
                 });
         });
 
@@ -1227,8 +1204,7 @@ function renderHeatmapChart() {
         'mdlp': { type: 'mdlp', label: 'MDLP' },
         'equal_freq': { type: 'equal_freq', label: 'Igual Freq' },
         'equal_width': { type: 'equal_width', label: 'Igual Amp' },
-        'pki-sqrt': { type: 'pki', variant: 'sqrt', label: 'PKI-sqrt' },
-        'pki-log': { type: 'pki', variant: 'log', label: 'PKI-log' }
+        'pki': { type: 'pki', label: 'PKI' }
     };
 
     // Obtener discretizadores seleccionados (excluyendo local)
@@ -1288,20 +1264,11 @@ function renderHeatmapChart() {
         selectedDiscs.forEach(disc => {
             let results;
 
-            if (disc.variant) {
-                // Para PKI con variantes
-                results = data.filter(r =>
-                    r.dataset === dataset &&
-                    r.discretization_type === 'pki' &&
-                    r.model?.includes(`pki${disc.variant}`)
-                );
-            } else {
-                // Para otros discretizadores
-                results = data.filter(r =>
-                    r.dataset === dataset &&
-                    r.discretization_type === disc.type
-                );
-            }
+            // Para todos los discretizadores
+            results = data.filter(r =>
+                r.dataset === dataset &&
+                r.discretization_type === disc.type
+            );
 
             if (results.length > 0 && localBest[dataset] !== null) {
                 // Encontrar el MÁXIMO accuracy para este discretizador
@@ -1483,8 +1450,7 @@ function renderConfigHeatmapChart() {
         { key: 'mdlp', label: 'MDLP' },
         { key: 'equal_freq', label: 'Igual Freq' },
         { key: 'equal_width', label: 'Igual Amp' },
-        { key: 'pki-sqrt', label: 'PKI-sqrt', type: 'pki', variant: 'sqrt' },
-        { key: 'pki-log', label: 'PKI-log', type: 'pki', variant: 'log' }
+        { key: 'pki', label: 'PKI' }
     ];
 
     // Calcular victorias para cada celda
@@ -1517,11 +1483,6 @@ function renderConfigHeatmapChart() {
                         if (r.dataset !== dataset || r.model_base !== modelBase ||
                             r.iterations !== iterations || r.cuts !== cuts) {
                             return false;
-                        }
-                        // Para variantes de PKI, buscar por tipo y variante en el nombre del modelo
-                        if (adv.variant) {
-                            return r.discretization_type === adv.type &&
-                                   r.model?.includes(`pki${adv.variant}`);
                         }
                         return r.discretization_type === adv.key;
                     });

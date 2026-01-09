@@ -36,7 +36,7 @@ const gridState = {
     filters: {
         iterations: ['10it', '100it'],
         model: ['TAN', 'KDB', 'AODE'],
-        discretizer: ['local', 'mdlp', 'equal_freq', 'equal_width', 'pki-sqrt', 'pki-log'],
+        discretizer: ['local', 'mdlp', 'equal_freq', 'equal_width', 'pki'],
         cuts: ['3p', '4p', '5p', 'up']
     },
     sortMode: 'best-desc' // 'best-desc', 'best-asc', 'alpha-asc', 'alpha-desc'
@@ -138,8 +138,8 @@ function getFilteredColumns() {
                         return; // Skip esta combinación
                     }
 
-                    // PKI-sqrt y PKI-log solo con 'up' (ilimitado)
-                    if ((disc === 'pki-sqrt' || disc === 'pki-log') && cut !== 'up') {
+                    // PKI solo con 'up' (ilimitado)
+                    if (disc === 'pki' && cut !== 'up') {
                         return; // Skip esta combinación
                     }
 
@@ -244,10 +244,8 @@ function getTargetModel(baseModel, disc, cut) {
         // Igual amplitud usa 'binXu' (u = equal width)
         const cutNum = cut.replace('p', '');
         return `${baseModel}-bin${cutNum}u`;
-    } else if (disc === 'pki-sqrt') {
-        return `${baseModel}-pkisqrt`;
-    } else if (disc === 'pki-log') {
-        return `${baseModel}-pkilog`;
+    } else if (disc === 'pki') {
+        return `${baseModel}-pki`;
     }
     return baseModel;
 }
@@ -279,8 +277,7 @@ function getDiscLabel(disc) {
         'mdlp': 'MDLP',
         'equal_freq': 'Igual Freq',
         'equal_width': 'Igual Amp',
-        'pki-sqrt': 'PKI-sqrt',
-        'pki-log': 'PKI-log'
+        'pki': 'PKI'
     };
     return labels[disc] || disc;
 }

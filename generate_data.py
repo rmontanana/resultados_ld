@@ -33,6 +33,7 @@ def load_all_results() -> list[dict]:
     """Carga todos los resultados de los archivos results_*.json."""
     results = []
     files_processed = 0
+    pkilog_filtered = 0
 
     for result_file in iter_result_files(BASE_DIR):
         try:
@@ -42,8 +43,19 @@ def load_all_results() -> list[dict]:
             model = data.get("model", "")
             discretization_algorithm = data.get("discretization_algorithm", "")
 
+            # FILTRO: Omitir archivos con pkilog
+            if "pkilog" in model.lower() or "pkilog" in discretization_algorithm.lower():
+                pkilog_filtered += 1
+                continue
+
             model_base = get_model_base(model)
             disc_type = get_discretization_type(discretization_algorithm, model)
+
+            # RENOMBRAR: pkisqrt -> pki
+            if "pkisqrt" in model.lower():
+                model = model.replace("-pkisqrt", "-pki").replace("-PKISQRT", "-pki")
+            if disc_type == "pki-sqrt":
+                disc_type = "pki"
 
             # Extraer iterations y cuts del path
             parts = result_file.parts
@@ -84,6 +96,7 @@ def load_all_results() -> list[dict]:
             print(f"  Error procesando {result_file}: {e}")
 
     print(f"  Archivos procesados: {files_processed}")
+    print(f"  Archivos pki-log filtrados: {pkilog_filtered}")
     return results
 
 
@@ -168,7 +181,7 @@ def save_compact(results: list[dict]) -> None:
     lines.append("  *Ld (TANLd, KDBLd, AODELd): Discretización LOCAL (propuesta)")
     lines.append("  *-mdlpN: MDLP tradicional (N=máx cortes, sin número=ilimitado)")
     lines.append("  *-binNq/u: Binning equal-freq(q) o equal-width(u), N bins")
-    lines.append("  *-pkilog/sqrt: PKI con log(n) o sqrt(n) bins")
+    lines.append("  *-pki: PKI con sqrt(n) bins")
     lines.append("")
     lines.append("FORMATO: dataset (muestras,features,clases)")
     lines.append("  [iter/cortes] modelo=acc±std (* = mejor en su grupo base TAN/KDB/AODE)")
