@@ -37,6 +37,7 @@ function toggleTheme() {
 // Estado de la aplicación
 const compareState = {
     data: null,
+    adversaries: null,
     iterations: '10it',
     discretizer: 'mdlp',
     cuts: '3p'
@@ -62,12 +63,16 @@ async function init() {
 }
 
 async function loadData() {
-    const response = await fetch('data/results.json');
-    if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-    }
-    compareState.data = await response.json();
-    console.log(`Datos cargados: ${compareState.data.results.length} resultados`);
+    const [resultsResponse, adversariesResponse] = await Promise.all([
+        fetch('data/results.json'),
+        fetch('data/adversaries.json')
+    ]);
+    if (!resultsResponse.ok) throw new Error(`HTTP ${resultsResponse.status} cargando results.json`);
+    if (!adversariesResponse.ok) throw new Error(`HTTP ${adversariesResponse.status} cargando adversaries.json`);
+
+    compareState.data = await resultsResponse.json();
+    compareState.adversaries = await adversariesResponse.json();
+    console.log(`Datos cargados: ${compareState.data.results.length} resultados, ${compareState.adversaries.pairwise_comparisons.length} comparaciones pareadas`);
 }
 
 function hideLoading() {
@@ -320,6 +325,32 @@ function updateStats(stats, totalDatasets) {
             const avgDiffEl = document.getElementById(`${prefix}-avg-diff`);
             avgDiffEl.textContent = (avgDiff > 0 ? '+' : '') + formatNum(avgDiff, 3) + '%';
             avgDiffEl.className = avgDiff > 0 ? 'positive' : avgDiff < 0 ? 'negative' : '';
+        }
+
+        // Enriquecer con datos estadísticos del adversario seleccionado
+        const statKey = `${classifier}_vs_${compareState.discretizer}`;
+        const adversaryStats = compareState.adversaries?.statistical_results?.[statKey];
+        const pvalEl = document.getElementById(`${prefix}-pvalue`);
+        const effectEl = document.getElementById(`${prefix}-effect`);
+
+        if (adversaryStats && pvalEl && effectEl) {
+            const pAdj = adversaryStats.statistical_test.pvalue_adjusted;
+            const pStr = pAdj < 0.001 ? '<0,001' : formatNum(pAdj, 3);
+            const sig = pAdj < 0.05;
+            pvalEl.textContent = pStr;
+            pvalEl.className = sig ? 'negative' : '';
+            pvalEl.title = `Test: ${adversaryStats.statistical_test.name}, p-raw=${formatNum(adversaryStats.statistical_test.pvalue, 4)}`;
+
+            const eff = adversaryStats.effect_size;
+            const effStr = `${formatNum(eff.value, 3)} (${eff.interpretation})`;
+            effectEl.textContent = effStr;
+            effectEl.title = `IC 95%: [${formatNum(eff.ci_lower, 3)}, ${formatNum(eff.ci_upper, 3)}]`;
+        } else if (pvalEl && effectEl) {
+            pvalEl.textContent = '-';
+            pvalEl.className = '';
+            pvalEl.title = '';
+            effectEl.textContent = '-';
+            effectEl.title = '';
         }
     });
 

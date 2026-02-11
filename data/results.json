@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated": "2026-01-08 11:15:12",
+    "generated": "2026-02-11 19:17:13",
     "total_results": 2430,
     "datasets": 27,
     "models": 36,
@@ -41,9 +41,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": -4.53,
-      "best_base_model": "AODE-bin3u",
-      "best_base_accuracy": 0.850095,
       "best_in_group": false
     },
     {
@@ -59,9 +56,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -0.31,
-      "best_base_model": "AODE-mdlp3",
-      "best_base_accuracy": 0.866119,
       "best_in_group": false
     },
     {
@@ -77,9 +71,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": 0.15,
-      "best_base_model": "AODE-mdlp3",
-      "best_base_accuracy": 0.973647,
       "best_in_group": true
     },
     {
@@ -95,9 +86,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": -0.74,
-      "best_base_model": "AODE-mdlp3",
-      "best_base_accuracy": 0.75128,
       "best_in_group": false
     },
     {
@@ -113,9 +101,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -1.19,
-      "best_base_model": "AODE-mdlp3",
-      "best_base_accuracy": 0.829223,
       "best_in_group": false
     },
     {
@@ -131,9 +116,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": -0.79,
-      "best_base_model": "AODE-mdlp3",
-      "best_base_accuracy": 0.708921,
       "best_in_group": false
     },
     {
@@ -149,9 +131,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -7.08,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.766345,
       "best_in_group": false
     },
     {
@@ -167,9 +146,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": -0.74,
-      "best_base_model": "AODE-bin3u",
-      "best_base_accuracy": 0.84321,
       "best_in_group": false
     },
     {
@@ -185,9 +161,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -0.95,
-      "best_base_model": "AODE-bin3u",
-      "best_base_accuracy": 0.921207,
       "best_in_group": false
     },
     {
@@ -203,9 +176,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -2.0,
-      "best_base_model": "AODE-bin3u",
-      "best_base_accuracy": 0.957778,
       "best_in_group": false
     },
     {
@@ -221,9 +191,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -9.18,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.858046,
       "best_in_group": false
     },
     {
@@ -239,9 +206,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -33.63,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.692766,
       "best_in_group": false
     },
     {
@@ -257,9 +221,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -8.89,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.683092,
       "best_in_group": false
     },
     {
@@ -275,9 +236,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -1.02,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.938833,
       "best_in_group": false
     },
     {
@@ -293,9 +251,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": 1.07,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.7675,
       "best_in_group": true
     },
     {
@@ -311,9 +266,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": 0.12,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.922167,
       "best_in_group": true
     },
     {
@@ -329,9 +281,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": -3.93,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.648667,
       "best_in_group": false
     },
     {
@@ -347,9 +296,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -0.28,
-      "best_base_model": "AODE-mdlp3",
-      "best_base_accuracy": 0.743667,
       "best_in_group": false
     },
     {
@@ -365,9 +311,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -3.04,
-      "best_base_model": "AODE-bin3u",
-      "best_base_accuracy": 0.920521,
       "best_in_group": false
     },
     {
@@ -383,9 +326,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": 0.64,
-      "best_base_model": "AODE-mdlp3",
-      "best_base_accuracy": 0.952739,
       "best_in_group": true
     },
     {
@@ -401,9 +341,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": -8.95,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.920003,
       "best_in_group": false
     },
     {
@@ -419,9 +356,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": -8.5,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.894084,
       "best_in_group": false
     },
     {
@@ -437,9 +371,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -7.49,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.814144,
       "best_in_group": false
     },
     {
@@ -455,9 +386,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.23,
-      "best_base_model": "AODE-mdlp3",
-      "best_base_accuracy": 0.904224,
       "best_in_group": false
     },
     {
@@ -473,9 +401,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -3.86,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.680509,
       "best_in_group": false
     },
     {
@@ -491,9 +416,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": -1.11,
-      "best_base_model": "AODE-mdlp3",
-      "best_base_accuracy": 0.808266,
       "best_in_group": false
     },
     {
@@ -509,9 +431,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": -0.01,
-      "best_base_model": "AODE-mdlp3",
-      "best_base_accuracy": 0.986931,
       "best_in_group": false
     },
     {
@@ -527,9 +446,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": -3.1,
-      "best_base_model": "KDB-bin3u",
-      "best_base_accuracy": 0.852439,
       "best_in_group": false
     },
     {
@@ -545,9 +461,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -9.98,
-      "best_base_model": "KDB-bin3q",
-      "best_base_accuracy": 0.823429,
       "best_in_group": false
     },
     {
@@ -563,9 +476,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": -0.34,
-      "best_base_model": "KDB-mdlp3",
-      "best_base_accuracy": 0.965343,
       "best_in_group": false
     },
     {
@@ -581,9 +491,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": 0.04,
-      "best_base_model": "KDB-mdlp3",
-      "best_base_accuracy": 0.754328,
       "best_in_group": true
     },
     {
@@ -599,9 +506,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -0.88,
-      "best_base_model": "KDB-mdlp3",
-      "best_base_accuracy": 0.812404,
       "best_in_group": false
     },
     {
@@ -617,9 +521,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": -1.85,
-      "best_base_model": "KDB-bin3q",
-      "best_base_accuracy": 0.694746,
       "best_in_group": false
     },
     {
@@ -635,9 +536,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": 0.6,
-      "best_base_model": "KDB-bin3q",
-      "best_base_accuracy": 0.726757,
       "best_in_group": true
     },
     {
@@ -653,9 +551,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": -0.37,
-      "best_base_model": "KDB-bin3u",
-      "best_base_accuracy": 0.81358,
       "best_in_group": false
     },
     {
@@ -671,9 +566,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -0.95,
-      "best_base_model": "KDB-bin3u",
-      "best_base_accuracy": 0.929792,
       "best_in_group": false
     },
     {
@@ -689,9 +581,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -2.22,
-      "best_base_model": "KDB-bin3u",
-      "best_base_accuracy": 0.955556,
       "best_in_group": false
     },
     {
@@ -707,9 +596,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -8.95,
-      "best_base_model": "KDB-bin3q",
-      "best_base_accuracy": 0.849949,
       "best_in_group": false
     },
     {
@@ -725,9 +611,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -34.41,
-      "best_base_model": "KDB-bin3q",
-      "best_base_accuracy": 0.737582,
       "best_in_group": false
     },
     {
@@ -743,9 +626,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -6.57,
-      "best_base_model": "KDB-bin3q",
-      "best_base_accuracy": 0.657005,
       "best_in_group": false
     },
     {
@@ -761,9 +641,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -0.6,
-      "best_base_model": "KDB-bin3u",
-      "best_base_accuracy": 0.959,
       "best_in_group": false
     },
     {
@@ -779,9 +656,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": 1.07,
-      "best_base_model": "KDB-bin3q",
-      "best_base_accuracy": 0.787,
       "best_in_group": true
     },
     {
@@ -797,9 +671,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -5.33,
-      "best_base_model": "KDB-bin3u",
-      "best_base_accuracy": 0.92,
       "best_in_group": false
     },
     {
@@ -815,9 +686,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": -0.98,
-      "best_base_model": "KDB-bin3q",
-      "best_base_accuracy": 0.650667,
       "best_in_group": false
     },
     {
@@ -833,9 +701,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -1.78,
-      "best_base_model": "KDB-bin3u",
-      "best_base_accuracy": 0.758167,
       "best_in_group": false
     },
     {
@@ -851,9 +716,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -1.44,
-      "best_base_model": "KDB-bin3u",
-      "best_base_accuracy": 0.964531,
       "best_in_group": false
     },
     {
@@ -869,9 +731,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": -0.26,
-      "best_base_model": "KDB-mdlp3",
-      "best_base_accuracy": 0.960776,
       "best_in_group": false
     },
     {
@@ -887,9 +746,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": -5.66,
-      "best_base_model": "KDB-bin3q",
-      "best_base_accuracy": 0.939441,
       "best_in_group": false
     },
     {
@@ -905,9 +761,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": -12.79,
-      "best_base_model": "KDB-bin3q",
-      "best_base_accuracy": 0.91645,
       "best_in_group": false
     },
     {
@@ -923,9 +776,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -7.79,
-      "best_base_model": "KDB-bin3u",
-      "best_base_accuracy": 0.775581,
       "best_in_group": false
     },
     {
@@ -941,9 +791,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.51,
-      "best_base_model": "KDB-mdlp3",
-      "best_base_accuracy": 0.932333,
       "best_in_group": false
     },
     {
@@ -959,9 +806,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -2.76,
-      "best_base_model": "KDB-bin3q",
-      "best_base_accuracy": 0.680861,
       "best_in_group": false
     },
     {
@@ -977,9 +821,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": 0.47,
-      "best_base_model": "KDB-mdlp3",
-      "best_base_accuracy": 0.810066,
       "best_in_group": true
     },
     {
@@ -995,9 +836,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": -0.02,
-      "best_base_model": "KDB-mdlp3",
-      "best_base_accuracy": 0.975714,
       "best_in_group": false
     },
     {
@@ -1013,9 +851,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": -5.57,
-      "best_base_model": "TAN-bin3u",
-      "best_base_accuracy": 0.854569,
       "best_in_group": false
     },
     {
@@ -1031,9 +866,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -0.91,
-      "best_base_model": "TAN-mdlp3",
-      "best_base_accuracy": 0.85168,
       "best_in_group": false
     },
     {
@@ -1049,9 +881,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": -0.24,
-      "best_base_model": "TAN-mdlp3",
-      "best_base_accuracy": 0.968266,
       "best_in_group": false
     },
     {
@@ -1067,9 +896,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": 0.82,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.744807,
       "best_in_group": true
     },
     {
@@ -1085,9 +911,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -0.1,
-      "best_base_model": "TAN-mdlp3",
-      "best_base_accuracy": 0.809565,
       "best_in_group": false
     },
     {
@@ -1103,9 +926,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": -0.79,
-      "best_base_model": "TAN-mdlp3",
-      "best_base_accuracy": 0.694933,
       "best_in_group": false
     },
     {
@@ -1121,9 +941,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": 0.2,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.710347,
       "best_in_group": true
     },
     {
@@ -1139,9 +956,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": -1.98,
-      "best_base_model": "TAN-bin3u",
-      "best_base_accuracy": 0.832099,
       "best_in_group": false
     },
     {
@@ -1157,9 +971,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -0.95,
-      "best_base_model": "TAN-bin3u",
-      "best_base_accuracy": 0.938283,
       "best_in_group": false
     },
     {
@@ -1175,9 +986,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -1.78,
-      "best_base_model": "TAN-bin3u",
-      "best_base_accuracy": 0.951111,
       "best_in_group": false
     },
     {
@@ -1193,9 +1001,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -12.03,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.845696,
       "best_in_group": false
     },
     {
@@ -1211,9 +1016,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -28.75,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.682916,
       "best_in_group": false
     },
     {
@@ -1229,9 +1031,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -10.34,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.689855,
       "best_in_group": false
     },
     {
@@ -1247,9 +1046,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -0.65,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.958,
       "best_in_group": false
     },
     {
@@ -1265,9 +1061,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": 0.27,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.780333,
       "best_in_group": true
     },
     {
@@ -1283,9 +1076,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -0.53,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.922333,
       "best_in_group": false
     },
     {
@@ -1301,9 +1091,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": -4.38,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.6465,
       "best_in_group": false
     },
     {
@@ -1319,9 +1106,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -1.15,
-      "best_base_model": "TAN-bin3u",
-      "best_base_accuracy": 0.758167,
       "best_in_group": false
     },
     {
@@ -1337,9 +1121,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -2.33,
-      "best_base_model": "TAN-bin3u",
-      "best_base_accuracy": 0.953201,
       "best_in_group": false
     },
     {
@@ -1355,9 +1136,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": 0.55,
-      "best_base_model": "TAN-mdlp3",
-      "best_base_accuracy": 0.949571,
       "best_in_group": true
     },
     {
@@ -1373,9 +1151,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": -6.88,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.91327,
       "best_in_group": false
     },
     {
@@ -1391,9 +1166,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": -13.25,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.90938,
       "best_in_group": false
     },
     {
@@ -1409,9 +1181,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -4.81,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.782196,
       "best_in_group": false
     },
     {
@@ -1427,9 +1196,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.53,
-      "best_base_model": "TAN-mdlp3",
-      "best_base_accuracy": 0.927551,
       "best_in_group": false
     },
     {
@@ -1445,9 +1211,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -4.13,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.684024,
       "best_in_group": false
     },
     {
@@ -1463,9 +1226,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": 0.63,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.807999,
       "best_in_group": true
     },
     {
@@ -1481,9 +1241,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": 0.75,
-      "best_base_model": "TAN-mdlp3",
-      "best_base_accuracy": 0.966396,
       "best_in_group": true
     },
     {
@@ -5144,9 +4901,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": -5.28,
-      "best_base_model": "AODE-bin4u",
-      "best_base_accuracy": 0.85098,
       "best_in_group": false
     },
     {
@@ -5162,9 +4916,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -9.39,
-      "best_base_model": "AODE-mdlp4",
-      "best_base_accuracy": 0.884761,
       "best_in_group": false
     },
     {
@@ -5180,9 +4931,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": -0.29,
-      "best_base_model": "AODE-mdlp4",
-      "best_base_accuracy": 0.975601,
       "best_in_group": false
     },
     {
@@ -5198,9 +4946,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": -1.48,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.760448,
       "best_in_group": false
     },
     {
@@ -5216,9 +4961,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -1.29,
-      "best_base_model": "AODE-mdlp4",
-      "best_base_accuracy": 0.830218,
       "best_in_group": false
     },
     {
@@ -5234,9 +4976,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": -1.56,
-      "best_base_model": "AODE-mdlp4",
-      "best_base_accuracy": 0.710435,
       "best_in_group": false
     },
     {
@@ -5252,9 +4991,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -7.08,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.766345,
       "best_in_group": false
     },
     {
@@ -5270,9 +5006,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": -0.86,
-      "best_base_model": "AODE-bin4u",
-      "best_base_accuracy": 0.844444,
       "best_in_group": false
     },
     {
@@ -5288,9 +5021,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -1.52,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.922079,
       "best_in_group": false
     },
     {
@@ -5306,9 +5036,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -0.89,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.946667,
       "best_in_group": false
     },
     {
@@ -5324,9 +5051,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -3.12,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.890239,
       "best_in_group": false
     },
     {
@@ -5342,9 +5066,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -27.1,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.751632,
       "best_in_group": false
     },
     {
@@ -5360,9 +5081,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -5.7,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.656039,
       "best_in_group": false
     },
     {
@@ -5378,9 +5096,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -1.18,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.948167,
       "best_in_group": false
     },
     {
@@ -5396,9 +5111,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": 0.82,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.7755,
       "best_in_group": true
     },
     {
@@ -5414,9 +5126,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -0.1,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.926667,
       "best_in_group": false
     },
     {
@@ -5432,9 +5141,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": 0.15,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.6565,
       "best_in_group": true
     },
     {
@@ -5450,9 +5156,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -0.62,
-      "best_base_model": "AODE-bin4u",
-      "best_base_accuracy": 0.745667,
       "best_in_group": false
     },
     {
@@ -5468,9 +5171,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -1.62,
-      "best_base_model": "AODE-bin4u",
-      "best_base_accuracy": 0.927815,
       "best_in_group": false
     },
     {
@@ -5486,9 +5186,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": 0.46,
-      "best_base_model": "AODE-mdlp4",
-      "best_base_accuracy": 0.959803,
       "best_in_group": true
     },
     {
@@ -5504,9 +5201,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": -7.95,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.944142,
       "best_in_group": false
     },
     {
@@ -5522,9 +5216,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": -4.05,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.914574,
       "best_in_group": false
     },
     {
@@ -5540,9 +5231,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -7.66,
-      "best_base_model": "AODE-bin4u",
-      "best_base_accuracy": 0.815885,
       "best_in_group": false
     },
     {
@@ -5558,9 +5246,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.14,
-      "best_base_model": "AODE-mdlp4",
-      "best_base_accuracy": 0.904875,
       "best_in_group": false
     },
     {
@@ -5576,9 +5261,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -2.36,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.685581,
       "best_in_group": false
     },
     {
@@ -5594,9 +5276,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": -1.63,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.810802,
       "best_in_group": false
     },
     {
@@ -5612,9 +5291,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": -0.01,
-      "best_base_model": "AODE-mdlp4",
-      "best_base_accuracy": 0.986931,
       "best_in_group": false
     },
     {
@@ -5630,9 +5306,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": -1.5,
-      "best_base_model": "KDB-bin4u",
-      "best_base_accuracy": 0.852918,
       "best_in_group": false
     },
     {
@@ -5648,9 +5321,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -19.2,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.82712,
       "best_in_group": false
     },
     {
@@ -5666,9 +5336,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": 0.64,
-      "best_base_model": "KDB-mdlp4",
-      "best_base_accuracy": 0.955582,
       "best_in_group": true
     },
     {
@@ -5684,9 +5351,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": 0.34,
-      "best_base_model": "KDB-bin4u",
-      "best_base_accuracy": 0.751314,
       "best_in_group": true
     },
     {
@@ -5702,9 +5366,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -0.98,
-      "best_base_model": "KDB-mdlp4",
-      "best_base_accuracy": 0.813399,
       "best_in_group": false
     },
     {
@@ -5720,9 +5381,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": 0.62,
-      "best_base_model": "KDB-mdlp4",
-      "best_base_accuracy": 0.685699,
       "best_in_group": true
     },
     {
@@ -5738,9 +5396,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": 0.6,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.726757,
       "best_in_group": true
     },
     {
@@ -5756,9 +5411,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": -0.86,
-      "best_base_model": "KDB-bin4u",
-      "best_base_accuracy": 0.818519,
       "best_in_group": false
     },
     {
@@ -5774,9 +5426,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -1.33,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.926841,
       "best_in_group": false
     },
     {
@@ -5792,9 +5441,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -0.22,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.94,
       "best_in_group": false
     },
     {
@@ -5810,9 +5456,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -3.0,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.885988,
       "best_in_group": false
     },
     {
@@ -5828,9 +5471,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -26.8,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.795683,
       "best_in_group": false
     },
     {
@@ -5846,9 +5486,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -3.09,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.618357,
       "best_in_group": false
     },
     {
@@ -5864,9 +5501,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -0.27,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.959167,
       "best_in_group": false
     },
     {
@@ -5882,9 +5516,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": 1.37,
-      "best_base_model": "KDB-mdlp4",
-      "best_base_accuracy": 0.792167,
       "best_in_group": true
     },
     {
@@ -5900,9 +5531,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -7.92,
-      "best_base_model": "KDB-bin4u",
-      "best_base_accuracy": 0.9315,
       "best_in_group": false
     },
     {
@@ -5918,9 +5546,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": 1.13,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.666167,
       "best_in_group": true
     },
     {
@@ -5936,9 +5561,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -2.48,
-      "best_base_model": "KDB-bin4u",
-      "best_base_accuracy": 0.764333,
       "best_in_group": false
     },
     {
@@ -5954,9 +5576,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -0.51,
-      "best_base_model": "KDB-bin4u",
-      "best_base_accuracy": 0.961743,
       "best_in_group": false
     },
     {
@@ -5972,9 +5591,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": -0.29,
-      "best_base_model": "KDB-mdlp4",
-      "best_base_accuracy": 0.964248,
       "best_in_group": false
     },
     {
@@ -5990,9 +5606,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": -4.3,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.962791,
       "best_in_group": false
     },
     {
@@ -6008,9 +5621,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": -5.11,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.933045,
       "best_in_group": false
     },
     {
@@ -6026,9 +5636,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -7.63,
-      "best_base_model": "KDB-bin4u",
-      "best_base_accuracy": 0.773955,
       "best_in_group": false
     },
     {
@@ -6044,9 +5651,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.33,
-      "best_base_model": "KDB-mdlp4",
-      "best_base_accuracy": 0.933563,
       "best_in_group": false
     },
     {
@@ -6062,9 +5666,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -1.72,
-      "best_base_model": "KDB-mdlp4",
-      "best_base_accuracy": 0.690821,
       "best_in_group": false
     },
     {
@@ -6080,9 +5681,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": -0.83,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.816999,
       "best_in_group": false
     },
     {
@@ -6098,9 +5696,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": -0.02,
-      "best_base_model": "KDB-mdlp4",
-      "best_base_accuracy": 0.975714,
       "best_in_group": false
     },
     {
@@ -6116,9 +5711,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": -3.79,
-      "best_base_model": "TAN-bin4u",
-      "best_base_accuracy": 0.853965,
       "best_in_group": false
     },
     {
@@ -6134,9 +5726,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -7.54,
-      "best_base_model": "TAN-mdlp4",
-      "best_base_accuracy": 0.854881,
       "best_in_group": false
     },
     {
@@ -6152,9 +5741,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": -0.15,
-      "best_base_model": "TAN-mdlp4",
-      "best_base_accuracy": 0.966803,
       "best_in_group": false
     },
     {
@@ -6170,9 +5756,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": -0.35,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.752217,
       "best_in_group": false
     },
     {
@@ -6188,9 +5771,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -0.5,
-      "best_base_model": "TAN-bin4u",
-      "best_base_accuracy": 0.814543,
       "best_in_group": false
     },
     {
@@ -6206,9 +5786,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": -5.6,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.705671,
       "best_in_group": false
     },
     {
@@ -6224,9 +5801,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": 0.2,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.710347,
       "best_in_group": true
     },
     {
@@ -6242,9 +5816,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": -0.62,
-      "best_base_model": "TAN-bin4u",
-      "best_base_accuracy": 0.818519,
       "best_in_group": false
     },
     {
@@ -6260,9 +5831,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -0.86,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.930691,
       "best_in_group": false
     },
     {
@@ -6278,9 +5846,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -1.33,
-      "best_base_model": "TAN-mdlp4",
-      "best_base_accuracy": 0.944444,
       "best_in_group": false
     },
     {
@@ -6296,9 +5861,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -6.53,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.876986,
       "best_in_group": false
     },
     {
@@ -6314,9 +5876,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -22.53,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.731316,
       "best_in_group": false
     },
     {
@@ -6332,9 +5891,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -5.31,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.643478,
       "best_in_group": false
     },
     {
@@ -6350,9 +5906,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -0.55,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.959667,
       "best_in_group": false
     },
     {
@@ -6368,9 +5921,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": -0.25,
-      "best_base_model": "TAN-mdlp4",
-      "best_base_accuracy": 0.795,
       "best_in_group": false
     },
     {
@@ -6386,9 +5936,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -1.08,
-      "best_base_model": "TAN-bin4u",
-      "best_base_accuracy": 0.928333,
       "best_in_group": false
     },
     {
@@ -6404,9 +5951,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": -1.08,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.665,
       "best_in_group": false
     },
     {
@@ -6422,9 +5966,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -1.0,
-      "best_base_model": "TAN-bin4u",
-      "best_base_accuracy": 0.768833,
       "best_in_group": false
     },
     {
@@ -6440,9 +5981,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -1.31,
-      "best_base_model": "TAN-bin4u",
-      "best_base_accuracy": 0.954981,
       "best_in_group": false
     },
     {
@@ -6458,9 +5996,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": 0.6,
-      "best_base_model": "TAN-mdlp4",
-      "best_base_accuracy": 0.953102,
       "best_in_group": true
     },
     {
@@ -6476,9 +6011,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": -5.69,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.939017,
       "best_in_group": false
     },
     {
@@ -6494,9 +6026,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": -4.47,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.928427,
       "best_in_group": false
     },
     {
@@ -6512,9 +6041,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -4.34,
-      "best_base_model": "TAN-bin4u",
-      "best_base_accuracy": 0.772559,
       "best_in_group": false
     },
     {
@@ -6530,9 +6056,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.6,
-      "best_base_model": "TAN-mdlp4",
-      "best_base_accuracy": 0.930812,
       "best_in_group": false
     },
     {
@@ -6548,9 +6071,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -3.47,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.687953,
       "best_in_group": false
     },
     {
@@ -6566,9 +6086,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": -0.17,
-      "best_base_model": "TAN-mdlp4",
-      "best_base_accuracy": 0.814932,
       "best_in_group": false
     },
     {
@@ -6584,9 +6101,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": 0.75,
-      "best_base_model": "TAN-mdlp4",
-      "best_base_accuracy": 0.966396,
       "best_in_group": true
     },
     {
@@ -10247,9 +9761,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": -5.43,
-      "best_base_model": "AODE-bin5u",
-      "best_base_accuracy": 0.85308,
       "best_in_group": false
     },
     {
@@ -10265,9 +9776,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -9.39,
-      "best_base_model": "AODE-bin5u",
-      "best_base_accuracy": 0.884761,
       "best_in_group": false
     },
     {
@@ -10283,9 +9791,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": -0.05,
-      "best_base_model": "AODE-mdlp5",
-      "best_base_accuracy": 0.974621,
       "best_in_group": false
     },
     {
@@ -10301,9 +9806,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": -2.04,
-      "best_base_model": "AODE-bin5u",
-      "best_base_accuracy": 0.763919,
       "best_in_group": false
     },
     {
@@ -10319,9 +9821,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -1.91,
-      "best_base_model": "AODE-bin5u",
-      "best_base_accuracy": 0.833398,
       "best_in_group": false
     },
     {
@@ -10337,9 +9836,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": -2.44,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.722477,
       "best_in_group": false
     },
     {
@@ -10355,9 +9851,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -7.08,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.766345,
       "best_in_group": false
     },
     {
@@ -10373,9 +9866,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": -0.49,
-      "best_base_model": "AODE-bin5u",
-      "best_base_accuracy": 0.840741,
       "best_in_group": false
     },
     {
@@ -10391,9 +9881,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -0.95,
-      "best_base_model": "AODE-bin5u",
-      "best_base_accuracy": 0.922093,
       "best_in_group": false
     },
     {
@@ -10409,9 +9896,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -1.11,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.946667,
       "best_in_group": false
     },
     {
@@ -10427,9 +9911,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -1.16,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.906335,
       "best_in_group": false
     },
     {
@@ -10445,9 +9926,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -22.43,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.796999,
       "best_in_group": false
     },
     {
@@ -10463,9 +9941,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -7.34,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.671498,
       "best_in_group": false
     },
     {
@@ -10481,9 +9956,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -1.15,
-      "best_base_model": "AODE-bin5u",
-      "best_base_accuracy": 0.950833,
       "best_in_group": false
     },
     {
@@ -10499,9 +9971,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": 0.4,
-      "best_base_model": "AODE-bin5u",
-      "best_base_accuracy": 0.780167,
       "best_in_group": true
     },
     {
@@ -10517,9 +9986,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -0.37,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.931333,
       "best_in_group": false
     },
     {
@@ -10535,9 +10001,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": -2.37,
-      "best_base_model": "AODE-bin5u",
-      "best_base_accuracy": 0.697,
       "best_in_group": false
     },
     {
@@ -10553,9 +10016,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -0.8,
-      "best_base_model": "AODE-bin5u",
-      "best_base_accuracy": 0.749,
       "best_in_group": false
     },
     {
@@ -10571,9 +10031,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -0.58,
-      "best_base_model": "AODE-bin5u",
-      "best_base_accuracy": 0.930366,
       "best_in_group": false
     },
     {
@@ -10589,9 +10046,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": 0.47,
-      "best_base_model": "AODE-mdlp5",
-      "best_base_accuracy": 0.961082,
       "best_in_group": true
     },
     {
@@ -10607,9 +10061,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": -7.14,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.957788,
       "best_in_group": false
     },
     {
@@ -10625,9 +10076,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": -1.04,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.919336,
       "best_in_group": false
     },
     {
@@ -10643,9 +10091,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -7.83,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.817585,
       "best_in_group": false
     },
     {
@@ -10661,9 +10106,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.15,
-      "best_base_model": "AODE-mdlp5",
-      "best_base_accuracy": 0.905165,
       "best_in_group": false
     },
     {
@@ -10679,9 +10121,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -1.58,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.687974,
       "best_in_group": false
     },
     {
@@ -10697,9 +10136,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": -1.23,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.811734,
       "best_in_group": false
     },
     {
@@ -10715,9 +10151,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": -0.01,
-      "best_base_model": "AODE-mdlp5",
-      "best_base_accuracy": 0.986931,
       "best_in_group": false
     },
     {
@@ -10733,9 +10166,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": -1.74,
-      "best_base_model": "KDB-bin5u",
-      "best_base_accuracy": 0.855505,
       "best_in_group": false
     },
     {
@@ -10751,9 +10181,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -19.79,
-      "best_base_model": "KDB-bin5q",
-      "best_base_accuracy": 0.833039,
       "best_in_group": false
     },
     {
@@ -10769,9 +10196,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": 0.19,
-      "best_base_model": "KDB-mdlp5",
-      "best_base_accuracy": 0.955582,
       "best_in_group": true
     },
     {
@@ -10787,9 +10211,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": -1.39,
-      "best_base_model": "KDB-bin5u",
-      "best_base_accuracy": 0.7639,
       "best_in_group": false
     },
     {
@@ -10805,9 +10226,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -0.98,
-      "best_base_model": "KDB-mdlp5",
-      "best_base_accuracy": 0.813399,
       "best_in_group": false
     },
     {
@@ -10823,9 +10241,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": -5.27,
-      "best_base_model": "KDB-bin5q",
-      "best_base_accuracy": 0.710072,
       "best_in_group": false
     },
     {
@@ -10841,9 +10256,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": 0.6,
-      "best_base_model": "KDB-bin5q",
-      "best_base_accuracy": 0.726757,
       "best_in_group": true
     },
     {
@@ -10859,9 +10271,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": 0.37,
-      "best_base_model": "KDB-mdlp5",
-      "best_base_accuracy": 0.806173,
       "best_in_group": true
     },
     {
@@ -10877,9 +10286,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -2.38,
-      "best_base_model": "KDB-bin5u",
-      "best_base_accuracy": 0.940148,
       "best_in_group": false
     },
     {
@@ -10895,9 +10301,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -0.44,
-      "best_base_model": "KDB-bin5q",
-      "best_base_accuracy": 0.944444,
       "best_in_group": false
     },
     {
@@ -10913,9 +10316,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -0.93,
-      "best_base_model": "KDB-bin5q",
-      "best_base_accuracy": 0.903357,
       "best_in_group": false
     },
     {
@@ -10931,9 +10331,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -20.76,
-      "best_base_model": "KDB-bin5q",
-      "best_base_accuracy": 0.841316,
       "best_in_group": false
     },
     {
@@ -10949,9 +10346,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -4.54,
-      "best_base_model": "KDB-bin5q",
-      "best_base_accuracy": 0.617391,
       "best_in_group": false
     },
     {
@@ -10967,9 +10361,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -0.55,
-      "best_base_model": "KDB-bin5u",
-      "best_base_accuracy": 0.961167,
       "best_in_group": false
     },
     {
@@ -10985,9 +10376,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": 0.08,
-      "best_base_model": "KDB-bin5u",
-      "best_base_accuracy": 0.7975,
       "best_in_group": true
     },
     {
@@ -11003,9 +10391,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -9.63,
-      "best_base_model": "KDB-bin5u",
-      "best_base_accuracy": 0.939333,
       "best_in_group": false
     },
     {
@@ -11021,9 +10406,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": -2.42,
-      "best_base_model": "KDB-bin5u",
-      "best_base_accuracy": 0.697667,
       "best_in_group": false
     },
     {
@@ -11039,9 +10421,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -4.53,
-      "best_base_model": "KDB-bin5u",
-      "best_base_accuracy": 0.757167,
       "best_in_group": false
     },
     {
@@ -11057,9 +10436,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": 0.18,
-      "best_base_model": "KDB-bin5q",
-      "best_base_accuracy": 0.958718,
       "best_in_group": true
     },
     {
@@ -11075,9 +10451,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": -0.06,
-      "best_base_model": "KDB-mdlp5",
-      "best_base_accuracy": 0.962847,
       "best_in_group": false
     },
     {
@@ -11093,9 +10466,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": -3.03,
-      "best_base_model": "KDB-bin5q",
-      "best_base_accuracy": 0.969341,
       "best_in_group": false
     },
     {
@@ -11111,9 +10481,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": -2.64,
-      "best_base_model": "KDB-bin5q",
-      "best_base_accuracy": 0.935642,
       "best_in_group": false
     },
     {
@@ -11129,9 +10496,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -9.28,
-      "best_base_model": "KDB-bin5u",
-      "best_base_accuracy": 0.790481,
       "best_in_group": false
     },
     {
@@ -11147,9 +10511,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.24,
-      "best_base_model": "KDB-mdlp5",
-      "best_base_accuracy": 0.933274,
       "best_in_group": false
     },
     {
@@ -11165,9 +10526,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -1.1,
-      "best_base_model": "KDB-bin5q",
-      "best_base_accuracy": 0.704528,
       "best_in_group": false
     },
     {
@@ -11183,9 +10541,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": -0.43,
-      "best_base_model": "KDB-bin5u",
-      "best_base_accuracy": 0.812267,
       "best_in_group": false
     },
     {
@@ -11201,9 +10556,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": -0.02,
-      "best_base_model": "KDB-mdlp5",
-      "best_base_accuracy": 0.975714,
       "best_in_group": false
     },
     {
@@ -11219,9 +10571,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": -3.75,
-      "best_base_model": "TAN-bin5u",
-      "best_base_accuracy": 0.856419,
       "best_in_group": false
     },
     {
@@ -11237,9 +10586,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -7.54,
-      "best_base_model": "TAN-bin5u",
-      "best_base_accuracy": 0.854881,
       "best_in_group": false
     },
     {
@@ -11255,9 +10601,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": -0.19,
-      "best_base_model": "TAN-mdlp5",
-      "best_base_accuracy": 0.966302,
       "best_in_group": false
     },
     {
@@ -11273,9 +10616,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": -1.65,
-      "best_base_model": "TAN-bin5u",
-      "best_base_accuracy": 0.76912,
       "best_in_group": false
     },
     {
@@ -11291,9 +10631,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -0.1,
-      "best_base_model": "TAN-mdlp5",
-      "best_base_accuracy": 0.81056,
       "best_in_group": false
     },
     {
@@ -11309,9 +10646,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": -1.43,
-      "best_base_model": "TAN-mdlp5",
-      "best_base_accuracy": 0.696626,
       "best_in_group": false
     },
     {
@@ -11327,9 +10661,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": 0.2,
-      "best_base_model": "TAN-bin5q",
-      "best_base_accuracy": 0.710347,
       "best_in_group": true
     },
     {
@@ -11345,9 +10676,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": 0.25,
-      "best_base_model": "TAN-bin5u",
-      "best_base_accuracy": 0.809877,
       "best_in_group": true
     },
     {
@@ -11363,9 +10691,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -2.0,
-      "best_base_model": "TAN-bin5u",
-      "best_base_accuracy": 0.942119,
       "best_in_group": false
     },
     {
@@ -11381,9 +10706,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -1.78,
-      "best_base_model": "TAN-bin5q",
-      "best_base_accuracy": 0.951111,
       "best_in_group": false
     },
     {
@@ -11399,9 +10721,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -2.93,
-      "best_base_model": "TAN-bin5q",
-      "best_base_accuracy": 0.892179,
       "best_in_group": false
     },
     {
@@ -11417,9 +10736,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -18.82,
-      "best_base_model": "TAN-bin5q",
-      "best_base_accuracy": 0.7767,
       "best_in_group": false
     },
     {
@@ -11435,9 +10751,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -8.41,
-      "best_base_model": "TAN-bin5q",
-      "best_base_accuracy": 0.657971,
       "best_in_group": false
     },
     {
@@ -11453,9 +10766,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -0.72,
-      "best_base_model": "TAN-bin5q",
-      "best_base_accuracy": 0.959167,
       "best_in_group": false
     },
     {
@@ -11471,9 +10781,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": -0.17,
-      "best_base_model": "TAN-mdlp5",
-      "best_base_accuracy": 0.798,
       "best_in_group": false
     },
     {
@@ -11489,9 +10796,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -1.45,
-      "best_base_model": "TAN-bin5u",
-      "best_base_accuracy": 0.935667,
       "best_in_group": false
     },
     {
@@ -11507,9 +10811,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": -3.23,
-      "best_base_model": "TAN-bin5u",
-      "best_base_accuracy": 0.694667,
       "best_in_group": false
     },
     {
@@ -11525,9 +10826,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -1.53,
-      "best_base_model": "TAN-bin5u",
-      "best_base_accuracy": 0.769333,
       "best_in_group": false
     },
     {
@@ -11543,9 +10841,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -0.58,
-      "best_base_model": "TAN-bin5q",
-      "best_base_accuracy": 0.955572,
       "best_in_group": false
     },
     {
@@ -11561,9 +10856,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": 0.52,
-      "best_base_model": "TAN-mdlp5",
-      "best_base_accuracy": 0.952799,
       "best_in_group": true
     },
     {
@@ -11579,9 +10871,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": -3.44,
-      "best_base_model": "TAN-bin5q",
-      "best_base_accuracy": 0.941261,
       "best_in_group": false
     },
     {
@@ -11597,9 +10886,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": -1.54,
-      "best_base_model": "TAN-bin5q",
-      "best_base_accuracy": 0.931457,
       "best_in_group": false
     },
     {
@@ -11615,9 +10901,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -3.86,
-      "best_base_model": "TAN-bin5u",
-      "best_base_accuracy": 0.766126,
       "best_in_group": false
     },
     {
@@ -11633,9 +10916,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.42,
-      "best_base_model": "TAN-mdlp5",
-      "best_base_accuracy": 0.931319,
       "best_in_group": false
     },
     {
@@ -11651,9 +10931,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -3.74,
-      "best_base_model": "TAN-bin5q",
-      "best_base_accuracy": 0.704531,
       "best_in_group": false
     },
     {
@@ -11669,9 +10946,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": 0.51,
-      "best_base_model": "TAN-mdlp5",
-      "best_base_accuracy": 0.808929,
       "best_in_group": true
     },
     {
@@ -11687,9 +10961,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": 0.75,
-      "best_base_model": "TAN-mdlp5",
-      "best_base_accuracy": 0.966396,
       "best_in_group": true
     },
     {
@@ -15350,9 +14621,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": -1.62,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.858542,
       "best_in_group": false
     },
     {
@@ -15368,9 +14636,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -9.39,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.884761,
       "best_in_group": false
     },
     {
@@ -15386,9 +14651,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": -0.1,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.976088,
       "best_in_group": false
     },
     {
@@ -15404,9 +14666,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": -0.61,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.745655,
       "best_in_group": false
     },
     {
@@ -15422,9 +14681,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -1.79,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.831229,
       "best_in_group": false
     },
     {
@@ -15440,9 +14696,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": -4.05,
-      "best_base_model": "AODE-pki",
-      "best_base_accuracy": 0.738562,
       "best_in_group": false
     },
     {
@@ -15458,9 +14711,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -7.08,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.766345,
       "best_in_group": false
     },
     {
@@ -15476,9 +14726,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": 0.37,
-      "best_base_model": "AODE-pki",
-      "best_base_accuracy": 0.832099,
       "best_in_group": true
     },
     {
@@ -15494,9 +14741,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -0.95,
-      "best_base_model": "AODE-pki",
-      "best_base_accuracy": 0.918283,
       "best_in_group": false
     },
     {
@@ -15512,9 +14756,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -0.22,
-      "best_base_model": "AODE-pki",
-      "best_base_accuracy": 0.937778,
       "best_in_group": false
     },
     {
@@ -15530,9 +14771,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -1.02,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.930396,
       "best_in_group": false
     },
     {
@@ -15548,9 +14786,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -1.52,
-      "best_base_model": "AODE-pki",
-      "best_base_accuracy": 0.877666,
       "best_in_group": false
     },
     {
@@ -15566,9 +14801,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -4.15,
-      "best_base_model": "AODE-pki",
-      "best_base_accuracy": 0.637681,
       "best_in_group": false
     },
     {
@@ -15584,9 +14816,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -0.47,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.95,
       "best_in_group": false
     },
     {
@@ -15602,9 +14831,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": 0.32,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.781333,
       "best_in_group": true
     },
     {
@@ -15620,9 +14846,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": 0.13,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.9265,
       "best_in_group": true
     },
     {
@@ -15638,9 +14861,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": -0.12,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.6915,
       "best_in_group": false
     },
     {
@@ -15656,9 +14876,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -0.2,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.742667,
       "best_in_group": false
     },
     {
@@ -15674,9 +14891,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -0.4,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.931372,
       "best_in_group": false
     },
     {
@@ -15692,9 +14906,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": 0.14,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.964187,
       "best_in_group": true
     },
     {
@@ -15710,9 +14921,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": -0.44,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.940958,
       "best_in_group": false
     },
     {
@@ -15728,9 +14936,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": 0.07,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.942424,
       "best_in_group": true
     },
     {
@@ -15746,9 +14951,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -7.31,
-      "best_base_model": "AODE-pki",
-      "best_base_accuracy": 0.812328,
       "best_in_group": false
     },
     {
@@ -15764,9 +14966,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.25,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.90502,
       "best_in_group": false
     },
     {
@@ -15782,9 +14981,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -0.0,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.686797,
       "best_in_group": false
     },
     {
@@ -15800,9 +14996,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": -1.28,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.813,
       "best_in_group": false
     },
     {
@@ -15818,9 +15011,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": -0.2,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.988783,
       "best_in_group": false
     },
     {
@@ -15836,9 +15026,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": 0.9,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.852218,
       "best_in_group": true
     },
     {
@@ -15854,9 +15041,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -18.93,
-      "best_base_model": "KDB-pki",
-      "best_base_accuracy": 0.824432,
       "best_in_group": false
     },
     {
@@ -15872,9 +15056,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": 0.1,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.951664,
       "best_in_group": true
     },
     {
@@ -15890,9 +15071,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": 0.95,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.742622,
       "best_in_group": true
     },
     {
@@ -15908,9 +15086,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -0.98,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.813399,
       "best_in_group": false
     },
     {
@@ -15926,9 +15101,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": -1.73,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.679496,
       "best_in_group": false
     },
     {
@@ -15944,9 +15116,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": 0.6,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.726757,
       "best_in_group": true
     },
     {
@@ -15962,9 +15131,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": 0.37,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.806173,
       "best_in_group": true
     },
     {
@@ -15980,9 +15146,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -1.62,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.912596,
       "best_in_group": false
     },
     {
@@ -15998,9 +15161,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": 0.0,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.94,
       "best_in_group": true
     },
     {
@@ -16016,9 +15176,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -4.48,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.916341,
       "best_in_group": false
     },
     {
@@ -16034,9 +15191,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -51.9,
-      "best_base_model": "KDB-pki",
-      "best_base_accuracy": 0.879716,
       "best_in_group": false
     },
     {
@@ -16052,9 +15206,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -3.28,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.599034,
       "best_in_group": false
     },
     {
@@ -16070,9 +15221,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -25.13,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.937167,
       "best_in_group": false
     },
     {
@@ -16088,9 +15236,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": 1.08,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.786,
       "best_in_group": true
     },
     {
@@ -16106,9 +15251,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -9.8,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.9175,
       "best_in_group": false
     },
     {
@@ -16124,9 +15266,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": 0.53,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.699,
       "best_in_group": true
     },
     {
@@ -16142,9 +15281,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -31.08,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.737333,
       "best_in_group": false
     },
     {
@@ -16160,9 +15296,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -43.91,
-      "best_base_model": "KDB-pki",
-      "best_base_accuracy": 0.920162,
       "best_in_group": false
     },
     {
@@ -16178,9 +15311,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": 0.16,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.96041,
       "best_in_group": true
     },
     {
@@ -16196,9 +15326,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": -20.71,
-      "best_base_model": "KDB-pki",
-      "best_base_accuracy": 0.752638,
       "best_in_group": false
     },
     {
@@ -16214,9 +15341,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": -7.24,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.937807,
       "best_in_group": false
     },
     {
@@ -16232,9 +15356,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -6.08,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.758456,
       "best_in_group": false
     },
     {
@@ -16250,9 +15371,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.13,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.930523,
       "best_in_group": false
     },
     {
@@ -16268,9 +15386,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -6.18,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.667799,
       "best_in_group": false
     },
     {
@@ -16286,9 +15401,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": -0.33,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.808733,
       "best_in_group": false
     },
     {
@@ -16304,9 +15416,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": -0.02,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.975714,
       "best_in_group": false
     },
     {
@@ -16322,9 +15431,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": 0.81,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.841324,
       "best_in_group": true
     },
     {
@@ -16340,9 +15446,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -7.54,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.854881,
       "best_in_group": false
     },
     {
@@ -16358,9 +15461,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": 0.05,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.962906,
       "best_in_group": true
     },
     {
@@ -16376,9 +15476,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": 0.52,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.745684,
       "best_in_group": true
     },
     {
@@ -16394,9 +15491,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -0.1,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.81056,
       "best_in_group": false
     },
     {
@@ -16412,9 +15506,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": -2.95,
-      "best_base_model": "TAN-pki",
-      "best_base_accuracy": 0.713462,
       "best_in_group": false
     },
     {
@@ -16430,9 +15521,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": 0.2,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.710347,
       "best_in_group": true
     },
     {
@@ -16448,9 +15536,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": 0.74,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.804938,
       "best_in_group": true
     },
     {
@@ -16466,9 +15551,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -0.48,
-      "best_base_model": "TAN-pki",
-      "best_base_accuracy": 0.916499,
       "best_in_group": false
     },
     {
@@ -16484,9 +15566,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -1.11,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.942222,
       "best_in_group": false
     },
     {
@@ -16502,9 +15581,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -3.51,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.910618,
       "best_in_group": false
     },
     {
@@ -16520,9 +15596,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -0.04,
-      "best_base_model": "TAN-pki",
-      "best_base_accuracy": 0.861867,
       "best_in_group": false
     },
     {
@@ -16538,9 +15611,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -2.71,
-      "best_base_model": "TAN-pki",
-      "best_base_accuracy": 0.599034,
       "best_in_group": false
     },
     {
@@ -16556,9 +15626,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -2.43,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.9495,
       "best_in_group": false
     },
     {
@@ -16574,9 +15641,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": 0.52,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.791,
       "best_in_group": true
     },
     {
@@ -16592,9 +15656,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -1.73,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.927167,
       "best_in_group": false
     },
     {
@@ -16610,9 +15671,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": 0.15,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.703833,
       "best_in_group": true
     },
     {
@@ -16628,9 +15686,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -2.68,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.759667,
       "best_in_group": false
     },
     {
@@ -16646,9 +15701,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": 0.15,
-      "best_base_model": "TAN-pki",
-      "best_base_accuracy": 0.941163,
       "best_in_group": true
     },
     {
@@ -16664,9 +15716,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": -0.1,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.956514,
       "best_in_group": false
     },
     {
@@ -16682,9 +15731,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": 7.78,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.877214,
       "best_in_group": true
     },
     {
@@ -16700,9 +15746,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": -1.1,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.94531,
       "best_in_group": false
     },
     {
@@ -16718,9 +15761,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -3.55,
-      "best_base_model": "TAN-pki",
-      "best_base_accuracy": 0.76303,
       "best_in_group": false
     },
     {
@@ -16736,9 +15776,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.51,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.932117,
       "best_in_group": false
     },
     {
@@ -16754,9 +15791,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -3.31,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.684736,
       "best_in_group": false
     },
     {
@@ -16772,9 +15806,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": 0.71,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.809132,
       "best_in_group": true
     },
     {
@@ -16790,9 +15821,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": 0.56,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.968248,
       "best_in_group": true
     },
     {
@@ -19238,9 +18266,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": -4.53,
-      "best_base_model": "AODE-bin3u",
-      "best_base_accuracy": 0.850095,
       "best_in_group": false
     },
     {
@@ -19256,9 +18281,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -0.31,
-      "best_base_model": "AODE-mdlp3",
-      "best_base_accuracy": 0.866119,
       "best_in_group": false
     },
     {
@@ -19274,9 +18296,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": 0.15,
-      "best_base_model": "AODE-mdlp3",
-      "best_base_accuracy": 0.973647,
       "best_in_group": true
     },
     {
@@ -19292,9 +18311,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": -0.74,
-      "best_base_model": "AODE-mdlp3",
-      "best_base_accuracy": 0.75128,
       "best_in_group": false
     },
     {
@@ -19310,9 +18326,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -1.19,
-      "best_base_model": "AODE-mdlp3",
-      "best_base_accuracy": 0.829223,
       "best_in_group": false
     },
     {
@@ -19328,9 +18341,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": -0.79,
-      "best_base_model": "AODE-mdlp3",
-      "best_base_accuracy": 0.708921,
       "best_in_group": false
     },
     {
@@ -19346,9 +18356,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -7.08,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.766345,
       "best_in_group": false
     },
     {
@@ -19364,9 +18371,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": -0.74,
-      "best_base_model": "AODE-bin3u",
-      "best_base_accuracy": 0.84321,
       "best_in_group": false
     },
     {
@@ -19382,9 +18386,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -0.95,
-      "best_base_model": "AODE-bin3u",
-      "best_base_accuracy": 0.921207,
       "best_in_group": false
     },
     {
@@ -19400,9 +18401,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -2.0,
-      "best_base_model": "AODE-bin3u",
-      "best_base_accuracy": 0.957778,
       "best_in_group": false
     },
     {
@@ -19418,9 +18416,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -9.18,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.858046,
       "best_in_group": false
     },
     {
@@ -19436,9 +18431,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -33.63,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.692766,
       "best_in_group": false
     },
     {
@@ -19454,9 +18446,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -8.89,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.683092,
       "best_in_group": false
     },
     {
@@ -19472,9 +18461,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -1.02,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.938833,
       "best_in_group": false
     },
     {
@@ -19490,9 +18476,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": 1.07,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.7675,
       "best_in_group": true
     },
     {
@@ -19508,9 +18491,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": 0.12,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.922167,
       "best_in_group": true
     },
     {
@@ -19526,9 +18506,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": -3.93,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.648667,
       "best_in_group": false
     },
     {
@@ -19544,9 +18521,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -0.28,
-      "best_base_model": "AODE-mdlp3",
-      "best_base_accuracy": 0.743667,
       "best_in_group": false
     },
     {
@@ -19562,9 +18536,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -3.04,
-      "best_base_model": "AODE-bin3u",
-      "best_base_accuracy": 0.920521,
       "best_in_group": false
     },
     {
@@ -19580,9 +18551,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": 0.64,
-      "best_base_model": "AODE-mdlp3",
-      "best_base_accuracy": 0.952739,
       "best_in_group": true
     },
     {
@@ -19598,9 +18566,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": -8.95,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.920003,
       "best_in_group": false
     },
     {
@@ -19616,9 +18581,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": -8.5,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.894084,
       "best_in_group": false
     },
     {
@@ -19634,9 +18596,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -7.49,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.814144,
       "best_in_group": false
     },
     {
@@ -19652,9 +18611,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.23,
-      "best_base_model": "AODE-mdlp3",
-      "best_base_accuracy": 0.904224,
       "best_in_group": false
     },
     {
@@ -19670,9 +18626,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -3.86,
-      "best_base_model": "AODE-bin3q",
-      "best_base_accuracy": 0.680509,
       "best_in_group": false
     },
     {
@@ -19688,9 +18641,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": -1.11,
-      "best_base_model": "AODE-mdlp3",
-      "best_base_accuracy": 0.808266,
       "best_in_group": false
     },
     {
@@ -19706,9 +18656,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": -0.01,
-      "best_base_model": "AODE-mdlp3",
-      "best_base_accuracy": 0.986931,
       "best_in_group": false
     },
     {
@@ -19724,9 +18671,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": -3.1,
-      "best_base_model": "KDB-bin3u",
-      "best_base_accuracy": 0.852439,
       "best_in_group": false
     },
     {
@@ -19742,9 +18686,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -9.98,
-      "best_base_model": "KDB-bin3q",
-      "best_base_accuracy": 0.823429,
       "best_in_group": false
     },
     {
@@ -19760,9 +18701,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": -0.34,
-      "best_base_model": "KDB-mdlp3",
-      "best_base_accuracy": 0.965343,
       "best_in_group": false
     },
     {
@@ -19778,9 +18716,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": 0.04,
-      "best_base_model": "KDB-mdlp3",
-      "best_base_accuracy": 0.754328,
       "best_in_group": true
     },
     {
@@ -19796,9 +18731,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -0.88,
-      "best_base_model": "KDB-mdlp3",
-      "best_base_accuracy": 0.812404,
       "best_in_group": false
     },
     {
@@ -19814,9 +18746,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": -2.8,
-      "best_base_model": "KDB-bin3q",
-      "best_base_accuracy": 0.694746,
       "best_in_group": false
     },
     {
@@ -19832,9 +18761,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": 0.6,
-      "best_base_model": "KDB-bin3q",
-      "best_base_accuracy": 0.726757,
       "best_in_group": true
     },
     {
@@ -19850,9 +18776,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": -0.37,
-      "best_base_model": "KDB-bin3u",
-      "best_base_accuracy": 0.81358,
       "best_in_group": false
     },
     {
@@ -19868,9 +18791,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -1.14,
-      "best_base_model": "KDB-bin3u",
-      "best_base_accuracy": 0.929792,
       "best_in_group": false
     },
     {
@@ -19886,9 +18806,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -2.22,
-      "best_base_model": "KDB-bin3u",
-      "best_base_accuracy": 0.955556,
       "best_in_group": false
     },
     {
@@ -19904,9 +18821,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -9.09,
-      "best_base_model": "KDB-bin3q",
-      "best_base_accuracy": 0.849949,
       "best_in_group": false
     },
     {
@@ -19922,9 +18836,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -34.41,
-      "best_base_model": "KDB-bin3q",
-      "best_base_accuracy": 0.737582,
       "best_in_group": false
     },
     {
@@ -19940,9 +18851,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -6.57,
-      "best_base_model": "KDB-bin3q",
-      "best_base_accuracy": 0.657005,
       "best_in_group": false
     },
     {
@@ -19958,9 +18866,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -0.27,
-      "best_base_model": "KDB-bin3u",
-      "best_base_accuracy": 0.959,
       "best_in_group": false
     },
     {
@@ -19976,9 +18881,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": 0.97,
-      "best_base_model": "KDB-bin3q",
-      "best_base_accuracy": 0.787,
       "best_in_group": true
     },
     {
@@ -19994,9 +18896,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -5.87,
-      "best_base_model": "KDB-bin3u",
-      "best_base_accuracy": 0.92,
       "best_in_group": false
     },
     {
@@ -20012,9 +18911,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": -0.98,
-      "best_base_model": "KDB-bin3q",
-      "best_base_accuracy": 0.650667,
       "best_in_group": false
     },
     {
@@ -20030,9 +18926,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -1.58,
-      "best_base_model": "KDB-bin3u",
-      "best_base_accuracy": 0.758167,
       "best_in_group": false
     },
     {
@@ -20048,9 +18941,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -1.53,
-      "best_base_model": "KDB-bin3u",
-      "best_base_accuracy": 0.964531,
       "best_in_group": false
     },
     {
@@ -20066,9 +18956,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": -0.23,
-      "best_base_model": "KDB-mdlp3",
-      "best_base_accuracy": 0.960776,
       "best_in_group": false
     },
     {
@@ -20084,9 +18971,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": -5.74,
-      "best_base_model": "KDB-bin3q",
-      "best_base_accuracy": 0.939441,
       "best_in_group": false
     },
     {
@@ -20102,9 +18986,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": -10.61,
-      "best_base_model": "KDB-bin3q",
-      "best_base_accuracy": 0.91645,
       "best_in_group": false
     },
     {
@@ -20120,9 +19001,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -8.6,
-      "best_base_model": "KDB-bin3u",
-      "best_base_accuracy": 0.775581,
       "best_in_group": false
     },
     {
@@ -20138,9 +19016,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.48,
-      "best_base_model": "KDB-mdlp3",
-      "best_base_accuracy": 0.932333,
       "best_in_group": false
     },
     {
@@ -20156,9 +19031,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -2.52,
-      "best_base_model": "KDB-bin3q",
-      "best_base_accuracy": 0.680861,
       "best_in_group": false
     },
     {
@@ -20174,9 +19046,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": 0.45,
-      "best_base_model": "KDB-mdlp3",
-      "best_base_accuracy": 0.810066,
       "best_in_group": true
     },
     {
@@ -20192,9 +19061,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": -0.02,
-      "best_base_model": "KDB-mdlp3",
-      "best_base_accuracy": 0.975714,
       "best_in_group": false
     },
     {
@@ -20210,9 +19076,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": -5.57,
-      "best_base_model": "TAN-bin3u",
-      "best_base_accuracy": 0.854569,
       "best_in_group": false
     },
     {
@@ -20228,9 +19091,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -0.91,
-      "best_base_model": "TAN-mdlp3",
-      "best_base_accuracy": 0.85168,
       "best_in_group": false
     },
     {
@@ -20246,9 +19106,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": -0.24,
-      "best_base_model": "TAN-mdlp3",
-      "best_base_accuracy": 0.968266,
       "best_in_group": false
     },
     {
@@ -20264,9 +19121,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": 0.82,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.744807,
       "best_in_group": true
     },
     {
@@ -20282,9 +19136,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -0.1,
-      "best_base_model": "TAN-mdlp3",
-      "best_base_accuracy": 0.809565,
       "best_in_group": false
     },
     {
@@ -20300,9 +19151,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": 0.16,
-      "best_base_model": "TAN-mdlp3",
-      "best_base_accuracy": 0.694933,
       "best_in_group": true
     },
     {
@@ -20318,9 +19166,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": 0.2,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.710347,
       "best_in_group": true
     },
     {
@@ -20336,9 +19181,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": -1.98,
-      "best_base_model": "TAN-bin3u",
-      "best_base_accuracy": 0.832099,
       "best_in_group": false
     },
     {
@@ -20354,9 +19196,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -1.71,
-      "best_base_model": "TAN-bin3u",
-      "best_base_accuracy": 0.938283,
       "best_in_group": false
     },
     {
@@ -20372,9 +19211,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -1.78,
-      "best_base_model": "TAN-bin3u",
-      "best_base_accuracy": 0.951111,
       "best_in_group": false
     },
     {
@@ -20390,9 +19226,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -11.89,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.845696,
       "best_in_group": false
     },
     {
@@ -20408,9 +19241,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -28.75,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.682916,
       "best_in_group": false
     },
     {
@@ -20426,9 +19256,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -10.34,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.689855,
       "best_in_group": false
     },
     {
@@ -20444,9 +19271,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -0.73,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.958,
       "best_in_group": false
     },
     {
@@ -20462,9 +19286,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": 0.28,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.780333,
       "best_in_group": true
     },
     {
@@ -20480,9 +19301,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -0.47,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.922333,
       "best_in_group": false
     },
     {
@@ -20498,9 +19316,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": -4.38,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.6465,
       "best_in_group": false
     },
     {
@@ -20516,9 +19331,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -0.25,
-      "best_base_model": "TAN-bin3u",
-      "best_base_accuracy": 0.758167,
       "best_in_group": false
     },
     {
@@ -20534,9 +19346,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -2.46,
-      "best_base_model": "TAN-bin3u",
-      "best_base_accuracy": 0.953201,
       "best_in_group": false
     },
     {
@@ -20552,9 +19361,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": 0.54,
-      "best_base_model": "TAN-mdlp3",
-      "best_base_accuracy": 0.949571,
       "best_in_group": true
     },
     {
@@ -20570,9 +19376,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": -6.78,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.91327,
       "best_in_group": false
     },
     {
@@ -20588,9 +19391,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": -12.73,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.90938,
       "best_in_group": false
     },
     {
@@ -20606,9 +19406,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -2.92,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.782196,
       "best_in_group": false
     },
     {
@@ -20624,9 +19421,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.6,
-      "best_base_model": "TAN-mdlp3",
-      "best_base_accuracy": 0.927551,
       "best_in_group": false
     },
     {
@@ -20642,9 +19436,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -3.9,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.684024,
       "best_in_group": false
     },
     {
@@ -20660,9 +19451,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": 0.63,
-      "best_base_model": "TAN-bin3q",
-      "best_base_accuracy": 0.807999,
       "best_in_group": true
     },
     {
@@ -20678,9 +19466,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": 0.75,
-      "best_base_model": "TAN-mdlp3",
-      "best_base_accuracy": 0.966396,
       "best_in_group": true
     },
     {
@@ -24341,9 +23126,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": -5.28,
-      "best_base_model": "AODE-bin4u",
-      "best_base_accuracy": 0.85098,
       "best_in_group": false
     },
     {
@@ -24359,9 +23141,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -9.39,
-      "best_base_model": "AODE-mdlp4",
-      "best_base_accuracy": 0.884761,
       "best_in_group": false
     },
     {
@@ -24377,9 +23156,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": -0.29,
-      "best_base_model": "AODE-mdlp4",
-      "best_base_accuracy": 0.975601,
       "best_in_group": false
     },
     {
@@ -24395,9 +23171,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": -1.48,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.760448,
       "best_in_group": false
     },
     {
@@ -24413,9 +23186,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -1.29,
-      "best_base_model": "AODE-mdlp4",
-      "best_base_accuracy": 0.830218,
       "best_in_group": false
     },
     {
@@ -24431,9 +23201,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": -1.56,
-      "best_base_model": "AODE-mdlp4",
-      "best_base_accuracy": 0.710435,
       "best_in_group": false
     },
     {
@@ -24449,9 +23216,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -7.08,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.766345,
       "best_in_group": false
     },
     {
@@ -24467,9 +23231,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": -0.86,
-      "best_base_model": "AODE-bin4u",
-      "best_base_accuracy": 0.844444,
       "best_in_group": false
     },
     {
@@ -24485,9 +23246,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -1.52,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.922079,
       "best_in_group": false
     },
     {
@@ -24503,9 +23261,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -0.89,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.946667,
       "best_in_group": false
     },
     {
@@ -24521,9 +23276,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -3.12,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.890239,
       "best_in_group": false
     },
     {
@@ -24539,9 +23291,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -27.1,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.751632,
       "best_in_group": false
     },
     {
@@ -24557,9 +23306,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -5.7,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.656039,
       "best_in_group": false
     },
     {
@@ -24575,9 +23321,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -1.18,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.948167,
       "best_in_group": false
     },
     {
@@ -24593,9 +23336,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": 0.82,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.7755,
       "best_in_group": true
     },
     {
@@ -24611,9 +23351,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -0.1,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.926667,
       "best_in_group": false
     },
     {
@@ -24629,9 +23366,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": 0.15,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.6565,
       "best_in_group": true
     },
     {
@@ -24647,9 +23381,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -0.62,
-      "best_base_model": "AODE-bin4u",
-      "best_base_accuracy": 0.745667,
       "best_in_group": false
     },
     {
@@ -24665,9 +23396,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -1.62,
-      "best_base_model": "AODE-bin4u",
-      "best_base_accuracy": 0.927815,
       "best_in_group": false
     },
     {
@@ -24683,9 +23411,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": 0.46,
-      "best_base_model": "AODE-mdlp4",
-      "best_base_accuracy": 0.959803,
       "best_in_group": true
     },
     {
@@ -24701,9 +23426,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": -7.95,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.944142,
       "best_in_group": false
     },
     {
@@ -24719,9 +23441,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": -4.05,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.914574,
       "best_in_group": false
     },
     {
@@ -24737,9 +23456,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -7.66,
-      "best_base_model": "AODE-bin4u",
-      "best_base_accuracy": 0.815885,
       "best_in_group": false
     },
     {
@@ -24755,9 +23471,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.14,
-      "best_base_model": "AODE-mdlp4",
-      "best_base_accuracy": 0.904875,
       "best_in_group": false
     },
     {
@@ -24773,9 +23486,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -2.36,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.685581,
       "best_in_group": false
     },
     {
@@ -24791,9 +23501,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": -1.63,
-      "best_base_model": "AODE-bin4q",
-      "best_base_accuracy": 0.810802,
       "best_in_group": false
     },
     {
@@ -24809,9 +23516,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": -0.01,
-      "best_base_model": "AODE-mdlp4",
-      "best_base_accuracy": 0.986931,
       "best_in_group": false
     },
     {
@@ -24827,9 +23531,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": -1.5,
-      "best_base_model": "KDB-bin4u",
-      "best_base_accuracy": 0.852918,
       "best_in_group": false
     },
     {
@@ -24845,9 +23546,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -19.2,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.82712,
       "best_in_group": false
     },
     {
@@ -24863,9 +23561,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": 0.64,
-      "best_base_model": "KDB-mdlp4",
-      "best_base_accuracy": 0.955582,
       "best_in_group": true
     },
     {
@@ -24881,9 +23576,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": 0.34,
-      "best_base_model": "KDB-bin4u",
-      "best_base_accuracy": 0.751314,
       "best_in_group": true
     },
     {
@@ -24899,9 +23591,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -0.98,
-      "best_base_model": "KDB-mdlp4",
-      "best_base_accuracy": 0.813399,
       "best_in_group": false
     },
     {
@@ -24917,9 +23606,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": 0.14,
-      "best_base_model": "KDB-mdlp4",
-      "best_base_accuracy": 0.685699,
       "best_in_group": true
     },
     {
@@ -24935,9 +23621,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": 0.6,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.726757,
       "best_in_group": true
     },
     {
@@ -24953,9 +23636,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": -0.86,
-      "best_base_model": "KDB-bin4u",
-      "best_base_accuracy": 0.818519,
       "best_in_group": false
     },
     {
@@ -24971,9 +23651,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -0.85,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.926841,
       "best_in_group": false
     },
     {
@@ -24989,9 +23666,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -0.22,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.94,
       "best_in_group": false
     },
     {
@@ -25007,9 +23681,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -3.14,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.885988,
       "best_in_group": false
     },
     {
@@ -25025,9 +23696,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -26.8,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.795683,
       "best_in_group": false
     },
     {
@@ -25043,9 +23711,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -3.09,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.618357,
       "best_in_group": false
     },
     {
@@ -25061,9 +23726,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -0.23,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.959167,
       "best_in_group": false
     },
     {
@@ -25079,9 +23741,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": 1.35,
-      "best_base_model": "KDB-mdlp4",
-      "best_base_accuracy": 0.792167,
       "best_in_group": true
     },
     {
@@ -25097,9 +23756,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -8.37,
-      "best_base_model": "KDB-bin4u",
-      "best_base_accuracy": 0.9315,
       "best_in_group": false
     },
     {
@@ -25115,9 +23771,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": 1.13,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.666167,
       "best_in_group": true
     },
     {
@@ -25133,9 +23786,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -3.32,
-      "best_base_model": "KDB-bin4u",
-      "best_base_accuracy": 0.764333,
       "best_in_group": false
     },
     {
@@ -25151,9 +23801,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -0.49,
-      "best_base_model": "KDB-bin4u",
-      "best_base_accuracy": 0.961743,
       "best_in_group": false
     },
     {
@@ -25169,9 +23816,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": -0.29,
-      "best_base_model": "KDB-mdlp4",
-      "best_base_accuracy": 0.964248,
       "best_in_group": false
     },
     {
@@ -25187,9 +23831,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": -4.7,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.962791,
       "best_in_group": false
     },
     {
@@ -25205,9 +23846,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": -4.68,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.933045,
       "best_in_group": false
     },
     {
@@ -25223,9 +23861,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -8.43,
-      "best_base_model": "KDB-bin4u",
-      "best_base_accuracy": 0.773955,
       "best_in_group": false
     },
     {
@@ -25241,9 +23876,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.3,
-      "best_base_model": "KDB-mdlp4",
-      "best_base_accuracy": 0.933563,
       "best_in_group": false
     },
     {
@@ -25259,9 +23891,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -2.77,
-      "best_base_model": "KDB-mdlp4",
-      "best_base_accuracy": 0.690821,
       "best_in_group": false
     },
     {
@@ -25277,9 +23906,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": -0.78,
-      "best_base_model": "KDB-bin4q",
-      "best_base_accuracy": 0.816999,
       "best_in_group": false
     },
     {
@@ -25295,9 +23921,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": -0.02,
-      "best_base_model": "KDB-mdlp4",
-      "best_base_accuracy": 0.975714,
       "best_in_group": false
     },
     {
@@ -25313,9 +23936,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": -3.84,
-      "best_base_model": "TAN-bin4u",
-      "best_base_accuracy": 0.853965,
       "best_in_group": false
     },
     {
@@ -25331,9 +23951,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -7.54,
-      "best_base_model": "TAN-mdlp4",
-      "best_base_accuracy": 0.854881,
       "best_in_group": false
     },
     {
@@ -25349,9 +23966,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": -0.15,
-      "best_base_model": "TAN-mdlp4",
-      "best_base_accuracy": 0.966803,
       "best_in_group": false
     },
     {
@@ -25367,9 +23981,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": -0.35,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.752217,
       "best_in_group": false
     },
     {
@@ -25385,9 +23996,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -0.5,
-      "best_base_model": "TAN-bin4u",
-      "best_base_accuracy": 0.814543,
       "best_in_group": false
     },
     {
@@ -25403,9 +24011,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": -5.13,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.705671,
       "best_in_group": false
     },
     {
@@ -25421,9 +24026,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": 0.2,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.710347,
       "best_in_group": true
     },
     {
@@ -25439,9 +24041,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": -0.62,
-      "best_base_model": "TAN-bin4u",
-      "best_base_accuracy": 0.818519,
       "best_in_group": false
     },
     {
@@ -25457,9 +24056,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -0.85,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.930691,
       "best_in_group": false
     },
     {
@@ -25475,9 +24071,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -1.33,
-      "best_base_model": "TAN-mdlp4",
-      "best_base_accuracy": 0.944444,
       "best_in_group": false
     },
     {
@@ -25493,9 +24086,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -6.12,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.876986,
       "best_in_group": false
     },
     {
@@ -25511,9 +24101,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -22.42,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.731316,
       "best_in_group": false
     },
     {
@@ -25529,9 +24116,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -5.31,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.643478,
       "best_in_group": false
     },
     {
@@ -25547,9 +24131,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -0.57,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.959667,
       "best_in_group": false
     },
     {
@@ -25565,9 +24146,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": -0.2,
-      "best_base_model": "TAN-mdlp4",
-      "best_base_accuracy": 0.795,
       "best_in_group": false
     },
     {
@@ -25583,9 +24161,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -1.05,
-      "best_base_model": "TAN-bin4u",
-      "best_base_accuracy": 0.928333,
       "best_in_group": false
     },
     {
@@ -25601,9 +24176,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": -1.08,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.665,
       "best_in_group": false
     },
     {
@@ -25619,9 +24191,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -1.4,
-      "best_base_model": "TAN-bin4u",
-      "best_base_accuracy": 0.768833,
       "best_in_group": false
     },
     {
@@ -25637,9 +24206,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -1.09,
-      "best_base_model": "TAN-bin4u",
-      "best_base_accuracy": 0.954981,
       "best_in_group": false
     },
     {
@@ -25655,9 +24221,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": 0.42,
-      "best_base_model": "TAN-mdlp4",
-      "best_base_accuracy": 0.953102,
       "best_in_group": true
     },
     {
@@ -25673,9 +24236,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": -5.86,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.939017,
       "best_in_group": false
     },
     {
@@ -25691,9 +24251,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": -4.33,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.928427,
       "best_in_group": false
     },
     {
@@ -25709,9 +24266,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -2.28,
-      "best_base_model": "TAN-bin4u",
-      "best_base_accuracy": 0.772559,
       "best_in_group": false
     },
     {
@@ -25727,9 +24281,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.62,
-      "best_base_model": "TAN-mdlp4",
-      "best_base_accuracy": 0.930812,
       "best_in_group": false
     },
     {
@@ -25745,9 +24296,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -3.03,
-      "best_base_model": "TAN-bin4q",
-      "best_base_accuracy": 0.687953,
       "best_in_group": false
     },
     {
@@ -25763,9 +24311,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": -0.17,
-      "best_base_model": "TAN-mdlp4",
-      "best_base_accuracy": 0.814932,
       "best_in_group": false
     },
     {
@@ -25781,9 +24326,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": 0.75,
-      "best_base_model": "TAN-mdlp4",
-      "best_base_accuracy": 0.966396,
       "best_in_group": true
     },
     {
@@ -29444,9 +27986,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": -5.43,
-      "best_base_model": "AODE-bin5u",
-      "best_base_accuracy": 0.85308,
       "best_in_group": false
     },
     {
@@ -29462,9 +28001,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -9.39,
-      "best_base_model": "AODE-bin5u",
-      "best_base_accuracy": 0.884761,
       "best_in_group": false
     },
     {
@@ -29480,9 +28016,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": -0.05,
-      "best_base_model": "AODE-mdlp5",
-      "best_base_accuracy": 0.974621,
       "best_in_group": false
     },
     {
@@ -29498,9 +28031,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": -2.04,
-      "best_base_model": "AODE-bin5u",
-      "best_base_accuracy": 0.763919,
       "best_in_group": false
     },
     {
@@ -29516,9 +28046,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -1.91,
-      "best_base_model": "AODE-bin5u",
-      "best_base_accuracy": 0.833398,
       "best_in_group": false
     },
     {
@@ -29534,9 +28061,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": -2.44,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.722477,
       "best_in_group": false
     },
     {
@@ -29552,9 +28076,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -7.08,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.766345,
       "best_in_group": false
     },
     {
@@ -29570,9 +28091,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": -0.49,
-      "best_base_model": "AODE-bin5u",
-      "best_base_accuracy": 0.840741,
       "best_in_group": false
     },
     {
@@ -29588,9 +28106,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -0.95,
-      "best_base_model": "AODE-bin5u",
-      "best_base_accuracy": 0.922093,
       "best_in_group": false
     },
     {
@@ -29606,9 +28121,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -1.11,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.946667,
       "best_in_group": false
     },
     {
@@ -29624,9 +28136,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -1.16,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.906335,
       "best_in_group": false
     },
     {
@@ -29642,9 +28151,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -22.43,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.796999,
       "best_in_group": false
     },
     {
@@ -29660,9 +28166,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -7.34,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.671498,
       "best_in_group": false
     },
     {
@@ -29678,9 +28181,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -1.15,
-      "best_base_model": "AODE-bin5u",
-      "best_base_accuracy": 0.950833,
       "best_in_group": false
     },
     {
@@ -29696,9 +28196,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": 0.4,
-      "best_base_model": "AODE-bin5u",
-      "best_base_accuracy": 0.780167,
       "best_in_group": true
     },
     {
@@ -29714,9 +28211,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -0.37,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.931333,
       "best_in_group": false
     },
     {
@@ -29732,9 +28226,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": -2.37,
-      "best_base_model": "AODE-bin5u",
-      "best_base_accuracy": 0.697,
       "best_in_group": false
     },
     {
@@ -29750,9 +28241,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -0.8,
-      "best_base_model": "AODE-bin5u",
-      "best_base_accuracy": 0.749,
       "best_in_group": false
     },
     {
@@ -29768,9 +28256,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -0.58,
-      "best_base_model": "AODE-bin5u",
-      "best_base_accuracy": 0.930366,
       "best_in_group": false
     },
     {
@@ -29786,9 +28271,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": 0.47,
-      "best_base_model": "AODE-mdlp5",
-      "best_base_accuracy": 0.961082,
       "best_in_group": true
     },
     {
@@ -29804,9 +28286,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": -7.14,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.957788,
       "best_in_group": false
     },
     {
@@ -29822,9 +28301,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": -1.04,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.919336,
       "best_in_group": false
     },
     {
@@ -29840,9 +28316,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -7.83,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.817585,
       "best_in_group": false
     },
     {
@@ -29858,9 +28331,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.15,
-      "best_base_model": "AODE-mdlp5",
-      "best_base_accuracy": 0.905165,
       "best_in_group": false
     },
     {
@@ -29876,9 +28346,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -1.58,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.687974,
       "best_in_group": false
     },
     {
@@ -29894,9 +28361,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": -1.23,
-      "best_base_model": "AODE-bin5q",
-      "best_base_accuracy": 0.811734,
       "best_in_group": false
     },
     {
@@ -29912,9 +28376,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": -0.01,
-      "best_base_model": "AODE-mdlp5",
-      "best_base_accuracy": 0.986931,
       "best_in_group": false
     },
     {
@@ -29930,9 +28391,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": -1.74,
-      "best_base_model": "KDB-bin5u",
-      "best_base_accuracy": 0.855505,
       "best_in_group": false
     },
     {
@@ -29948,9 +28406,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -19.79,
-      "best_base_model": "KDB-bin5q",
-      "best_base_accuracy": 0.833039,
       "best_in_group": false
     },
     {
@@ -29966,9 +28421,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": 0.19,
-      "best_base_model": "KDB-mdlp5",
-      "best_base_accuracy": 0.955582,
       "best_in_group": true
     },
     {
@@ -29984,9 +28436,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": -1.35,
-      "best_base_model": "KDB-bin5u",
-      "best_base_accuracy": 0.7639,
       "best_in_group": false
     },
     {
@@ -30002,9 +28451,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -0.98,
-      "best_base_model": "KDB-mdlp5",
-      "best_base_accuracy": 0.813399,
       "best_in_group": false
     },
     {
@@ -30020,9 +28466,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": -5.11,
-      "best_base_model": "KDB-bin5q",
-      "best_base_accuracy": 0.710072,
       "best_in_group": false
     },
     {
@@ -30038,9 +28481,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": 0.6,
-      "best_base_model": "KDB-bin5q",
-      "best_base_accuracy": 0.726757,
       "best_in_group": true
     },
     {
@@ -30056,9 +28496,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": 0.37,
-      "best_base_model": "KDB-mdlp5",
-      "best_base_accuracy": 0.806173,
       "best_in_group": true
     },
     {
@@ -30074,9 +28511,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -3.61,
-      "best_base_model": "KDB-bin5u",
-      "best_base_accuracy": 0.940148,
       "best_in_group": false
     },
     {
@@ -30092,9 +28526,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -0.44,
-      "best_base_model": "KDB-bin5q",
-      "best_base_accuracy": 0.944444,
       "best_in_group": false
     },
     {
@@ -30110,9 +28541,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -0.96,
-      "best_base_model": "KDB-bin5q",
-      "best_base_accuracy": 0.903357,
       "best_in_group": false
     },
     {
@@ -30128,9 +28556,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -20.76,
-      "best_base_model": "KDB-bin5q",
-      "best_base_accuracy": 0.841316,
       "best_in_group": false
     },
     {
@@ -30146,9 +28571,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -4.54,
-      "best_base_model": "KDB-bin5q",
-      "best_base_accuracy": 0.617391,
       "best_in_group": false
     },
     {
@@ -30164,9 +28586,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -0.42,
-      "best_base_model": "KDB-bin5u",
-      "best_base_accuracy": 0.961167,
       "best_in_group": false
     },
     {
@@ -30182,9 +28601,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": -0.02,
-      "best_base_model": "KDB-bin5u",
-      "best_base_accuracy": 0.7975,
       "best_in_group": false
     },
     {
@@ -30200,9 +28616,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -9.83,
-      "best_base_model": "KDB-bin5u",
-      "best_base_accuracy": 0.939333,
       "best_in_group": false
     },
     {
@@ -30218,9 +28631,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": -2.37,
-      "best_base_model": "KDB-bin5u",
-      "best_base_accuracy": 0.697667,
       "best_in_group": false
     },
     {
@@ -30236,9 +28646,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -6.52,
-      "best_base_model": "KDB-bin5u",
-      "best_base_accuracy": 0.757167,
       "best_in_group": false
     },
     {
@@ -30254,9 +28661,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": 0.09,
-      "best_base_model": "KDB-bin5q",
-      "best_base_accuracy": 0.958718,
       "best_in_group": true
     },
     {
@@ -30272,9 +28676,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": 0.03,
-      "best_base_model": "KDB-mdlp5",
-      "best_base_accuracy": 0.962847,
       "best_in_group": true
     },
     {
@@ -30290,9 +28691,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": -3.33,
-      "best_base_model": "KDB-bin5q",
-      "best_base_accuracy": 0.969341,
       "best_in_group": false
     },
     {
@@ -30308,9 +28706,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": -2.5,
-      "best_base_model": "KDB-bin5q",
-      "best_base_accuracy": 0.935642,
       "best_in_group": false
     },
     {
@@ -30326,9 +28721,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -10.09,
-      "best_base_model": "KDB-bin5u",
-      "best_base_accuracy": 0.790481,
       "best_in_group": false
     },
     {
@@ -30344,9 +28736,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.24,
-      "best_base_model": "KDB-mdlp5",
-      "best_base_accuracy": 0.933274,
       "best_in_group": false
     },
     {
@@ -30362,9 +28751,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -3.55,
-      "best_base_model": "KDB-bin5q",
-      "best_base_accuracy": 0.704528,
       "best_in_group": false
     },
     {
@@ -30380,9 +28766,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": -0.43,
-      "best_base_model": "KDB-bin5u",
-      "best_base_accuracy": 0.812267,
       "best_in_group": false
     },
     {
@@ -30398,9 +28781,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": -0.02,
-      "best_base_model": "KDB-mdlp5",
-      "best_base_accuracy": 0.975714,
       "best_in_group": false
     },
     {
@@ -30416,9 +28796,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": -3.8,
-      "best_base_model": "TAN-bin5u",
-      "best_base_accuracy": 0.856419,
       "best_in_group": false
     },
     {
@@ -30434,9 +28811,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -7.54,
-      "best_base_model": "TAN-bin5u",
-      "best_base_accuracy": 0.854881,
       "best_in_group": false
     },
     {
@@ -30452,9 +28826,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": -0.19,
-      "best_base_model": "TAN-mdlp5",
-      "best_base_accuracy": 0.966302,
       "best_in_group": false
     },
     {
@@ -30470,9 +28841,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": -1.65,
-      "best_base_model": "TAN-bin5u",
-      "best_base_accuracy": 0.76912,
       "best_in_group": false
     },
     {
@@ -30488,9 +28856,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -0.1,
-      "best_base_model": "TAN-mdlp5",
-      "best_base_accuracy": 0.81056,
       "best_in_group": false
     },
     {
@@ -30506,9 +28871,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": -1.75,
-      "best_base_model": "TAN-mdlp5",
-      "best_base_accuracy": 0.696626,
       "best_in_group": false
     },
     {
@@ -30524,9 +28886,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": 0.2,
-      "best_base_model": "TAN-bin5q",
-      "best_base_accuracy": 0.710347,
       "best_in_group": true
     },
     {
@@ -30542,9 +28901,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": 0.25,
-      "best_base_model": "TAN-bin5u",
-      "best_base_accuracy": 0.809877,
       "best_in_group": true
     },
     {
@@ -30560,9 +28916,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -2.28,
-      "best_base_model": "TAN-bin5u",
-      "best_base_accuracy": 0.942119,
       "best_in_group": false
     },
     {
@@ -30578,9 +28931,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -1.78,
-      "best_base_model": "TAN-bin5q",
-      "best_base_accuracy": 0.951111,
       "best_in_group": false
     },
     {
@@ -30596,9 +28946,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -2.93,
-      "best_base_model": "TAN-bin5q",
-      "best_base_accuracy": 0.892179,
       "best_in_group": false
     },
     {
@@ -30614,9 +28961,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -18.55,
-      "best_base_model": "TAN-bin5q",
-      "best_base_accuracy": 0.7767,
       "best_in_group": false
     },
     {
@@ -30632,9 +28976,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -8.21,
-      "best_base_model": "TAN-bin5q",
-      "best_base_accuracy": 0.657971,
       "best_in_group": false
     },
     {
@@ -30650,9 +28991,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -0.33,
-      "best_base_model": "TAN-bin5q",
-      "best_base_accuracy": 0.959167,
       "best_in_group": false
     },
     {
@@ -30668,9 +29006,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": -0.18,
-      "best_base_model": "TAN-mdlp5",
-      "best_base_accuracy": 0.798,
       "best_in_group": false
     },
     {
@@ -30686,9 +29021,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -1.45,
-      "best_base_model": "TAN-bin5u",
-      "best_base_accuracy": 0.935667,
       "best_in_group": false
     },
     {
@@ -30704,9 +29036,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": -3.23,
-      "best_base_model": "TAN-bin5u",
-      "best_base_accuracy": 0.694667,
       "best_in_group": false
     },
     {
@@ -30722,9 +29051,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -1.08,
-      "best_base_model": "TAN-bin5u",
-      "best_base_accuracy": 0.769333,
       "best_in_group": false
     },
     {
@@ -30740,9 +29066,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -0.58,
-      "best_base_model": "TAN-bin5q",
-      "best_base_accuracy": 0.955572,
       "best_in_group": false
     },
     {
@@ -30758,9 +29081,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": 0.55,
-      "best_base_model": "TAN-mdlp5",
-      "best_base_accuracy": 0.952799,
       "best_in_group": true
     },
     {
@@ -30776,9 +29096,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": -3.74,
-      "best_base_model": "TAN-bin5q",
-      "best_base_accuracy": 0.941261,
       "best_in_group": false
     },
     {
@@ -30794,9 +29111,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": -1.77,
-      "best_base_model": "TAN-bin5q",
-      "best_base_accuracy": 0.931457,
       "best_in_group": false
     },
     {
@@ -30812,9 +29126,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -1.47,
-      "best_base_model": "TAN-bin5u",
-      "best_base_accuracy": 0.766126,
       "best_in_group": false
     },
     {
@@ -30830,9 +29141,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.41,
-      "best_base_model": "TAN-mdlp5",
-      "best_base_accuracy": 0.931319,
       "best_in_group": false
     },
     {
@@ -30848,9 +29156,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -3.31,
-      "best_base_model": "TAN-bin5q",
-      "best_base_accuracy": 0.704531,
       "best_in_group": false
     },
     {
@@ -30866,9 +29171,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": 0.51,
-      "best_base_model": "TAN-mdlp5",
-      "best_base_accuracy": 0.808929,
       "best_in_group": true
     },
     {
@@ -30884,9 +29186,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": 0.75,
-      "best_base_model": "TAN-mdlp5",
-      "best_base_accuracy": 0.966396,
       "best_in_group": true
     },
     {
@@ -34547,9 +32846,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": -1.62,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.858542,
       "best_in_group": false
     },
     {
@@ -34565,9 +32861,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -9.39,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.884761,
       "best_in_group": false
     },
     {
@@ -34583,9 +32876,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": -0.1,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.976088,
       "best_in_group": false
     },
     {
@@ -34601,9 +32891,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": -0.61,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.745655,
       "best_in_group": false
     },
     {
@@ -34619,9 +32906,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -1.79,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.831229,
       "best_in_group": false
     },
     {
@@ -34637,9 +32921,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": -4.05,
-      "best_base_model": "AODE-pki",
-      "best_base_accuracy": 0.738562,
       "best_in_group": false
     },
     {
@@ -34655,9 +32936,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -7.08,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.766345,
       "best_in_group": false
     },
     {
@@ -34673,9 +32951,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": 0.37,
-      "best_base_model": "AODE-pki",
-      "best_base_accuracy": 0.832099,
       "best_in_group": true
     },
     {
@@ -34691,9 +32966,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -0.95,
-      "best_base_model": "AODE-pki",
-      "best_base_accuracy": 0.918283,
       "best_in_group": false
     },
     {
@@ -34709,9 +32981,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -0.22,
-      "best_base_model": "AODE-pki",
-      "best_base_accuracy": 0.937778,
       "best_in_group": false
     },
     {
@@ -34727,9 +32996,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -1.02,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.930396,
       "best_in_group": false
     },
     {
@@ -34745,9 +33011,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -1.52,
-      "best_base_model": "AODE-pki",
-      "best_base_accuracy": 0.877666,
       "best_in_group": false
     },
     {
@@ -34763,9 +33026,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -4.15,
-      "best_base_model": "AODE-pki",
-      "best_base_accuracy": 0.637681,
       "best_in_group": false
     },
     {
@@ -34781,9 +33041,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -0.47,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.95,
       "best_in_group": false
     },
     {
@@ -34799,9 +33056,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": 0.32,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.781333,
       "best_in_group": true
     },
     {
@@ -34817,9 +33071,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": 0.13,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.9265,
       "best_in_group": true
     },
     {
@@ -34835,9 +33086,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": -0.12,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.6915,
       "best_in_group": false
     },
     {
@@ -34853,9 +33101,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -0.2,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.742667,
       "best_in_group": false
     },
     {
@@ -34871,9 +33116,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -0.4,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.931372,
       "best_in_group": false
     },
     {
@@ -34889,9 +33131,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": 0.14,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.964187,
       "best_in_group": true
     },
     {
@@ -34907,9 +33146,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": -0.44,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.940958,
       "best_in_group": false
     },
     {
@@ -34925,9 +33161,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": 0.07,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.942424,
       "best_in_group": true
     },
     {
@@ -34943,9 +33176,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -7.31,
-      "best_base_model": "AODE-pki",
-      "best_base_accuracy": 0.812328,
       "best_in_group": false
     },
     {
@@ -34961,9 +33191,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.25,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.90502,
       "best_in_group": false
     },
     {
@@ -34979,9 +33206,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -0.0,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.686797,
       "best_in_group": false
     },
     {
@@ -34997,9 +33221,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": -1.28,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.813,
       "best_in_group": false
     },
     {
@@ -35015,9 +33236,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": -0.2,
-      "best_base_model": "AODE-mdlp",
-      "best_base_accuracy": 0.988783,
       "best_in_group": false
     },
     {
@@ -35033,9 +33251,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": 0.9,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.852218,
       "best_in_group": true
     },
     {
@@ -35051,9 +33266,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -18.93,
-      "best_base_model": "KDB-pki",
-      "best_base_accuracy": 0.824432,
       "best_in_group": false
     },
     {
@@ -35069,9 +33281,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": 0.1,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.951664,
       "best_in_group": true
     },
     {
@@ -35087,9 +33296,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": 0.95,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.742622,
       "best_in_group": true
     },
     {
@@ -35105,9 +33311,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -0.98,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.813399,
       "best_in_group": false
     },
     {
@@ -35123,9 +33326,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": -2.52,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.679496,
       "best_in_group": false
     },
     {
@@ -35141,9 +33341,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": 0.6,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.726757,
       "best_in_group": true
     },
     {
@@ -35159,9 +33356,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": 0.37,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.806173,
       "best_in_group": true
     },
     {
@@ -35177,9 +33371,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -2.37,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.912596,
       "best_in_group": false
     },
     {
@@ -35195,9 +33386,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": 0.0,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.94,
       "best_in_group": true
     },
     {
@@ -35213,9 +33401,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -4.48,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.916341,
       "best_in_group": false
     },
     {
@@ -35231,9 +33416,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -51.9,
-      "best_base_model": "KDB-pki",
-      "best_base_accuracy": 0.879716,
       "best_in_group": false
     },
     {
@@ -35249,9 +33431,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -3.28,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.599034,
       "best_in_group": false
     },
     {
@@ -35267,9 +33446,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -26.62,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.937167,
       "best_in_group": false
     },
     {
@@ -35285,9 +33461,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": 1.08,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.786,
       "best_in_group": true
     },
     {
@@ -35303,9 +33476,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -10.03,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.9175,
       "best_in_group": false
     },
     {
@@ -35321,9 +33491,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": 0.53,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.699,
       "best_in_group": true
     },
     {
@@ -35339,9 +33506,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -32.53,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.737333,
       "best_in_group": false
     },
     {
@@ -35357,9 +33521,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -43.91,
-      "best_base_model": "KDB-pki",
-      "best_base_accuracy": 0.920162,
       "best_in_group": false
     },
     {
@@ -35375,9 +33536,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": 0.21,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.96041,
       "best_in_group": true
     },
     {
@@ -35393,9 +33551,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": -20.71,
-      "best_base_model": "KDB-pki",
-      "best_base_accuracy": 0.752638,
       "best_in_group": false
     },
     {
@@ -35411,9 +33566,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": -8.6,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.937807,
       "best_in_group": false
     },
     {
@@ -35429,9 +33581,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -6.88,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.758456,
       "best_in_group": false
     },
     {
@@ -35447,9 +33596,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.12,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.930523,
       "best_in_group": false
     },
     {
@@ -35465,9 +33611,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -5.71,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.667799,
       "best_in_group": false
     },
     {
@@ -35483,9 +33626,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": -0.35,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.808733,
       "best_in_group": false
     },
     {
@@ -35501,9 +33641,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": -0.02,
-      "best_base_model": "KDB-mdlp",
-      "best_base_accuracy": 0.975714,
       "best_in_group": false
     },
     {
@@ -35519,9 +33656,6 @@
       "samples": 45222,
       "features": 14,
       "classes": 2,
-      "improvement_vs_base": 0.81,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.841324,
       "best_in_group": true
     },
     {
@@ -35537,9 +33671,6 @@
       "samples": 625,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -7.54,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.854881,
       "best_in_group": false
     },
     {
@@ -35555,9 +33686,6 @@
       "samples": 683,
       "features": 9,
       "classes": 2,
-      "improvement_vs_base": 0.05,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.962906,
       "best_in_group": true
     },
     {
@@ -35573,9 +33701,6 @@
       "samples": 768,
       "features": 8,
       "classes": 2,
-      "improvement_vs_base": 0.52,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.745684,
       "best_in_group": true
     },
     {
@@ -35591,9 +33716,6 @@
       "samples": 336,
       "features": 7,
       "classes": 8,
-      "improvement_vs_base": -0.1,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.81056,
       "best_in_group": false
     },
     {
@@ -35609,9 +33731,6 @@
       "samples": 214,
       "features": 9,
       "classes": 6,
-      "improvement_vs_base": -2.95,
-      "best_base_model": "TAN-pki",
-      "best_base_accuracy": 0.713462,
       "best_in_group": false
     },
     {
@@ -35627,9 +33746,6 @@
       "samples": 160,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": 0.2,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.710347,
       "best_in_group": true
     },
     {
@@ -35645,9 +33761,6 @@
       "samples": 270,
       "features": 13,
       "classes": 2,
-      "improvement_vs_base": 0.74,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.804938,
       "best_in_group": true
     },
     {
@@ -35663,9 +33776,6 @@
       "samples": 351,
       "features": 34,
       "classes": 2,
-      "improvement_vs_base": -0.86,
-      "best_base_model": "TAN-pki",
-      "best_base_accuracy": 0.916499,
       "best_in_group": false
     },
     {
@@ -35681,9 +33791,6 @@
       "samples": 150,
       "features": 4,
       "classes": 3,
-      "improvement_vs_base": -1.11,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.942222,
       "best_in_group": false
     },
     {
@@ -35699,9 +33806,6 @@
       "samples": 9961,
       "features": 14,
       "classes": 9,
-      "improvement_vs_base": -3.5,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.910618,
       "best_in_group": false
     },
     {
@@ -35717,9 +33821,6 @@
       "samples": 20000,
       "features": 16,
       "classes": 26,
-      "improvement_vs_base": -0.04,
-      "best_base_model": "TAN-pki",
-      "best_base_accuracy": 0.861867,
       "best_in_group": false
     },
     {
@@ -35735,9 +33836,6 @@
       "samples": 345,
       "features": 6,
       "classes": 2,
-      "improvement_vs_base": -2.71,
-      "best_base_model": "TAN-pki",
-      "best_base_accuracy": 0.599034,
       "best_in_group": false
     },
     {
@@ -35753,9 +33851,6 @@
       "samples": 2000,
       "features": 216,
       "classes": 10,
-      "improvement_vs_base": -2.45,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.9495,
       "best_in_group": false
     },
     {
@@ -35771,9 +33866,6 @@
       "samples": 2000,
       "features": 76,
       "classes": 10,
-      "improvement_vs_base": 0.52,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.791,
       "best_in_group": true
     },
     {
@@ -35789,9 +33881,6 @@
       "samples": 2000,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": -1.73,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.927167,
       "best_in_group": false
     },
     {
@@ -35807,9 +33896,6 @@
       "samples": 2000,
       "features": 6,
       "classes": 10,
-      "improvement_vs_base": 0.15,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.703833,
       "best_in_group": true
     },
     {
@@ -35825,9 +33911,6 @@
       "samples": 2000,
       "features": 47,
       "classes": 10,
-      "improvement_vs_base": -3.63,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.759667,
       "best_in_group": false
     },
     {
@@ -35843,9 +33926,6 @@
       "samples": 5620,
       "features": 64,
       "classes": 10,
-      "improvement_vs_base": 0.26,
-      "best_base_model": "TAN-pki",
-      "best_base_accuracy": 0.941163,
       "best_in_group": true
     },
     {
@@ -35861,9 +33941,6 @@
       "samples": 5473,
       "features": 10,
       "classes": 5,
-      "improvement_vs_base": -0.65,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.956514,
       "best_in_group": false
     },
     {
@@ -35879,9 +33956,6 @@
       "samples": 10992,
       "features": 16,
       "classes": 10,
-      "improvement_vs_base": 7.86,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.877214,
       "best_in_group": true
     },
     {
@@ -35897,9 +33971,6 @@
       "samples": 2310,
       "features": 19,
       "classes": 7,
-      "improvement_vs_base": -0.89,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.94531,
       "best_in_group": false
     },
     {
@@ -35915,9 +33986,6 @@
       "samples": 208,
       "features": 60,
       "classes": 2,
-      "improvement_vs_base": -1.16,
-      "best_base_model": "TAN-pki",
-      "best_base_accuracy": 0.76303,
       "best_in_group": false
     },
     {
@@ -35933,9 +34001,6 @@
       "samples": 4601,
       "features": 57,
       "classes": 2,
-      "improvement_vs_base": -0.51,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.932117,
       "best_in_group": false
     },
     {
@@ -35951,9 +34016,6 @@
       "samples": 846,
       "features": 18,
       "classes": 4,
-      "improvement_vs_base": -3.27,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.684736,
       "best_in_group": false
     },
     {
@@ -35969,9 +34031,6 @@
       "samples": 5000,
       "features": 40,
       "classes": 3,
-      "improvement_vs_base": 0.71,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.809132,
       "best_in_group": true
     },
     {
@@ -35987,9 +34046,6 @@
       "samples": 178,
       "features": 13,
       "classes": 3,
-      "improvement_vs_base": 0.56,
-      "best_base_model": "TAN-mdlp",
-      "best_base_accuracy": 0.968248,
       "best_in_group": true
     },
     {

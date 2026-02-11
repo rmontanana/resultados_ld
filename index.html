@@ -231,8 +231,8 @@
                 <span class="stat-label">Accuracy Promedio</span>
             </div>
             <div class="stat-card positive">
-                <span class="stat-value" id="stat-improvements">0</span>
-                <span class="stat-label">Mejoras Locales</span>
+                <span class="stat-value" id="stat-improvements">-</span>
+                <span class="stat-label">Tasa Victoria Pareada</span>
             </div>
             <div class="stat-card">
                 <span class="stat-value" id="stat-best-accuracy">0%</span>
@@ -245,34 +245,34 @@
             <div class="table-header">
                 <h2>Resultados <span id="results-count">(0)</span></h2>
                 <div class="table-actions">
-                    <span class="help-label" tabindex="0" aria-label="Información sobre Mejora" role="button">
+                    <span class="help-label" tabindex="0" aria-label="Información sobre Mejora Pareada" role="button">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="12" cy="12" r="10"></circle>
                             <line x1="12" y1="10" x2="12" y2="16"></line>
                             <circle cx="12" cy="7.5" r="1.5" fill="currentColor" stroke="none"></circle>
                         </svg>
-                        Mejora
+                        Mejora Pareada
                         <span class="tooltip-text">
                             <div>
                                 <strong>Qué es</strong>
                                 <ul>
-                                    <li>Diferencia (puntos porcentuales) entre un modelo Local y el mejor modelo base comparable.</li>
-                                    <li>Solo aplica a filas Local; las demás quedan en “-”.</li>
+                                    <li>Media de las mejoras pareadas de Local vs <em>cada</em> adversario por separado (MDLP, Igual Freq, Igual Amp, PKI).</li>
+                                    <li>Solo aplica a filas Local; las demás quedan en "-".</li>
                                 </ul>
                             </div>
                             <div>
                                 <strong>Cálculo</strong>
                                 <ul>
-                                    <li>Se toma cada resultado Local y se busca el mejor accuracy de modelos con el mismo <em>model_base</em>, mismas <em>iterations</em> y mismos <em>cuts</em>, pero discretización distinta de Local.</li>
-                                    <li>Mejora = (accuracy_local − best_base_accuracy) × 100.</li>
-                                    <li>best_base_model y best_base_accuracy provienen de los datos precomputados en results.json.</li>
+                                    <li>Para cada resultado Local se buscan las 4 comparaciones pareadas independientes (mismo dataset, iterations, cuts, model_base) contra cada adversario.</li>
+                                    <li>Mejora = media de (accuracy_local − accuracy_adversario) × 100 sobre los adversarios disponibles.</li>
+                                    <li>Los datos provienen del pipeline estadístico adversaries_final (tests de Wilcoxon/t, corrección Holm-Bonferroni).</li>
                                 </ul>
                             </div>
                             <div>
                                 <strong>Uso</strong>
                                 <ul>
-                                    <li>Valores positivos: Local supera al mejor base en ese escenario.</li>
-                                    <li>Valores negativos: el mejor base es superior al Local.</li>
+                                    <li>Valores positivos: Local supera, en promedio, a los adversarios.</li>
+                                    <li>Valores negativos: los adversarios son, en promedio, superiores.</li>
                                 </ul>
                             </div>
                         </span>
@@ -299,8 +299,8 @@
                             <th data-sort="discretization_type">Tipo <span class="sort-icon"></span></th>
                             <th data-sort="accuracy" class="num">Accuracy <span class="sort-icon"></span></th>
                             <th data-sort="std" class="num">Std <span class="sort-icon"></span></th>
-                            <th data-sort="improvement_vs_base" class="num header-with-info">
-                                <span>Mejora</span>
+                            <th data-sort="paired_improvement" class="num header-with-info">
+                                <span>Mejora Pareada</span>
                                 <span class="sort-icon"></span>
                             </th>
                             <th data-sort="samples" class="num">Muestras <span class="sort-icon"></span></th>
@@ -346,11 +346,11 @@
                 </div>
                 <div class="legend-item">
                     <span class="improvement positive">+1.5%</span>
-                    <span>Mejora de discretización local vs mejor base</span>
+                    <span>Mejora pareada media de Local vs adversarios</span>
                 </div>
                 <div class="legend-item">
                     <span class="improvement negative">-2.0%</span>
-                    <span>Pérdida de discretización local vs mejor base</span>
+                    <span>Pérdida pareada media de Local vs adversarios</span>
                 </div>
             </div>
         </section>

@@ -11,6 +11,7 @@ function formatNum(num, decimals = 2) {
 // Estado de la aplicación
 const state = {
     data: null,
+    adversaries: null,
     chartType: 'accuracy-comparison',
     iterations: 'all',
     cuts: 'all',
@@ -41,24 +42,30 @@ const chartTitles = {
     'accuracy-comparison': 'Comparación de Accuracy por Clasificador',
     'box-plot': 'Distribución de Accuracy por Discretizador',
     'trend-cuts': 'Tendencia por Puntos de Corte',
-    'top-improvements': 'Top 15 Datasets con Mayores Mejoras',
-    'size-vs-improvement': 'Relación Tamaño vs Mejora',
-    'heatmap': 'Heatmap: Comparación de Discretizadores vs Local',
+    'top-improvements': 'Top 15 Datasets: Mejora Pareada Media',
+    'size-vs-improvement': 'Relación Tamaño vs Mejora Pareada',
+    'heatmap': 'Heatmap: Mejora Pareada por Dataset y Método',
     'config-heatmap': 'Heatmap: Configuración vs Adversario',
     'adversary-bars': 'Rendimiento Local vs Adversarios',
-    'classifier-radar': 'Perfil de Clasificadores Locales'
+    'classifier-radar': 'Perfil de Clasificadores Locales',
+    'effect-forest': 'Forest Plot: Tamaños de Efecto con IC 95%',
+    'pvalue-grid': 'Grid de P-valores Ajustados (3 Clf × 4 Métodos)',
+    'scenarios-global': 'Mejora Pareada por Dataset (27 Datasets)'
 };
 
 const chartHints = {
     'accuracy-comparison': '',
     'box-plot': 'Muestra mediana con estadísticas detalladas en tooltip',
     'trend-cuts': 'Línea sólida = Local, punteada = MDLP. Sombra = desviación típica',
-    'top-improvements': 'Mejora promedio de discretización local vs mejor base',
-    'size-vs-improvement': 'Relación logarítmica entre tamaño y mejora',
-    'heatmap': 'Verde: mejor que Local, Rojo: peor que Local',
+    'top-improvements': 'Mejora pareada media (promedio sobre 12 adversarios) por dataset',
+    'size-vs-improvement': 'Relación entre tamaño y mejora pareada (datos de aggregated_by_dataset)',
+    'heatmap': 'Mejora pareada (%) por dataset y método de discretización',
     'config-heatmap': '% victorias de Local por configuración y adversario',
     'adversary-bars': 'Compara clasificadores locales contra cada método tradicional',
-    'classifier-radar': 'Perfil de victorias por clasificador y adversario'
+    'classifier-radar': 'Perfil de victorias por clasificador y adversario',
+    'effect-forest': 'Tamaño de efecto (rank-biserial/Cohen d) con intervalo de confianza 95%',
+    'pvalue-grid': 'P-valores ajustados (Holm-Bonferroni). Verde: significativo (p<0,05)',
+    'scenarios-global': 'Mejora media sobre todos los adversarios, ordenada por dataset'
 };
 
 const chartInfoDetails = {
@@ -136,23 +143,23 @@ const chartInfoDetails = {
         <div class="tooltip-section">
             <strong>Qué muestra</strong>
             <ul>
-                <li>Top 15 datasets con mayor mejora media de Local respecto al mejor modelo base.</li>
-                <li>Signo positivo = Local supera; negativo = Local pierde.</li>
+                <li>Top 15 datasets ordenados por mejora pareada media de Local vs todos los adversarios.</li>
+                <li>Datos de global_patterns.dataset_patterns (pipeline adversaries_final).</li>
             </ul>
         </div>
         <div class="tooltip-section">
             <strong>Cálculo</strong>
             <ul>
-                <li>Requiere Local seleccionado; aplica filtros de iteraciones y cortes.</li>
-                <li>Para cada dataset: compara cada resultado Local con el mejor base coincidente (iteraciones/cortes/model_base) dentro de discretizadores seleccionados (excluye Local).</li>
-                <li>Promedia mejoras ((acc_local - acc_base)×100) por dataset y ordena el top.</li>
+                <li>Usa mejora pareada: cada resultado Local se compara contra cada adversario individualmente.</li>
+                <li>Media sobre 3 clasificadores × 4 métodos = 12 comparaciones por dataset.</li>
+                <li>NO usa "vs mejor base" (cherry-picking).</li>
             </ul>
         </div>
         <div class="tooltip-section">
             <strong>Uso</strong>
             <ul>
                 <li>Identifica dónde la discretización local aporta más o menos.</li>
-                <li>Ajusta discretizadores para ver cómo cambian las mejoras.</li>
+                <li>Compare con el gráfico de escenarios globales para ver los 27 datasets.</li>
             </ul>
         </div>
     `,
@@ -160,23 +167,23 @@ const chartInfoDetails = {
         <div class="tooltip-section">
             <strong>Qué muestra</strong>
             <ul>
-                <li>Dispersión de la mejora promedio de Local vs mejor base en función del tamaño (muestras).</li>
-                <li>Incluye dos líneas de tendencia: ajuste logarítmico (sobre log10(x)) y lineal.</li>
+                <li>Dispersión de la mejora pareada media en función del tamaño (muestras).</li>
+                <li>Datos de aggregated_by_dataset (pipeline adversaries_final).</li>
             </ul>
         </div>
         <div class="tooltip-section">
             <strong>Cálculo</strong>
             <ul>
-                <li>Filtra por iteraciones/cortes y discretizadores (Local obligatorio).</li>
-                <li>Por dataset: mejora media de Local vs mejor base coincidente (iteraciones/cortes/model_base) con discretizadores seleccionados distintos de Local.</li>
-                <li>Tendencia log: regresión lineal sobre log10(tamaño); Tendencia lineal: regresión en escala original.</li>
+                <li>Por dataset: promedia improvement_pct sobre todas las combinaciones clf×método.</li>
+                <li>Incluye línea de tendencia logarítmica sobre log10(tamaño).</li>
+                <li>El tamaño (muestras) se obtiene de results.json.</li>
             </ul>
         </div>
         <div class="tooltip-section">
             <strong>Uso</strong>
             <ul>
                 <li>Explora si el beneficio de Local cambia con el tamaño del dataset.</li>
-                <li>Activa/desactiva las líneas en la leyenda para comparar ajustes.</li>
+                <li>Cada punto representa un dataset con su mejora media pareada.</li>
             </ul>
         </div>
     `,
@@ -184,23 +191,22 @@ const chartInfoDetails = {
         <div class="tooltip-section">
             <strong>Qué muestra</strong>
             <ul>
-                <li>Diferencia (pp) entre el mejor resultado de cada discretizador seleccionado y el mejor Local, por dataset.</li>
-                <li>Verde = discretizador supera a Local; rojo = peor que Local.</li>
+                <li>Mejora pareada (%) de Local vs cada método de discretización, por dataset.</li>
+                <li>Datos de aggregated_by_dataset (pipeline adversaries_final).</li>
             </ul>
         </div>
         <div class="tooltip-section">
             <strong>Cálculo</strong>
             <ul>
-                <li>Local es referencia: se toma su mejor accuracy por dataset con los filtros vigentes.</li>
-                <li>Para cada discretizador seleccionado (no Local) se toma su mejor accuracy por dataset con los mismos filtros.</li>
-                <li>Se muestra la diferencia (best_disc - best_local)×100.</li>
+                <li>Promedia improvement_pct sobre los 3 clasificadores para cada par dataset-método.</li>
+                <li>Verde = Local mejora; rojo = Local empeora; intensidad proporcional a la magnitud.</li>
             </ul>
         </div>
         <div class="tooltip-section">
             <strong>Uso</strong>
             <ul>
-                <li>Detecta rápidamente dónde Local gana o pierde frente a cada discretizador.</li>
-                <li>Combina con filtros de iteraciones/cortes para escenarios concretos.</li>
+                <li>Detecta rápidamente dónde Local gana o pierde frente a cada método.</li>
+                <li>Identifica patrones por tipo de discretización.</li>
             </ul>
         </div>
     `,
@@ -275,6 +281,77 @@ const chartInfoDetails = {
                 <li>TANLd: área azul, KDBLd: verde, AODELd: morado.</li>
             </ul>
         </div>
+    `,
+    'effect-forest': `
+        <div class="tooltip-section">
+            <strong>Qué muestra</strong>
+            <ul>
+                <li>Forest plot: tamaño de efecto de cada par clasificador-método con IC 95%.</li>
+                <li>Datos de statistical_results (pipeline adversaries_final).</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Cálculo</strong>
+            <ul>
+                <li>Rank-biserial (Wilcoxon) o Cohen's d (t-test) según normalidad.</li>
+                <li>IC 95% bootstrap. Corrección Holm-Bonferroni en p-valores.</li>
+                <li>Línea vertical en 0 = sin efecto.</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Uso</strong>
+            <ul>
+                <li>Identifica qué pares tienen efectos significativos (IC no cruza 0).</li>
+                <li>Compara magnitudes de efecto entre adversarios.</li>
+            </ul>
+        </div>
+    `,
+    'pvalue-grid': `
+        <div class="tooltip-section">
+            <strong>Qué muestra</strong>
+            <ul>
+                <li>Grid de p-valores ajustados (Holm-Bonferroni) para 12 pares.</li>
+                <li>Filas: clasificadores (TAN, KDB, AODE). Columnas: métodos (MDLP, Freq, Amp, PKI).</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Cálculo</strong>
+            <ul>
+                <li>Tests: Wilcoxon signed-rank o t-test según normalidad.</li>
+                <li>N=27 datasets por par. Corrección Holm-Bonferroni sobre 12 tests.</li>
+                <li>Verde: p < 0,05 (significativo). Rojo: no significativo.</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Uso</strong>
+            <ul>
+                <li>Identifica rápidamente qué comparaciones son estadísticamente significativas.</li>
+                <li>El tamaño de burbuja es inversamente proporcional al p-valor.</li>
+            </ul>
+        </div>
+    `,
+    'scenarios-global': `
+        <div class="tooltip-section">
+            <strong>Qué muestra</strong>
+            <ul>
+                <li>Mejora pareada media de los 27 datasets, ordenados de mayor a menor.</li>
+                <li>Datos de global_patterns.dataset_patterns (pipeline adversaries_final).</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Cálculo</strong>
+            <ul>
+                <li>Cada barra = media de improvement_pct sobre 12 comparaciones (3 clf × 4 métodos).</li>
+                <li>Verde = Local mejora globalmente; rojo = Local empeora.</li>
+            </ul>
+        </div>
+        <div class="tooltip-section">
+            <strong>Uso</strong>
+            <ul>
+                <li>Visión global: en cuántos datasets Local es mejor/peor en promedio.</li>
+                <li>Complementa el forest plot con la perspectiva por dataset.</li>
+            </ul>
+        </div>
     `
 };
 // Referencia al gráfico actual
@@ -332,10 +409,16 @@ function toggleTheme() {
 }
 
 async function loadData() {
-    const response = await fetch('data/results.json');
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    state.data = await response.json();
-    console.log(`Datos cargados: ${state.data.results.length} resultados`);
+    const [resultsResponse, adversariesResponse] = await Promise.all([
+        fetch('data/results.json'),
+        fetch('data/adversaries.json')
+    ]);
+    if (!resultsResponse.ok) throw new Error(`HTTP ${resultsResponse.status} cargando results.json`);
+    if (!adversariesResponse.ok) throw new Error(`HTTP ${adversariesResponse.status} cargando adversaries.json`);
+
+    state.data = await resultsResponse.json();
+    state.adversaries = await adversariesResponse.json();
+    console.log(`Datos cargados: ${state.data.results.length} resultados, ${state.adversaries.pairwise_comparisons.length} comparaciones pareadas`);
 }
 
 function hideLoading() {
@@ -387,8 +470,9 @@ function getCheckedDiscretizers() {
 
 function updateDiscretizerFiltersVisibility() {
     const filtersDiv = document.getElementById('discretizer-filters');
-    // Mostrar filtros para box-plot, top-improvements, size-vs-improvement, heatmap y trend-cuts
-    const showFilters = ['box-plot', 'top-improvements', 'size-vs-improvement', 'heatmap', 'trend-cuts'].includes(state.chartType);
+    // Mostrar filtros de discretizadores solo para box-plot y trend-cuts
+    // (top-improvements, size-vs-improvement, heatmap ahora usan datos de adversaries_final)
+    const showFilters = ['box-plot', 'trend-cuts'].includes(state.chartType);
     filtersDiv.style.display = showFilters ? 'block' : 'none';
 
     // Ajustar disponibilidad de discretizadores según el gráfico
@@ -412,18 +496,21 @@ function updateDiscretizerFiltersVisibility() {
     const cutsSelect = document.getElementById('filter-cuts');
     const iterationsSelect = document.getElementById('filter-iterations');
     const isConfigHeatmap = state.chartType === 'config-heatmap';
+    // Gráficos que usan datos globales de adversaries (no filtran por iter/cuts)
+    const isAdversaryGlobal = ['top-improvements', 'size-vs-improvement', 'heatmap',
+        'effect-forest', 'pvalue-grid', 'scenarios-global'].includes(state.chartType);
 
     if (cutsSelect) {
-        cutsSelect.disabled = isTrend || isConfigHeatmap;
-        if (isConfigHeatmap) {
+        cutsSelect.disabled = isTrend || isConfigHeatmap || isAdversaryGlobal;
+        if (isConfigHeatmap || isAdversaryGlobal) {
             cutsSelect.value = 'all';
             state.cuts = 'all';
         }
     }
 
     if (iterationsSelect) {
-        iterationsSelect.disabled = isConfigHeatmap;
-        if (isConfigHeatmap) {
+        iterationsSelect.disabled = isConfigHeatmap || isAdversaryGlobal;
+        if (isConfigHeatmap || isAdversaryGlobal) {
             iterationsSelect.value = 'all';
             state.iterations = 'all';
         }
@@ -500,6 +587,15 @@ function renderChart() {
             break;
         case 'classifier-radar':
             renderClassifierRadarChart();
+            break;
+        case 'effect-forest':
+            renderEffectForestChart();
+            break;
+        case 'pvalue-grid':
+            renderPvalueGridChart();
+            break;
+        case 'scenarios-global':
+            renderScenariosGlobalChart();
             break;
     }
 }
@@ -819,99 +915,37 @@ function renderTrendChart() {
 }
 
 /**
- * 4. Top 15 Datasets con Mejoras (filtrado por discretizadores)
+ * 4. Top 15 Datasets: Mejora Pareada Media (desde adversaries_final)
  */
 function renderTop15Chart() {
     const ctx = document.getElementById('main-chart').getContext('2d');
-    const data = getFilteredData();
 
-    // Mapeo para identificar discretizadores
-    const discMapping = {
-        'local': { type: 'local' },
-        'mdlp': { type: 'mdlp' },
-        'equal_freq': { type: 'equal_freq' },
-        'equal_width': { type: 'equal_width' },
-        'pki': { type: 'pki' }
-    };
-
-    // Verificar si local está seleccionado
-    const hasLocal = state.discretizers.includes('local');
-    if (!hasLocal) {
-        // Si no hay local seleccionado, no podemos calcular mejoras
+    if (!state.adversaries) {
         currentChart = new Chart(ctx, {
-            type: 'bar',
-            data: { labels: [], datasets: [] },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Selecciona "Local" para ver las mejoras'
-                    }
-                }
-            }
+            type: 'bar', data: { labels: [], datasets: [] },
+            options: { responsive: true, maintainAspectRatio: false,
+                plugins: { title: { display: true, text: 'Datos de adversarios no disponibles' } } }
         });
         return;
     }
 
-    // Obtener todos los datasets únicos
-    const datasets = [...new Set(data.map(r => r.dataset))];
-
-    const datasetImprovements = [];
-
-    datasets.forEach(dataset => {
-        // Obtener resultados locales para este dataset
-        const localResults = data.filter(r =>
-            r.dataset === dataset && r.discretization_type === 'local'
-        );
-
-        if (localResults.length === 0) return;
-
-        // Obtener resultados de otros discretizadores seleccionados (excluyendo local)
-        const baseResults = data.filter(r => {
-            if (r.dataset !== dataset) return false;
-
-            return state.discretizers
-                .filter(d => d !== 'local')  // Excluir local
-                .some(disc => {
-                    const mapping = discMapping[disc];
-                    if (!mapping) return false;
-                    return r.discretization_type === mapping.type;
-                });
+    // Usar global_patterns.dataset_patterns de complementary_analysis
+    const patterns = state.adversaries.complementary_analysis?.global_patterns?.dataset_patterns;
+    if (!patterns || patterns.length === 0) {
+        currentChart = new Chart(ctx, {
+            type: 'bar', data: { labels: [], datasets: [] },
+            options: { responsive: true, maintainAspectRatio: false,
+                plugins: { title: { display: true, text: 'No hay dataset_patterns disponibles' } } }
         });
+        return;
+    }
 
-        if (baseResults.length === 0) return;
-
-        // Calcular mejora promedio de local vs mejor base
-        const improvements = [];
-        localResults.forEach(localResult => {
-            // Encontrar el mejor resultado base con las mismas características (iteraciones, puntos de corte, modelo base)
-            const matchingBases = baseResults.filter(b =>
-                b.iterations === localResult.iterations &&
-                b.cuts === localResult.cuts &&
-                b.model_base === localResult.model_base
-            );
-
-            if (matchingBases.length > 0) {
-                const bestBase = Math.max(...matchingBases.map(b => b.accuracy));
-                const improvement = (localResult.accuracy - bestBase) * 100;
-                improvements.push(improvement);
-            }
-        });
-
-        if (improvements.length > 0) {
-            const avgImprovement = improvements.reduce((a, b) => a + b, 0) / improvements.length;
-            datasetImprovements.push({ dataset, avg: avgImprovement });
-        }
-    });
-
-    // Ordenar y tomar top 15
-    datasetImprovements.sort((a, b) => b.avg - a.avg);
-    const top15 = datasetImprovements.slice(0, 15).reverse();
+    // Ordenar por mejora media y tomar top 15
+    const sorted = [...patterns].sort((a, b) => b.mean_improvement_pct - a.mean_improvement_pct);
+    const top15 = sorted.slice(0, 15).reverse();
 
     const labels = top15.map(d => d.dataset);
-    const values = top15.map(d => d.avg);
+    const values = top15.map(d => d.mean_improvement_pct);
 
     currentChart = new Chart(ctx, {
         type: 'bar',
@@ -932,13 +966,20 @@ function renderTop15Chart() {
                 legend: { display: false },
                 tooltip: {
                     callbacks: {
-                        label: (c) => `Mejora: ${c.raw >= 0 ? '+' : ''}${formatNum(c.raw)}%`
+                        label: (c) => {
+                            const idx = c.dataIndex;
+                            const d = top15[idx];
+                            return [
+                                `Mejora pareada: ${c.raw >= 0 ? '+' : ''}${formatNum(c.raw)}%`,
+                                `Positivos: ${d.n_positive}/${d.n_total} (${formatNum(d.pct_positive)}%)`
+                            ];
+                        }
                     }
                 }
             },
             scales: {
                 x: {
-                    title: { display: true, text: 'Mejora Promedio (%)' },
+                    title: { display: true, text: 'Mejora Pareada Media (%)' },
                     ticks: { callback: (v) => formatNum(v) + '%' },
                     grid: { color: (c) => c.tick.value === 0 ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.1)' }
                 }
@@ -965,96 +1006,51 @@ function renderTop15Chart() {
 }
 
 /**
- * 5. Relación Tamaño vs Mejora
+ * 5. Relación Tamaño vs Mejora Pareada (desde adversaries_final)
  */
 function renderSizeChart() {
     const ctx = document.getElementById('main-chart').getContext('2d');
-    const data = getFilteredData();
 
-    // Verificar que Local esté seleccionado
-    const hasLocal = state.discretizers.includes('local');
-    if (!hasLocal) {
+    if (!state.adversaries) {
         currentChart = new Chart(ctx, {
-            type: 'scatter',
-            data: { datasets: [] },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Este gráfico requiere que Local esté seleccionado',
-                        font: { size: 16 }
-                    }
-                }
-            }
+            type: 'scatter', data: { datasets: [] },
+            options: { responsive: true, maintainAspectRatio: false,
+                plugins: { title: { display: true, text: 'Datos de adversarios no disponibles' } } }
         });
         return;
     }
 
-    // Mapping de discretizadores
-    const discMapping = {
-        'local': { type: 'local', label: 'Local' },
-        'mdlp': { type: 'mdlp', label: 'MDLP' },
-        'equal_freq': { type: 'equal_freq', label: 'Igual Freq' },
-        'equal_width': { type: 'equal_width', label: 'Igual Amp' },
-        'pki': { type: 'pki', label: 'PKI' }
-    };
-
-    const localResults = data.filter(r => r.discretization_type === 'local' && r.samples);
-
-    // Calcular mejoras dinámicamente
-    const datasetStats = {};
-    const datasets = [...new Set(localResults.map(r => r.dataset))];
-
-    datasets.forEach(dataset => {
-        const localForDataset = localResults.filter(r => r.dataset === dataset);
-        if (localForDataset.length === 0) return;
-
-        const samples = localForDataset[0].samples;
-
-        // Obtener resultados base para comparación
-        const baseResults = data.filter(r => {
-            if (r.dataset !== dataset) return false;
-
-            return state.discretizers
-                .filter(d => d !== 'local')  // Excluir local
-                .some(disc => {
-                    const mapping = discMapping[disc];
-                    if (!mapping) return false;
-                    return r.discretization_type === mapping.type;
-                });
-        });
-
-        if (baseResults.length === 0) return;
-
-        // Calcular mejoras
-        const improvements = [];
-        localForDataset.forEach(localResult => {
-            const matchingBases = baseResults.filter(b =>
-                b.iterations === localResult.iterations &&
-                b.cuts === localResult.cuts &&
-                b.model_base === localResult.model_base
-            );
-
-            if (matchingBases.length > 0) {
-                const bestBase = Math.max(...matchingBases.map(b => b.accuracy));
-                const improvement = (localResult.accuracy - bestBase) * 100;
-                improvements.push(improvement);
-            }
-        });
-
-        if (improvements.length > 0) {
-            const avgImprovement = improvements.reduce((a, b) => a + b, 0) / improvements.length;
-            datasetStats[dataset] = { samples, imps: [avgImprovement] };
+    // Construir índice de muestras por dataset desde results.json
+    const samplesIndex = {};
+    state.data.results.forEach(r => {
+        if (r.samples && !samplesIndex[r.dataset]) {
+            samplesIndex[r.dataset] = r.samples;
         }
     });
 
-    const scatterData = Object.entries(datasetStats).map(([dataset, s]) => ({
-        x: s.samples,
-        y: s.imps.reduce((a, b) => a + b, 0) / s.imps.length,
-        dataset
-    }));
+    // Agregar mejora pareada media por dataset desde aggregated_by_dataset
+    const aggByDataset = {};
+    state.adversaries.aggregated_by_dataset.forEach(row => {
+        if (!aggByDataset[row.dataset]) aggByDataset[row.dataset] = [];
+        aggByDataset[row.dataset].push(row.improvement_pct);
+    });
+
+    const scatterData = Object.entries(aggByDataset)
+        .filter(([ds]) => samplesIndex[ds])
+        .map(([dataset, imps]) => ({
+            x: samplesIndex[dataset],
+            y: imps.reduce((a, b) => a + b, 0) / imps.length,
+            dataset
+        }));
+
+    if (scatterData.length === 0) {
+        currentChart = new Chart(ctx, {
+            type: 'scatter', data: { datasets: [] },
+            options: { responsive: true, maintainAspectRatio: false,
+                plugins: { title: { display: true, text: 'No hay datos disponibles' } } }
+        });
+        return;
+    }
 
     // Regresión logarítmica (ajuste sobre log10(x))
     const xLog = scatterData.map(d => Math.log10(d.x));
@@ -1072,19 +1068,6 @@ function renderSizeChart() {
     const trendPoints = [];
     for (let x = minX; x <= maxX; x += (maxX - minX) / 50) {
         trendPoints.push({ x, y: slope * Math.log10(x) + intercept });
-    }
-
-    // Regresión lineal simple en escala original (x sin log) para comparar
-    const xs = scatterData.map(d => d.x);
-    const sumXlin = xs.reduce((a, b) => a + b, 0);
-    const sumYlin = sumY; // ya calculado
-    const sumXYlin = xs.reduce((sum, x, i) => sum + x * y[i], 0);
-    const sumX2lin = xs.reduce((sum, x) => sum + x * x, 0);
-    const slopeLin = (n * sumXYlin - sumXlin * sumYlin) / (n * sumX2lin - sumXlin * sumXlin);
-    const interceptLin = (sumYlin - slopeLin * sumXlin) / n;
-    const trendPointsLinear = [];
-    for (let x = minX; x <= maxX; x += (maxX - minX) / 50) {
-        trendPointsLinear.push({ x, y: slopeLin * x + interceptLin });
     }
 
     currentChart = new Chart(ctx, {
@@ -1108,16 +1091,6 @@ function renderSizeChart() {
                     borderDash: [8, 4],
                     pointRadius: 0,
                     fill: false
-                },
-                {
-                    label: 'Tendencia lineal',
-                    data: trendPointsLinear,
-                    type: 'line',
-                    borderColor: 'rgba(52, 152, 219, 0.8)',
-                    borderWidth: 2,
-                    borderDash: [6, 3],
-                    pointRadius: 0,
-                    fill: false
                 }
             ]
         },
@@ -1131,7 +1104,7 @@ function renderSizeChart() {
                         label: (c) => [
                             `Dataset: ${c.raw.dataset}`,
                             `Muestras: ${c.raw.x.toLocaleString('es-ES')}`,
-                            `Mejora: ${c.raw.y >= 0 ? '+' : ''}${formatNum(c.raw.y)}%`
+                            `Mejora pareada: ${c.raw.y >= 0 ? '+' : ''}${formatNum(c.raw.y)}%`
                         ]
                     }
                 },
@@ -1146,7 +1119,7 @@ function renderSizeChart() {
                     ticks: { callback: (v) => v.toLocaleString('es-ES') }
                 },
                 y: {
-                    title: { display: true, text: 'Mejora promedio (%)' },
+                    title: { display: true, text: 'Mejora pareada media (%)' },
                     ticks: { callback: (v) => formatNum(v) + '%' },
                     grid: { color: (c) => c.tick.value === 0 ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.1)' }
                 }
@@ -1160,7 +1133,6 @@ function renderSizeChart() {
                 meta.data.forEach((pt, i) => {
                     const d = chart.data.datasets[0].data[i];
                     ctx.save();
-                    // Usar el color del tema actual (Chart.defaults.color)
                     ctx.fillStyle = Chart.defaults.color;
                     ctx.font = '10px sans-serif';
                     ctx.fillText(d.dataset, pt.x + 8, pt.y - 8);
@@ -1172,161 +1144,54 @@ function renderSizeChart() {
 }
 
 /**
- * 6. Heatmap: Comparación de Discretizadores vs Local
+ * 6. Heatmap: Mejora Pareada por Dataset y Método (desde adversaries_final)
  */
 function renderHeatmapChart() {
     const ctx = document.getElementById('main-chart').getContext('2d');
-    const data = getFilteredData();
 
-    // Verificar que Local esté seleccionado
-    const hasLocal = state.discretizers.includes('local');
-    if (!hasLocal) {
+    if (!state.adversaries) {
         currentChart = new Chart(ctx, {
-            type: 'bubble',
-            data: { datasets: [] },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Este gráfico requiere que Local esté seleccionado como base de comparación',
-                        font: { size: 16 }
-                    }
-                }
-            }
+            type: 'bubble', data: { datasets: [] },
+            options: { responsive: true, maintainAspectRatio: false,
+                plugins: { title: { display: true, text: 'Datos de adversarios no disponibles' } } }
         });
         return;
     }
 
-    // Mapeo para identificar discretizadores
-    const discMapping = {
-        'mdlp': { type: 'mdlp', label: 'MDLP' },
-        'equal_freq': { type: 'equal_freq', label: 'Igual Freq' },
-        'equal_width': { type: 'equal_width', label: 'Igual Amp' },
-        'pki': { type: 'pki', label: 'PKI' }
-    };
+    // Agregar mejora pareada por dataset × método desde aggregated_by_dataset
+    // Promediar sobre los 3 clasificadores
+    const methods = ['mdlp', 'equal_freq', 'equal_width', 'pki'];
+    const methodLabels = { 'mdlp': 'MDLP', 'equal_freq': 'Igual Freq', 'equal_width': 'Igual Amp', 'pki': 'PKI' };
+    const methodLabelsList = methods.map(m => methodLabels[m]);
 
-    // Obtener discretizadores seleccionados (excluyendo local)
-    const selectedDiscs = state.discretizers
-        .filter(d => d !== 'local' && discMapping[d])
-        .map(d => ({ key: d, ...discMapping[d] }));
-
-    if (selectedDiscs.length === 0) {
-        currentChart = new Chart(ctx, {
-            type: 'bubble',
-            data: { datasets: [] },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Selecciona al menos un discretizador además de Local para comparar',
-                        font: { size: 16 }
-                    }
-                }
-            }
-        });
-        return;
-    }
-
-    const datasetList = getUniqueDatasets();
-    const discretizerLabels = selectedDiscs.map(d => d.label);
-
-    // Calcular el MÁXIMO accuracy de Local para cada dataset
-    const localBest = {};
-    datasetList.forEach(dataset => {
-        const localResults = data.filter(r =>
-            r.dataset === dataset &&
-            r.discretization_type === 'local'
-        );
-
-        if (localResults.length > 0) {
-            // Encontrar el resultado con mayor accuracy
-            const best = localResults.reduce((max, r) =>
-                r.accuracy > max.accuracy ? r : max
-            );
-            localBest[dataset] = {
-                accuracy: best.accuracy,
-                model: best.model
-            };
-        } else {
-            localBest[dataset] = null;
-        }
+    // Indexar: {dataset: {method: [improvement_pct, ...]}}
+    const aggIndex = {};
+    state.adversaries.aggregated_by_dataset.forEach(row => {
+        if (!aggIndex[row.dataset]) aggIndex[row.dataset] = {};
+        if (!aggIndex[row.dataset][row.discretization_method]) aggIndex[row.dataset][row.discretization_method] = [];
+        aggIndex[row.dataset][row.discretization_method].push(row.improvement_pct);
     });
 
-    // Calcular diferencias vs Local para cada combinación dataset-discretizador
-    const differences = {};
-    datasetList.forEach(dataset => {
-        differences[dataset] = {};
-
-        selectedDiscs.forEach(disc => {
-            let results;
-
-            // Para todos los discretizadores
-            results = data.filter(r =>
-                r.dataset === dataset &&
-                r.discretization_type === disc.type
-            );
-
-            if (results.length > 0 && localBest[dataset] !== null) {
-                // Encontrar el MÁXIMO accuracy para este discretizador
-                const best = results.reduce((max, r) =>
-                    r.accuracy > max.accuracy ? r : max
-                );
-
-                // Diferencia en puntos porcentuales
-                const diff = (best.accuracy - localBest[dataset].accuracy) * 100;
-                differences[dataset][disc.label] = {
-                    diff: diff,
-                    model: best.model,
-                    accuracy: best.accuracy * 100,
-                    localModel: localBest[dataset].model,
-                    localAccuracy: localBest[dataset].accuracy * 100
-                };
-            } else {
-                differences[dataset][disc.label] = null;
-            }
-        });
-    });
+    const datasetList = Object.keys(aggIndex).sort();
 
     // Crear datos de burbujas
     const bubbleData = datasetList.flatMap((dataset, yIdx) =>
-        discretizerLabels.map((discLabel, xIdx) => {
-            const diffData = differences[dataset][discLabel];
-            if (diffData === null) return null;
-
+        methods.map((method, xIdx) => {
+            const imps = aggIndex[dataset]?.[method];
+            if (!imps || imps.length === 0) return null;
+            const avgImp = imps.reduce((a, b) => a + b, 0) / imps.length;
             return {
-                x: xIdx,
-                y: yIdx,
-                r: 8,
-                value: diffData.diff,
-                dataset,
-                discretizer: discLabel,
-                model: diffData.model,
-                accuracy: diffData.accuracy,
-                localModel: diffData.localModel,
-                localAccuracy: diffData.localAccuracy
+                x: xIdx, y: yIdx, r: 8,
+                value: avgImp, dataset, method: methodLabels[method]
             };
         }).filter(d => d !== null)
     );
 
     if (bubbleData.length === 0) {
         currentChart = new Chart(ctx, {
-            type: 'bubble',
-            data: { datasets: [] },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'No hay datos disponibles para la comparación',
-                        font: { size: 16 }
-                    }
-                }
-            }
+            type: 'bubble', data: { datasets: [] },
+            options: { responsive: true, maintainAspectRatio: false,
+                plugins: { title: { display: true, text: 'No hay datos disponibles' } } }
         });
         return;
     }
@@ -1337,27 +1202,17 @@ function renderHeatmapChart() {
             datasets: [{
                 data: bubbleData,
                 backgroundColor: bubbleData.map(d => {
-                    // Verde si es mejor que Local (valor positivo)
-                    // Rojo si es peor que Local (valor negativo)
                     if (d.value > 0) {
-                        // Verde con intensidad según la magnitud
-                        const intensity = Math.min(Math.abs(d.value) / 5, 1); // Normalizar a máx 5%
+                        const intensity = Math.min(Math.abs(d.value) / 10, 1);
                         const g = Math.round(204 * (0.5 + intensity * 0.5));
                         return `rgba(46, ${g}, 113, 0.7)`;
                     } else {
-                        // Rojo con intensidad según la magnitud
-                        const intensity = Math.min(Math.abs(d.value) / 5, 1); // Normalizar a máx 5%
+                        const intensity = Math.min(Math.abs(d.value) / 10, 1);
                         const r = Math.round(231 * (0.5 + intensity * 0.5));
                         return `rgba(${r}, 76, 60, 0.7)`;
                     }
                 }),
-                borderColor: bubbleData.map(d => {
-                    if (d.value > 0) {
-                        return 'rgb(39, 174, 96)';
-                    } else {
-                        return 'rgb(192, 57, 43)';
-                    }
-                }),
+                borderColor: bubbleData.map(d => d.value > 0 ? 'rgb(39, 174, 96)' : 'rgb(192, 57, 43)'),
                 borderWidth: 2
             }]
         },
@@ -1370,14 +1225,8 @@ function renderHeatmapChart() {
                     callbacks: {
                         label: (c) => [
                             `Dataset: ${c.raw.dataset}`,
-                            ``,
-                            `${c.raw.discretizer}: ${c.raw.model}`,
-                            `Accuracy: ${formatNum(c.raw.accuracy)}%`,
-                            ``,
-                            `Local: ${c.raw.localModel}`,
-                            `Accuracy: ${formatNum(c.raw.localAccuracy)}%`,
-                            ``,
-                            `Diferencia: ${c.raw.value >= 0 ? '+' : ''}${formatNum(c.raw.value)} pp`
+                            `Método: ${c.raw.method}`,
+                            `Mejora pareada: ${c.raw.value >= 0 ? '+' : ''}${formatNum(c.raw.value)}%`
                         ]
                     }
                 }
@@ -1385,51 +1234,25 @@ function renderHeatmapChart() {
             scales: {
                 x: {
                     type: 'linear',
-                    min: -0.5,
-                    max: discretizerLabels.length - 0.5,
+                    min: -0.5, max: methods.length - 0.5,
                     ticks: {
                         stepSize: 1,
-                        callback: function(value, index, ticks) {
-                            const idx = Math.round(value);
-                            return discretizerLabels[idx] || '';
-                        },
+                        callback: (v) => methodLabelsList[Math.round(v)] || '',
                         font: { size: 12, weight: 'bold' },
-                        autoSkip: false,
-                        maxRotation: 0,
-                        minRotation: 0
+                        autoSkip: false, maxRotation: 0
                     },
-                    grid: {
-                        display: true,
-                        drawOnChartArea: false,
-                        drawTicks: true,
-                        tickLength: 8
-                    },
-                    title: {
-                        display: true,
-                        text: 'Discretizadores',
-                        font: { size: 13, weight: 'bold' }
-                    },
-                    afterBuildTicks: function(axis) {
-                        axis.ticks = [];
-                        for (let i = 0; i < discretizerLabels.length; i++) {
-                            axis.ticks.push({ value: i });
-                        }
-                    }
+                    grid: { display: true, drawOnChartArea: false, drawTicks: true, tickLength: 8 },
+                    title: { display: true, text: 'Método de Discretización', font: { size: 13, weight: 'bold' } },
+                    afterBuildTicks: (axis) => { axis.ticks = methods.map((_, i) => ({ value: i })); }
                 },
                 y: {
-                    min: -0.5,
-                    max: datasetList.length - 0.5,
+                    min: -0.5, max: datasetList.length - 0.5,
                     ticks: {
                         stepSize: 1,
                         callback: (v) => datasetList[Math.round(v)] || '',
-                        font: { size: 10 },
-                        align: 'end'
+                        font: { size: 10 }, align: 'end'
                     },
-                    title: {
-                        display: true,
-                        text: 'Datasets',
-                        font: { size: 13, weight: 'bold' }
-                    }
+                    title: { display: true, text: 'Datasets', font: { size: 13, weight: 'bold' } }
                 }
             }
         }
@@ -1844,5 +1667,347 @@ function renderClassifierRadarChart() {
                 }
             }
         }
+    });
+}
+
+/**
+ * 10. Forest Plot: Tamaños de Efecto con IC 95%
+ * Muestra el efecto de cada par clasificador-método con intervalos de confianza
+ */
+function renderEffectForestChart() {
+    const ctx = document.getElementById('main-chart').getContext('2d');
+
+    if (!state.adversaries?.statistical_results) {
+        currentChart = new Chart(ctx, {
+            type: 'bar', data: { labels: [], datasets: [] },
+            options: { responsive: true, maintainAspectRatio: false,
+                plugins: { title: { display: true, text: 'Datos estadísticos no disponibles' } } }
+        });
+        return;
+    }
+
+    const results = state.adversaries.statistical_results;
+    const entries = Object.entries(results).map(([key, val]) => ({
+        label: `${val.classifier} vs ${discTypeLabels[val.discretization_method] || val.discretization_method}`,
+        effect: val.effect_size.value,
+        ciLower: val.effect_size.ci_lower,
+        ciUpper: val.effect_size.ci_upper,
+        interpretation: val.effect_size.interpretation,
+        type: val.effect_size.type,
+        pAdj: val.statistical_test.pvalue_adjusted,
+        classifier: val.classifier
+    }));
+
+    // Ordenar por tamaño de efecto descendente
+    entries.sort((a, b) => b.effect - a.effect);
+
+    const labels = entries.map(e => e.label);
+    const effectValues = entries.map(e => e.effect);
+    const errorBarsLow = entries.map(e => e.effect - e.ciLower);
+    const errorBarsHigh = entries.map(e => e.ciUpper - e.effect);
+
+    // Colores por clasificador
+    const clfColorMap = { 'TAN': chartColors.TAN, 'KDB': chartColors.KDB, 'AODE': chartColors.AODE };
+    const bgColors = entries.map(e => clfColorMap[e.classifier]?.bg || 'rgba(128,128,128,0.7)');
+    const borderClrs = entries.map(e => clfColorMap[e.classifier]?.border || 'rgb(128,128,128)');
+
+    currentChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [{
+                label: 'Tamaño de Efecto',
+                data: effectValues,
+                backgroundColor: bgColors,
+                borderColor: borderClrs,
+                borderWidth: 2,
+                errorBars: { low: errorBarsLow, high: errorBarsHigh }
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: 'y',
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: (c) => {
+                            const e = entries[c.dataIndex];
+                            return [
+                                `Efecto: ${formatNum(e.effect, 3)} (${e.interpretation})`,
+                                `IC 95%: [${formatNum(e.ciLower, 3)}, ${formatNum(e.ciUpper, 3)}]`,
+                                `Tipo: ${e.type}`,
+                                `p-ajustado: ${e.pAdj < 0.001 ? '<0,001' : formatNum(e.pAdj, 3)}`
+                            ];
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: { display: true, text: 'Tamaño de Efecto' },
+                    grid: { color: (c) => c.tick.value === 0 ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.1)' }
+                },
+                y: {
+                    ticks: { font: { size: 11 } }
+                }
+            }
+        },
+        plugins: [{
+            id: 'errorBars',
+            afterDatasetsDraw: (chart) => {
+                const ctx = chart.ctx;
+                const meta = chart.getDatasetMeta(0);
+                const xScale = chart.scales.x;
+
+                meta.data.forEach((bar, i) => {
+                    const e = entries[i];
+                    const xLow = xScale.getPixelForValue(e.ciLower);
+                    const xHigh = xScale.getPixelForValue(e.ciUpper);
+                    const yCenter = bar.y;
+
+                    ctx.save();
+                    ctx.strokeStyle = borderClrs[i];
+                    ctx.lineWidth = 2;
+
+                    // Línea horizontal del IC
+                    ctx.beginPath();
+                    ctx.moveTo(xLow, yCenter);
+                    ctx.lineTo(xHigh, yCenter);
+                    ctx.stroke();
+
+                    // Caps
+                    const capHeight = 6;
+                    ctx.beginPath();
+                    ctx.moveTo(xLow, yCenter - capHeight);
+                    ctx.lineTo(xLow, yCenter + capHeight);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(xHigh, yCenter - capHeight);
+                    ctx.lineTo(xHigh, yCenter + capHeight);
+                    ctx.stroke();
+
+                    ctx.restore();
+                });
+            }
+        }]
+    });
+}
+
+/**
+ * 11. Grid de P-valores Ajustados (3 clf × 4 métodos)
+ */
+function renderPvalueGridChart() {
+    const ctx = document.getElementById('main-chart').getContext('2d');
+
+    if (!state.adversaries?.statistical_results) {
+        currentChart = new Chart(ctx, {
+            type: 'bubble', data: { datasets: [] },
+            options: { responsive: true, maintainAspectRatio: false,
+                plugins: { title: { display: true, text: 'Datos estadísticos no disponibles' } } }
+        });
+        return;
+    }
+
+    const classifiers = ['TAN', 'KDB', 'AODE'];
+    const methods = ['mdlp', 'equal_freq', 'equal_width', 'pki'];
+    const methodLabels = ['MDLP', 'Igual Freq', 'Igual Amp', 'PKI'];
+    const results = state.adversaries.statistical_results;
+
+    const bubbleData = [];
+    classifiers.forEach((clf, yIdx) => {
+        methods.forEach((method, xIdx) => {
+            const key = `${clf}_vs_${method}`;
+            const entry = results[key];
+            if (!entry) return;
+
+            const pAdj = entry.statistical_test.pvalue_adjusted;
+            const significant = pAdj < 0.05;
+            // Tamaño inversamente proporcional al p-valor (mayor burbuja = más significativo)
+            const radius = significant ? Math.max(8, 20 - pAdj * 100) : 8;
+
+            bubbleData.push({
+                x: xIdx, y: yIdx, r: radius,
+                pAdj, significant,
+                testName: entry.statistical_test.name,
+                pRaw: entry.statistical_test.pvalue,
+                effect: entry.effect_size.value,
+                effectInterp: entry.effect_size.interpretation,
+                classifier: clf, method: methodLabels[xIdx]
+            });
+        });
+    });
+
+    currentChart = new Chart(ctx, {
+        type: 'bubble',
+        data: {
+            datasets: [{
+                data: bubbleData,
+                backgroundColor: bubbleData.map(d =>
+                    d.significant ? 'rgba(46, 204, 113, 0.7)' : 'rgba(231, 76, 60, 0.5)'
+                ),
+                borderColor: bubbleData.map(d =>
+                    d.significant ? 'rgb(39, 174, 96)' : 'rgb(192, 57, 43)'
+                ),
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: (c) => {
+                            const d = c.raw;
+                            return [
+                                `${d.classifier} vs ${d.method}`,
+                                `p-ajustado: ${d.pAdj < 0.001 ? '<0,001' : formatNum(d.pAdj, 4)}`,
+                                `p-raw: ${formatNum(d.pRaw, 4)}`,
+                                `Test: ${d.testName}`,
+                                `Efecto: ${formatNum(d.effect, 3)} (${d.effectInterp})`,
+                                d.significant ? 'SIGNIFICATIVO' : 'No significativo'
+                            ];
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    min: -0.5, max: methods.length - 0.5,
+                    ticks: {
+                        stepSize: 1,
+                        callback: (v) => methodLabels[Math.round(v)] || '',
+                        font: { size: 12, weight: 'bold' }
+                    },
+                    title: { display: true, text: 'Método de Discretización', font: { weight: 'bold' } },
+                    afterBuildTicks: (axis) => { axis.ticks = methods.map((_, i) => ({ value: i })); }
+                },
+                y: {
+                    min: -0.5, max: classifiers.length - 0.5,
+                    ticks: {
+                        stepSize: 1,
+                        callback: (v) => classifiers[Math.round(v)] || '',
+                        font: { size: 12, weight: 'bold' }
+                    },
+                    title: { display: true, text: 'Clasificador', font: { weight: 'bold' } },
+                    afterBuildTicks: (axis) => { axis.ticks = classifiers.map((_, i) => ({ value: i })); }
+                }
+            }
+        },
+        plugins: [{
+            id: 'pvalueLabels',
+            afterDatasetsDraw: (chart) => {
+                const ctx = chart.ctx;
+                const meta = chart.getDatasetMeta(0);
+                meta.data.forEach((bubble, i) => {
+                    const d = chart.data.datasets[0].data[i];
+                    ctx.save();
+                    ctx.fillStyle = d.significant ? '#1a5e2e' : '#8b1a1a';
+                    ctx.font = 'bold 10px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    const pStr = d.pAdj < 0.001 ? '<0,001' : formatNum(d.pAdj, 3);
+                    ctx.fillText(pStr, bubble.x, bubble.y);
+                    ctx.restore();
+                });
+            }
+        }]
+    });
+}
+
+/**
+ * 12. Escenarios Globales: 27 Datasets ordenados por Mejora Pareada
+ */
+function renderScenariosGlobalChart() {
+    const ctx = document.getElementById('main-chart').getContext('2d');
+
+    if (!state.adversaries) {
+        currentChart = new Chart(ctx, {
+            type: 'bar', data: { labels: [], datasets: [] },
+            options: { responsive: true, maintainAspectRatio: false,
+                plugins: { title: { display: true, text: 'Datos de adversarios no disponibles' } } }
+        });
+        return;
+    }
+
+    const patterns = state.adversaries.complementary_analysis?.global_patterns?.dataset_patterns;
+    if (!patterns || patterns.length === 0) {
+        currentChart = new Chart(ctx, {
+            type: 'bar', data: { labels: [], datasets: [] },
+            options: { responsive: true, maintainAspectRatio: false,
+                plugins: { title: { display: true, text: 'No hay dataset_patterns disponibles' } } }
+        });
+        return;
+    }
+
+    // Ordenar todos los 27 datasets por mejora
+    const sorted = [...patterns].sort((a, b) => b.mean_improvement_pct - a.mean_improvement_pct);
+
+    const labels = sorted.map(d => d.dataset);
+    const values = sorted.map(d => d.mean_improvement_pct);
+
+    currentChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [{
+                data: values,
+                backgroundColor: values.map(v => v >= 0 ? 'rgba(46, 204, 113, 0.8)' : 'rgba(231, 76, 60, 0.8)'),
+                borderColor: values.map(v => v >= 0 ? 'rgb(39, 174, 96)' : 'rgb(192, 57, 43)'),
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: (c) => {
+                            const d = sorted[c.dataIndex];
+                            return [
+                                `Mejora pareada: ${c.raw >= 0 ? '+' : ''}${formatNum(c.raw)}%`,
+                                `Positivos: ${d.n_positive}/${d.n_total} (${formatNum(d.pct_positive)}%)`
+                            ];
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        maxRotation: 90,
+                        minRotation: 45,
+                        font: { size: 10 }
+                    }
+                },
+                y: {
+                    title: { display: true, text: 'Mejora Pareada Media (%)' },
+                    ticks: { callback: (v) => formatNum(v) + '%' },
+                    grid: { color: (c) => c.tick.value === 0 ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.1)' }
+                }
+            }
+        },
+        plugins: [{
+            id: 'barLabels',
+            afterDatasetsDraw: (chart) => {
+                const ctx = chart.ctx;
+                const meta = chart.getDatasetMeta(0);
+                meta.data.forEach((bar, i) => {
+                    const val = chart.data.datasets[0].data[i];
+                    ctx.save();
+                    ctx.fillStyle = val >= 0 ? 'rgb(39, 174, 96)' : 'rgb(192, 57, 43)';
+                    ctx.font = 'bold 9px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = val >= 0 ? 'bottom' : 'top';
+                    ctx.fillText(`${val >= 0 ? '+' : ''}${formatNum(val, 1)}`, bar.x, val >= 0 ? bar.y - 3 : bar.y + 3);
+                    ctx.restore();
+                });
+            }
+        }]
     });
 }

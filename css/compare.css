@@ -351,6 +351,17 @@
     border-top: 1px solid var(--border-color);
 }
 
+.summary-row.stat {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.summary-row.stat:first-of-type {
+    margin-top: var(--spacing-xs);
+    padding-top: var(--spacing-xs);
+    border-top: 1px dashed var(--border-color);
+}
+
 /* Charts Section */
 .charts-section {
     background: var(--card-bg);

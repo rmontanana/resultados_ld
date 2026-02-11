@@ -1,5 +1,6 @@
 /**
  * Aplicación de visualización de resultados de discretización local
+ * Marco estadístico: comparaciones pareadas independientes (adversaries_final)
  */
 
 // Función para formatear números con coma decimal
@@ -34,6 +35,7 @@ function toggleTheme() {
 // Estado global de la aplicación (window.state para acceso desde charts.js)
 window.state = {
     data: null,
+    adversaries: null,
     filteredData: [],
     currentPage: 1,
     pageSize: 50,
@@ -91,12 +93,31 @@ async function init() {
 }
 
 async function loadData() {
-    const response = await fetch('data/results.json');
-    if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-    }
-    state.data = await response.json();
-    console.log(`Datos cargados: ${state.data.results.length} resultados`);
+    const [resultsResponse, adversariesResponse] = await Promise.all([
+        fetch('data/results.json'),
+        fetch('data/adversaries.json')
+    ]);
+    if (!resultsResponse.ok) throw new Error(`HTTP ${resultsResponse.status} cargando results.json`);
+    if (!adversariesResponse.ok) throw new Error(`HTTP ${adversariesResponse.status} cargando adversaries.json`);
+
+    state.data = await resultsResponse.json();
+    state.adversaries = await adversariesResponse.json();
+
+    // Construir índice de comparaciones pareadas para lookups rápidos
+    buildPairwiseIndex();
+
+    console.log(`Datos cargados: ${state.data.results.length} resultados, ${state.adversaries.pairwise_comparisons.length} comparaciones pareadas`);
+}
+
+// Índice: "dataset|classifier|method|iterations|cuts" -> {improvement_pct, diff, ...}
+let pairwiseIndex = {};
+
+function buildPairwiseIndex() {
+    pairwiseIndex = {};
+    state.adversaries.pairwise_comparisons.forEach(row => {
+        const key = `${row.dataset}|${row.classifier}|${row.discretization_method}|${row.iterations}|${row.cuts}`;
+        pairwiseIndex[key] = row;
+    });
 }
 
 function hideLoading() {
@@ -236,46 +257,36 @@ function applyFilters() {
 
     // Filtrar por búsqueda, iteraciones, cortes, modelo base y discretización
     let interim = state.data.results.filter(r => {
-        // Filtro de búsqueda
         if (state.filters.search && !r.dataset.toLowerCase().includes(state.filters.search)) {
             return false;
         }
-
-        // Filtro de iteraciones
         if (!state.filters.iterations.includes(r.iterations)) {
             return false;
         }
-
-        // Filtro de puntos de corte
         if (!state.filters.cuts.includes(r.cuts)) {
             return false;
         }
-
-        // Filtro de modelo base
         if (!state.filters.model_base.includes(r.model_base)) {
             return false;
         }
-
-        // Filtro de tipo de discretización
         if (!state.filters.disc_type.includes(r.discretization_type)) {
             return false;
         }
-
         return true;
     });
 
-    // Clonar para no mutar los datos originales al recalcular mejoras
+    // Clonar para no mutar los datos originales
     interim = interim.map(r => ({ ...r }));
 
-    // Recalcular mejoras dinámicamente según filtros actuales
-    recomputeImprovements(interim);
+    // Enriquecer resultados locales con mejora pareada media desde adversaries.json
+    enrichWithAdversarialImprovement(interim);
 
-    // Aplicar filtro "solo mejoras" sobre los valores recalculados
+    // Aplicar filtro "solo mejoras" sobre los valores de mejora pareada
     if (state.filters.onlyImprovements) {
         interim = interim.filter(r =>
             r.discretization_type === 'local' &&
-            r.improvement_vs_base !== undefined &&
-            r.improvement_vs_base > 0
+            r.paired_improvement !== undefined &&
+            r.paired_improvement > 0
         );
     }
 
@@ -290,44 +301,31 @@ function applyFilters() {
     updatePagination();
 }
 
-// Recalcula improvement_vs_base para resultados locales considerando el conjunto filtrado actual
-function recomputeImprovements(list) {
-    // Agrupar por dataset, iteraciones, cortes y modelo_base
-    const groups = {};
+/**
+ * Enriquece resultados locales con mejora pareada media.
+ * Para cada resultado local (dataset, classifier, iterations, cuts),
+ * busca TODAS las comparaciones pareadas contra cada adversario
+ * y calcula la mejora media sobre todos ellos.
+ */
+function enrichWithAdversarialImprovement(list) {
+    const adversaryMethods = ['mdlp', 'equal_freq', 'equal_width', 'pki'];
+
     list.forEach(r => {
-        const key = `${r.dataset}|${r.iterations}|${r.cuts}|${r.model_base}`;
-        if (!groups[key]) groups[key] = [];
-        groups[key].push(r);
-    });
+        if (r.discretization_type !== 'local') return;
 
-    Object.values(groups).forEach(group => {
-        // Bases disponibles dentro del grupo (excluye local)
-        const baseResults = group.filter(x => x.discretization_type !== 'local');
-        if (baseResults.length === 0) {
-            // Sin base válida bajo filtros: limpiar mejoras de locales
-            group.forEach(x => {
-                if (x.discretization_type === 'local') {
-                    x.improvement_vs_base = undefined;
-                    x.best_base_model = undefined;
-                    x.best_base_accuracy = undefined;
-                }
-            });
-            return;
-        }
-
-        // Mejor base por accuracy
-        const bestBase = baseResults.reduce((best, curr) =>
-            (!best || curr.accuracy > best.accuracy) ? curr : best, null);
-
-        // Asignar mejora a cada local del grupo
-        group.forEach(x => {
-            if (x.discretization_type === 'local') {
-                const improvement = (x.accuracy - bestBase.accuracy) * 100;
-                x.improvement_vs_base = Number(improvement.toFixed(2));
-                x.best_base_model = bestBase.model;
-                x.best_base_accuracy = bestBase.accuracy;
+        const improvements = [];
+        adversaryMethods.forEach(method => {
+            const key = `${r.dataset}|${r.model_base}|${method}|${r.iterations}|${r.cuts}`;
+            const pair = pairwiseIndex[key];
+            if (pair) {
+                improvements.push(pair.improvement_pct);
             }
         });
+
+        if (improvements.length > 0) {
+            r.paired_improvement = improvements.reduce((a, b) => a + b, 0) / improvements.length;
+            r.paired_n_adversaries = improvements.length;
+        }
     });
 }
 
@@ -340,8 +338,8 @@ function sortData() {
         let valB = b[col];
 
         // Manejar valores undefined
-        if (valA === undefined) valA = col === 'improvement_vs_base' ? -999 : '';
-        if (valB === undefined) valB = col === 'improvement_vs_base' ? -999 : '';
+        if (valA === undefined) valA = col === 'paired_improvement' ? -999 : '';
+        if (valB === undefined) valB = col === 'paired_improvement' ? -999 : '';
 
         // Comparar
         if (typeof valA === 'number' && typeof valB === 'number') {
@@ -375,7 +373,7 @@ function renderTable() {
             <td><span class="badge ${discTypeBadges[r.discretization_type] || 'badge-base'}">${discTypeLabels[r.discretization_type] || r.discretization_type}</span></td>
             <td class="num">${formatNumber(r.accuracy * 100)}%</td>
             <td class="num">${formatNumber(r.std * 100)}%</td>
-            <td class="num">${formatImprovement(r.improvement_vs_base)}</td>
+            <td class="num">${formatImprovement(r.paired_improvement)}</td>
             <td class="num">${r.samples || '-'}</td>
             <td class="num">${r.features || '-'}</td>
         </tr>
@@ -399,7 +397,7 @@ function updateStats() {
 
     if (total === 0) {
         document.getElementById('stat-avg-accuracy').textContent = '0%';
-        document.getElementById('stat-improvements').textContent = '0';
+        document.getElementById('stat-improvements').textContent = '-';
         document.getElementById('stat-best-accuracy').textContent = '0%';
         return;
     }
@@ -408,11 +406,17 @@ function updateStats() {
     const avgAccuracy = state.filteredData.reduce((sum, r) => sum + r.accuracy, 0) / total;
     document.getElementById('stat-avg-accuracy').textContent = formatNumber(avgAccuracy * 100) + '%';
 
-    // Conteo de mejoras locales
-    const improvements = state.filteredData.filter(r =>
-        r.discretization_type === 'local' && r.improvement_vs_base > 0
-    ).length;
-    document.getElementById('stat-improvements').textContent = improvements;
+    // Tasa de victoria: % de resultados locales con mejora pareada > 0
+    const localResults = state.filteredData.filter(r =>
+        r.discretization_type === 'local' && r.paired_improvement !== undefined
+    );
+    if (localResults.length > 0) {
+        const wins = localResults.filter(r => r.paired_improvement > 0).length;
+        const winRate = (wins / localResults.length * 100).toFixed(0);
+        document.getElementById('stat-improvements').textContent = `${winRate}% (${wins}/${localResults.length})`;
+    } else {
+        document.getElementById('stat-improvements').textContent = '-';
+    }
 
     // Mejor accuracy
     const bestAccuracy = Math.max(...state.filteredData.map(r => r.accuracy));
@@ -436,7 +440,7 @@ function exportCSV() {
 
     const headers = [
         'Dataset', 'Iteraciones', 'Cortes', 'Modelo', 'Modelo Base',
-        'Tipo Discretización', 'Accuracy', 'Std', 'Mejora vs Base',
+        'Tipo Discretización', 'Accuracy', 'Std', 'Mejora Pareada Media',
         'Muestras', 'Características', 'Clases', 'Mejor en Grupo'
     ];
 
@@ -449,7 +453,7 @@ function exportCSV() {
         r.discretization_type,
         r.accuracy,
         r.std,
-        r.improvement_vs_base || '',
+        r.paired_improvement !== undefined ? r.paired_improvement.toFixed(4) : '',
         r.samples || '',
         r.features || '',
         r.classes || '',

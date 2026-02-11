@@ -12,7 +12,9 @@ const state = {
     model: '',
     messages: [],
     resultsData: null,
-    fullContextData: { sizeBytes: null, content: null, tokens: null },
+    adversariesData: null,
+    compactResults: { sizeBytes: null, content: null },
+    compactAdversaries: { sizeBytes: null, content: null },
     includeContext: true,
     includeFullContext: false,
     isLoading: false,
@@ -28,22 +30,26 @@ const CONFIG = {
 // Inicialización
 document.addEventListener('DOMContentLoaded', async () => {
     await loadResultsData();
-    await loadFullContextFile();
+    await loadCompactFiles();
     setupEventListeners();
     await checkOllamaConnection();
     updateUI();
 });
 
 /**
- * Cargar datos de resultados
+ * Cargar datos de resultados y adversarios
  */
 async function loadResultsData() {
     try {
-        const response = await fetch('data/results.json');
-        state.resultsData = await response.json();
+        const [resultsResponse, adversariesResponse] = await Promise.all([
+            fetch('data/results.json'),
+            fetch('data/adversaries.json')
+        ]);
+        state.resultsData = await resultsResponse.json();
+        state.adversariesData = await adversariesResponse.json();
         updateContextStats();
     } catch (error) {
-        console.error('Error cargando resultados:', error);
+        console.error('Error cargando datos:', error);
     }
 }
 
@@ -276,27 +282,27 @@ function updateContextStats() {
 }
 
 /**
- * Cargar archivo compacto con todos los resultados
+ * Cargar archivos compactos con resultados y análisis estadístico
  */
-async function loadFullContextFile() {
-    try {
-        const response = await fetch('data/results_compact.txt');
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
-        }
-        const content = await response.text();
-        const sizeBytes = new Blob([content]).size;
-        const estimatedTokens = Math.ceil(sizeBytes / 4);
-        state.fullContextData = {
-            sizeBytes,
-            content,
-            tokens: estimatedTokens
-        };
-    } catch (error) {
-        console.error('No se pudo cargar results_compact.txt:', error);
-        state.fullContextData = { sizeBytes: null, content: null, tokens: null, error: error.message };
-    }
+async function loadCompactFiles() {
+    const files = [
+        { key: 'compactResults', url: 'data/results_compact.txt' },
+        { key: 'compactAdversaries', url: 'data/adversaries_compact.txt' }
+    ];
 
+    const fetches = files.map(async ({ key, url }) => {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const content = await response.text();
+            state[key] = { sizeBytes: new Blob([content]).size, content };
+        } catch (error) {
+            console.error(`No se pudo cargar ${url}:`, error);
+            state[key] = { sizeBytes: null, content: null, error: error.message };
+        }
+    });
+
+    await Promise.all(fetches);
     updateFullContextInfo();
 }
 
@@ -307,13 +313,17 @@ function updateFullContextInfo() {
     const sizeEl = document.getElementById('full-context-size');
     const tokensEl = document.getElementById('full-context-tokens');
 
-    if (state.fullContextData?.sizeBytes) {
-        const fileSize = formatBytes(state.fullContextData.sizeBytes);
-        const tokens = state.fullContextData.tokens;
-        if (sizeEl) sizeEl.textContent = fileSize;
-        if (tokensEl) tokensEl.textContent = `~${(tokens/1000).toFixed(0)}K tokens`;
+    const sizeResults = state.compactResults?.sizeBytes || 0;
+    const sizeAdv = state.compactAdversaries?.sizeBytes || 0;
+    const totalBytes = sizeResults + sizeAdv;
+
+    if (totalBytes > 0) {
+        const estimatedTokens = Math.ceil(totalBytes / 4);
+        if (sizeEl) sizeEl.textContent = formatBytes(totalBytes);
+        if (tokensEl) tokensEl.textContent = `~${(estimatedTokens/1000).toFixed(0)}K tokens`;
     } else {
-        if (sizeEl) sizeEl.textContent = state.fullContextData?.error ? 'Error' : '...';
+        const hasError = state.compactResults?.error || state.compactAdversaries?.error;
+        if (sizeEl) sizeEl.textContent = hasError ? 'Error' : '...';
         if (tokensEl) tokensEl.textContent = '...';
     }
 }
@@ -455,15 +465,17 @@ function buildSystemPrompt() {
     let prompt = `Eres un asistente experto en análisis de datos de experimentos de Machine Learning.
 
 Estás analizando resultados de experimentos que comparan técnicas de discretización en clasificadores bayesianos:
-- Clasificadores base: TAN, KDB, AODE
-- Variantes con discretización local: TANLd, KDBLd, AODELd
-- Métodos de discretización: MDLP, Equal Width (bin-u), Equal Frequency (bin-q), PKI
+- Clasificadores base: TAN, KDB, AODE (con discretización a priori)
+- Variantes con discretización local: TANLd, KDBLd, AODELd (propuesta iterativa)
+- Métodos de discretización base (adversarios): MDLP, Equal Frequency (bin-q), Equal Width (bin-u), PKI
 
 Los experimentos evalúan:
 - 27 datasets diferentes
 - Configuraciones con 10 y 100 iteraciones máximas
 - Puntos de corte: 3, 4, 5 e ilimitado
-- Métrica principal: Accuracy
+- Métrica principal: Accuracy (validación cruzada estratificada 5-fold, 3 repeticiones)
+
+Marco estadístico: Comparaciones pareadas independientes. Cada clasificador local se compara contra cada método base por separado (3 clasificadores × 4 métodos = 12 adversarios), con N=27 observaciones por adversario, tests de Wilcoxon/t-test, tamaños de efecto (rank-biserial/Cohen's d) y corrección de Holm-Bonferroni.
 
 Tu rol es ayudar a interpretar los resultados, identificar patrones, comparar rendimientos
 y responder preguntas sobre los experimentos de forma clara y concisa en español.`;
@@ -483,6 +495,7 @@ function buildContext() {
 
     const results = state.resultsData.results || [];
     const metadata = state.resultsData.metadata || {};
+    const adv = state.adversariesData;
 
     // Resumen estadístico
     let context = `RESUMEN DE DATOS:
@@ -504,37 +517,59 @@ function buildContext() {
         }
     });
 
-    // Mejoras de discretización local
-    context += '\nMEJORAS DE DISCRETIZACIÓN LOCAL:\n';
-    const localResults = results.filter(r => r.discretization_type === 'local');
-    const improvements = localResults.filter(r => r.improvement_vs_base > 0);
-    const avgImprovement = improvements.length > 0
-        ? improvements.reduce((sum, r) => sum + r.improvement_vs_base, 0) / improvements.length
-        : 0;
+    // Resumen de comparaciones pareadas (desde adversaries_final)
+    if (adv) {
+        const profile = adv.integrated_profile;
+        if (profile) {
+            context += `\nRESUMEN GLOBAL DE COMPARACIONES PAREADAS:
+- Marco estadístico: Comparaciones pareadas independientes (3 clf × 4 métodos = 12 adversarios)
+- N = 27 datasets por adversario
+- Total victorias Local: ${profile.total_wins || '-'} / Total derrotas: ${profile.total_losses || '-'}
+- % victorias: ${profile.pct_wins?.toFixed(1) || '-'}%
+`;
+        }
 
-    context += `- Casos con mejora: ${improvements.length} de ${localResults.length} (${(improvements.length/localResults.length*100).toFixed(1)}%)\n`;
-    context += `- Mejora promedio (cuando mejora): ${avgImprovement.toFixed(2)}%\n`;
+        // Resultados estadísticos por adversario
+        if (adv.statistical_results) {
+            context += '\nRESULTADOS ESTADÍSTICOS POR ADVERSARIO:\n';
+            Object.entries(adv.statistical_results).forEach(([key, val]) => {
+                const sig = val.statistical_test.pvalue_adjusted < 0.05 ? 'SIG' : 'n.s.';
+                context += `- ${val.classifier} vs ${val.discretization_method}: media=${val.mean_improvement_pct.toFixed(2)}%, `;
+                context += `p-adj=${val.statistical_test.pvalue_adjusted < 0.001 ? '<0.001' : val.statistical_test.pvalue_adjusted.toFixed(3)}, `;
+                context += `efecto=${val.effect_size.value.toFixed(3)} (${val.effect_size.interpretation}), ${sig}\n`;
+            });
+        }
 
-    // Top 5 datasets con mayor mejora
-    context += '\nTOP 5 DATASETS CON MAYOR MEJORA LOCAL:\n';
-    const sortedByImprovement = [...localResults].sort((a, b) => b.improvement_vs_base - a.improvement_vs_base);
-    sortedByImprovement.slice(0, 5).forEach((r, i) => {
-        context += `${i+1}. ${r.dataset}: +${r.improvement_vs_base.toFixed(2)}% (${r.model}, ${r.iterations}, ${r.cuts})\n`;
-    });
+        // Top 5 datasets con mayor mejora pareada
+        const patterns = adv.complementary_analysis?.global_patterns?.dataset_patterns;
+        if (patterns) {
+            const sorted = [...patterns].sort((a, b) => b.mean_improvement_pct - a.mean_improvement_pct);
+            context += '\nTOP 5 DATASETS CON MAYOR MEJORA PAREADA:\n';
+            sorted.slice(0, 5).forEach((d, i) => {
+                context += `${i+1}. ${d.dataset}: ${d.mean_improvement_pct > 0 ? '+' : ''}${d.mean_improvement_pct.toFixed(2)}% (${d.n_positive}/${d.n_total} positivos)\n`;
+            });
 
-    // Resultados detallados
-    if (state.includeFullContext && state.fullContextData?.content) {
-        context += '\n' + state.fullContextData.content;
+            context += '\nTOP 5 DATASETS CON PEOR RESULTADO:\n';
+            sorted.slice(-5).reverse().forEach((d, i) => {
+                context += `${i+1}. ${d.dataset}: ${d.mean_improvement_pct.toFixed(2)}% (${d.n_positive}/${d.n_total} positivos)\n`;
+            });
+        }
+    }
+
+    // Resultados detallados y análisis estadístico completo
+    if (state.includeFullContext) {
+        if (state.compactResults?.content) {
+            context += '\n' + state.compactResults.content;
+        }
+        if (state.compactAdversaries?.content) {
+            context += '\n' + state.compactAdversaries.content;
+        }
     } else {
         // Contexto resumido: muestra de resultados
         context += '\nMUESTRA DE RESULTADOS DETALLADOS:\n';
         const sample = results.slice(0, CONFIG.MAX_CONTEXT_RESULTS);
         sample.forEach(r => {
-            context += `- ${r.dataset} | ${r.model} | ${r.iterations}/${r.cuts} | Acc: ${(r.accuracy*100).toFixed(2)}%`;
-            if (r.improvement_vs_base !== undefined) {
-                context += ` | Mejora: ${r.improvement_vs_base > 0 ? '+' : ''}${r.improvement_vs_base.toFixed(2)}%`;
-            }
-            context += '\n';
+            context += `- ${r.dataset} | ${r.model} | ${r.iterations}/${r.cuts} | Acc: ${(r.accuracy*100).toFixed(2)}%\n`;
         });
     }
 
