@@ -1711,6 +1711,15 @@ function renderEffectForestChart() {
     const bgColors = entries.map(e => clfColorMap[e.classifier]?.bg || 'rgba(128,128,128,0.7)');
     const borderClrs = entries.map(e => clfColorMap[e.classifier]?.border || 'rgb(128,128,128)');
 
+    // Calcular rango del eje X incluyendo los IC completos
+    const allCiLower = entries.map(e => e.ciLower);
+    const allCiUpper = entries.map(e => e.ciUpper);
+    const dataMin = Math.min(...allCiLower, ...effectValues);
+    const dataMax = Math.max(...allCiUpper, ...effectValues);
+    const padding = (dataMax - dataMin) * 0.1;
+    const xMin = dataMin - padding;
+    const xMax = dataMax + padding;
+
     currentChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -1746,6 +1755,8 @@ function renderEffectForestChart() {
             },
             scales: {
                 x: {
+                    min: xMin,
+                    max: xMax,
                     title: { display: true, text: 'Tamaño de Efecto' },
                     grid: { color: (c) => c.tick.value === 0 ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.1)' }
                 },
@@ -1760,6 +1771,14 @@ function renderEffectForestChart() {
                 const ctx = chart.ctx;
                 const meta = chart.getDatasetMeta(0);
                 const xScale = chart.scales.x;
+                const chartArea = chart.chartArea;
+
+                // Recortar al área del gráfico para evitar desbordamiento
+                ctx.save();
+                ctx.beginPath();
+                ctx.rect(chartArea.left, chartArea.top,
+                    chartArea.right - chartArea.left, chartArea.bottom - chartArea.top);
+                ctx.clip();
 
                 meta.data.forEach((bar, i) => {
                     const e = entries[i];
@@ -1767,7 +1786,6 @@ function renderEffectForestChart() {
                     const xHigh = xScale.getPixelForValue(e.ciUpper);
                     const yCenter = bar.y;
 
-                    ctx.save();
                     ctx.strokeStyle = borderClrs[i];
                     ctx.lineWidth = 2;
 
@@ -1787,9 +1805,9 @@ function renderEffectForestChart() {
                     ctx.moveTo(xHigh, yCenter - capHeight);
                     ctx.lineTo(xHigh, yCenter + capHeight);
                     ctx.stroke();
-
-                    ctx.restore();
                 });
+
+                ctx.restore();
             }
         }]
     });

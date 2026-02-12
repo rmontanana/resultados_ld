@@ -8,7 +8,7 @@
 
 // Estado global
 const state = {
-    provider: 'ollama',  // ollama o copy
+    provider: 'copy',  // ollama o copy
     model: '',
     messages: [],
     resultsData: null,

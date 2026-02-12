@@ -97,7 +97,7 @@
                             <strong>Métodos de conexión</strong>
                             <ul>
                                 <li><b>Ollama:</b> Modelos locales gratuitos (requiere Ollama corriendo)</li>
-                                <li><b>Copiar Contexto:</b> Para usar en claude.ai o chatgpt.com</li>
+                                <li><b>Copiar Contexto:</b> Para usar en claude.ai, chatgpt.com o gemini.google.com</li>
                             </ul>
                         </div>
                     </span>
@@ -115,8 +115,8 @@
                     <h3>Conexión</h3>
                     <div class="provider-options">
                         <!-- Ollama -->
-                        <label class="provider-option selected" id="provider-ollama">
-                            <input type="radio" name="provider" value="ollama" checked>
+                        <label class="provider-option" id="provider-ollama">
+                            <input type="radio" name="provider" value="ollama">
                             <div class="provider-info">
                                 <div class="provider-name">
                                     Ollama
@@ -130,8 +130,8 @@
                         </label>
 
                         <!-- Copiar contexto -->
-                        <label class="provider-option" id="provider-copy">
-                            <input type="radio" name="provider" value="copy">
+                        <label class="provider-option selected" id="provider-copy">
+                            <input type="radio" name="provider" value="copy" checked>
                             <div class="provider-info">
                                 <div class="provider-name">
                                     Copiar Contexto
@@ -140,7 +140,7 @@
                                         Disponible
                                     </span>
                                 </div>
-                                <div class="provider-desc">Para usar en claude.ai o chatgpt.com</div>
+                                <div class="provider-desc">Para usar en claude.ai, chatgpt.com o gemini.google.com</div>
                             </div>
                         </label>
                     </div>
@@ -292,7 +292,7 @@
             </div>
             <div class="modal-body">
                 <p style="margin-bottom: var(--spacing-md); color: var(--text-muted);">
-                    Copia este texto y pégalo en claude.ai o chatgpt.com para hacer tu consulta:
+                    Copia este texto y pégalo en claude.ai, chatgpt.com o gemini.google.com para hacer tu consulta:
                 </p>
                 <textarea id="context-textarea" readonly></textarea>
             </div>
@@ -309,6 +309,9 @@
                 </a>
                 <a href="https://chatgpt.com" target="_blank" class="btn btn-external">
                     Abrir ChatGPT
+                </a>
+                <a href="https://gemini.google.com/app" target="_blank" class="btn btn-external">
+                    Abrir Gemini
                 </a>
             </div>
         </div>
@@ -409,8 +412,9 @@
                 <div class="help-alternative">
                     <strong>💡 Alternativa sin instalación:</strong>
                     Usa el modo "Copiar contexto" para pegar directamente en
-                    <a href="https://claude.ai" target="_blank">claude.ai</a> o
-                    <a href="https://chatgpt.com" target="_blank">chatgpt.com</a>
+                    <a href="https://claude.ai" target="_blank">claude.ai</a>,
+                    <a href="https://chatgpt.com" target="_blank">chatgpt.com</a> o
+                    <a href="https://gemini.google.com" target="_blank">gemini.google.com</a>
                 </div>
             </div>
             <div class="modal-footer">
