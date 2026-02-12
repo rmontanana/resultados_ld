@@ -221,6 +221,18 @@ function setupEventListeners() {
     if (themeToggle) {
         themeToggle.addEventListener('click', toggleTheme);
     }
+
+    // Modal de desglose de configuraciones
+    const modal = document.getElementById('modal-configs');
+    document.getElementById('info-configs-btn').addEventListener('click', () => {
+        modal.hidden = false;
+    });
+    document.getElementById('modal-configs-close').addEventListener('click', () => {
+        modal.hidden = true;
+    });
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.hidden = true;
+    });
 }
 
 function getCheckedValues(name) {
@@ -299,6 +311,7 @@ function applyFilters() {
     renderTable();
     updateStats();
     updatePagination();
+    updatePairwiseCount();
 }
 
 /**
@@ -432,32 +445,56 @@ function updatePagination() {
     document.getElementById('next-page').disabled = state.currentPage >= maxPage;
 }
 
+function getFilteredPairwise() {
+    if (!state.adversaries || !state.adversaries.pairwise_comparisons) return [];
+    return state.adversaries.pairwise_comparisons.filter(r => {
+        if (state.filters.search && !r.dataset.toLowerCase().includes(state.filters.search)) {
+            return false;
+        }
+        if (!state.filters.iterations.includes(r.iterations)) {
+            return false;
+        }
+        if (!state.filters.cuts.includes(r.cuts)) {
+            return false;
+        }
+        if (!state.filters.model_base.includes(r.classifier)) {
+            return false;
+        }
+        return true;
+    });
+}
+
+function updatePairwiseCount() {
+    const count = getFilteredPairwise().length;
+    document.getElementById('pairwise-count').textContent = count;
+}
+
 function exportCSV() {
-    if (state.filteredData.length === 0) {
-        alert('No hay datos para exportar');
+    const filtered = getFilteredPairwise();
+
+    if (filtered.length === 0) {
+        alert('No hay datos pareados con los filtros actuales');
         return;
     }
 
     const headers = [
-        'Dataset', 'Iteraciones', 'Cortes', 'Modelo', 'Modelo Base',
-        'Tipo Discretización', 'Accuracy', 'Std', 'Mejora Pareada Media',
-        'Muestras', 'Características', 'Clases', 'Mejor en Grupo'
+        'Dataset', 'Clasificador', 'Método Adversario', 'Iteraciones', 'Cortes',
+        'Accuracy Base', 'Accuracy Local', 'Diferencia', 'Mejora %',
+        'Std Base', 'Std Local'
     ];
 
-    const rows = state.filteredData.map(r => [
+    const rows = filtered.map(r => [
         r.dataset,
+        r.classifier,
+        r.discretization_method,
         r.iterations,
         r.cuts,
-        r.model,
-        r.model_base,
-        r.discretization_type,
-        r.accuracy,
-        r.std,
-        r.paired_improvement !== undefined ? r.paired_improvement.toFixed(4) : '',
-        r.samples || '',
-        r.features || '',
-        r.classes || '',
-        r.best_in_group ? 'Sí' : 'No'
+        r.accuracy_base,
+        r.accuracy_local,
+        r.diff,
+        r.improvement_pct,
+        r.std_base,
+        r.std_local
     ]);
 
     const csv = [
@@ -470,6 +507,6 @@ function exportCSV() {
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = `resultados_discretizacion_${new Date().toISOString().split('T')[0]}.csv`;
+    link.download = `comparaciones_pareadas_${new Date().toISOString().split('T')[0]}.csv`;
     link.click();
 }

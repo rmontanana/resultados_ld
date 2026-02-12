@@ -223,7 +223,10 @@
         <!-- Stats Summary -->
         <section class="stats-panel">
             <div class="stat-card">
-                <span class="stat-value" id="stat-total">0</span>
+                <span class="stat-value stat-value-with-info">
+                    <span id="stat-total">0</span>
+                    <span id="info-configs-btn" class="info-tooltip" tabindex="0" title="Ver desglose de configuraciones" role="button" style="cursor:pointer">i</span>
+                </span>
                 <span class="stat-label">Resultados</span>
             </div>
             <div class="stat-card">
@@ -278,7 +281,7 @@
                         </span>
                     </span>
                     <button id="export-csv" class="btn-export">
-                        Exportar CSV
+                        Exportar Pareados CSV (<span id="pairwise-count">0</span>)
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                             <polyline points="7 10 12 15 17 10"/>
@@ -366,6 +369,94 @@
     <div id="loading" class="loading-overlay">
         <div class="loading-spinner"></div>
         <p>Cargando datos...</p>
+    </div>
+
+    <!-- Modal: Desglose de configuraciones -->
+    <div id="modal-configs" class="modal-overlay" hidden>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Desglose de configuraciones experimentales</h3>
+                <button id="modal-configs-close" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <table class="config-table">
+                    <thead>
+                        <tr>
+                            <th>Discretizador</th>
+                            <th># Iter.</th>
+                            <th># Clasif.</th>
+                            <th># Ptos. corte</th>
+                            <th># Configs.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>MDLP</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>24</td>
+                        </tr>
+                        <tr>
+                            <td>Igual amplitud (bin-u)</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>3</td>
+                            <td>18</td>
+                        </tr>
+                        <tr>
+                            <td>Igual frecuencia (bin-q)</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>3</td>
+                            <td>18</td>
+                        </tr>
+                        <tr>
+                            <td>PKI (sqrt)</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>1</td>
+                            <td>6</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Local (Ld)</strong></td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>24</td>
+                        </tr>
+                        <tr class="config-table-total">
+                            <td><strong>Total</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong>90</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="modal-note">
+                    Cada configuraci&oacute;n se eval&uacute;a sobre <strong>27 datasets</strong>, lo que genera
+                    90 &times; 27 = <strong>2.430 resultados</strong> individuales.
+                </p>
+
+                <h4>Comparaciones pareadas</h4>
+                <p>
+                    La discretizaci&oacute;n local se compara con cada m&eacute;todo adversario
+                    en las mismas condiciones (iteraciones, puntos de corte, clasificador, dataset):
+                </p>
+                <ul>
+                    <li>22 configuraciones adversarias por clasificador (24 MDLP + 18 bin-u + 18 bin-q + 6 PKI = 66 &divide; 3 clasif. = 22)</li>
+                    <li>&times; 3 clasificadores (TAN, KDB, AODE) = 66</li>
+                    <li>&times; 27 datasets = <strong>1.782 comparaciones pareadas</strong></li>
+                </ul>
+                <p class="modal-note">
+                    Tras agregar por adversario, cada grupo de prueba estadística
+                    dispone de <strong>N&nbsp;=&nbsp;27</strong> observaciones (una por dataset)
+                    sobre las que se realiza la inferencia (Wilcoxon signed-rank).
+                </p>
+            </div>
+        </div>
     </div>
 
     <script src="js/app.js"></script>
