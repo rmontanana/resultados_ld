@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gráficos - Discretización Local en Clasificadores basados en redes bayesianas</title>
+    <title data-i18n="charts.title">Charts - Local Discretization in Bayesian Network Classifiers</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/charts-page.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -17,14 +17,14 @@
                     <path d="M12 2L2 7l10 5 10-5-10-5z"/>
                     <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
                 </svg>
-                Discretización Local
+                <span data-i18n="nav.brand">Local Discretization</span>
             </a>
             <div class="navbar-menu">
                 <a href="index.html" class="nav-link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                     </svg>
-                    Principal
+                    <span data-i18n="nav.home">Home</span>
                 </a>
                 <a href="compare.html" class="nav-link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -33,7 +33,7 @@
                         <rect x="14" y="14" width="7" height="7"/>
                         <rect x="3" y="14" width="7" height="7"/>
                     </svg>
-                    Comparativa
+                    <span data-i18n="nav.comparison">Comparison</span>
                 </a>
                 <a href="charts.html" class="nav-link active">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -41,7 +41,7 @@
                         <line x1="12" y1="20" x2="12" y2="4"/>
                         <line x1="6" y1="20" x2="6" y2="14"/>
                     </svg>
-                    Gráficos
+                    <span data-i18n="nav.charts">Charts</span>
                 </a>
                 <a href="results-grid.html" class="nav-link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -50,15 +50,15 @@
                         <line x1="3" y1="15" x2="21" y2="15"/>
                         <line x1="9" y1="3" x2="9" y2="21"/>
                     </svg>
-                    Grid
+                    <span data-i18n="nav.grid">Grid</span>
                 </a>
                 <a href="ai-chat.html" class="nav-link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                     </svg>
-                    IA
+                    <span data-i18n="nav.ai">AI</span>
                 </a>
-                <button id="theme-toggle" class="btn-theme" title="Cambiar tema claro/oscuro">
+                <button id="theme-toggle" class="btn-theme" data-i18n-title="nav.themeTitle" title="Toggle light/dark theme">
                     <svg id="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="5"/>
                         <line x1="12" y1="1" x2="12" y2="3"/>
@@ -74,6 +74,11 @@
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
                     </svg>
                 </button>
+                <div class="lang-toggle">
+                    <button class="btn-lang-opt" data-lang="es">ES</button>
+                    <span class="lang-divider"></span>
+                    <button class="btn-lang-opt" data-lang="en">EN</button>
+                </div>
             </div>
         </div>
     </nav>
@@ -81,85 +86,82 @@
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <h1 class="title-with-info">
-                Gráficos Comparativos
-                <span class="info-tooltip" tabindex="0" aria-label="Descripción de la página" role="tooltip">
+            <div class="title-with-info">
+                <h1 data-i18n="charts.header">Comparative Charts</h1>
+                <div class="info-tooltip" tabindex="0" aria-label="Descripción de la página" role="tooltip">
                     i
-                    <span class="tooltip-text">
+                    <div class="tooltip-text">
                         <div class="tooltip-section">
-                            <strong>¿Qué ves aquí?</strong>
+                            <strong data-i18n="charts.tooltip.whatTitle">What do you see here?</strong>
                             <ul>
-                                <li>Panel de gráficos interactivos: comparaciones, box-plots, tendencias por cortes, top mejoras, tamaño vs mejora y heatmap.</li>
-                                <li>Filtrado por iteraciones, puntos de corte y discretizadores (según gráfico).</li>
+                                <li data-i18n="charts.tooltip.what1">Interactive charts panel: comparisons, box-plots, cut point trends, top improvements, size vs improvement, and heatmap.</li>
+                                <li data-i18n="charts.tooltip.what2">Filter by iterations, cut points, and discretizers (depending on chart).</li>
                             </ul>
                         </div>
                         <div class="tooltip-section">
-                            <strong>Qué responde cada gráfico</strong>
+                            <strong data-i18n="charts.tooltip.answersTitle">What each chart answers</strong>
                             <ul>
-                                <li>Comparación de accuracy: medias por clasificador.</li>
-                                <li>Box-plot: dispersión por discretizador.</li>
-                                <li>Tendencia por cortes: evolución 3p/4p/5p/up (solo Local/MDLP).</li>
-                                <li>Top mejoras: dónde Local supera más a las bases.</li>
-                                <li>Tamaño vs mejora: efecto de muestras (línea log y lineal).</li>
-                                <li>Heatmap: quién gana vs Local por discretizador y dataset.</li>
+                                <li data-i18n="charts.tooltip.a1">Accuracy comparison: means by classifier.</li>
+                                <li data-i18n="charts.tooltip.a2">Box-plot: dispersion by discretizer.</li>
+                                <li data-i18n="charts.tooltip.a3">Trend by cuts: evolution 3p/4p/5p/up (Local/MDLP only).</li>
+                                <li data-i18n="charts.tooltip.a4">Top improvements: where Local outperforms bases the most.</li>
+                                <li data-i18n="charts.tooltip.a5">Size vs improvement: effect of samples (log and linear line).</li>
+                                <li data-i18n="charts.tooltip.a6">Heatmap: who wins vs Local by discretizer and dataset.</li>
                             </ul>
                         </div>
                         <div class="tooltip-section">
-                            <strong>Cómo usarla</strong>
+                            <strong data-i18n="charts.tooltip.howTitle">How to use it</strong>
                             <ul>
-                                <li>Elige el gráfico, aplica filtros y activa/desactiva discretizadores.</li>
-                                <li>Descarga cualquier visual como PNG desde el botón lateral.</li>
+                                <li data-i18n="charts.tooltip.how1">Choose the chart, apply filters, and enable/disable discretizers.</li>
+                                <li data-i18n="charts.tooltip.how2">Download any visual as PNG from the side button.</li>
                             </ul>
                         </div>
                         <div class="tooltip-section">
-                            <strong>Consejos</strong>
+                            <strong data-i18n="charts.tooltip.tipsTitle">Tips</strong>
                             <ul>
-                                <li>Iteraciones=10it es la base de las conclusiones principales.</li>
-                                <li>En “trend-cuts” deja solo Local/MDLP; en heatmap observa rápidamente dónde Local pierde/gana.</li>
+                                <li data-i18n="charts.tooltip.tip1">Iterations=10it is the basis for the main conclusions.</li>
+                                <li data-i18n="charts.tooltip.tip2">In "trend-cuts" keep only Local/MDLP; in heatmap quickly observe where Local loses/wins.</li>
                             </ul>
                         </div>
-                    </span>
-                </span>
-            </h1>
-            <p class="subtitle">Análisis visual de resultados</p>
+                    </div>
+                </div>
+            </div>
+            <p class="subtitle" data-i18n="charts.subtitle">Visual analysis of results</p>
         </header>
 
         <!-- Filters and Controls -->
         <section class="charts-controls-panel">
             <div class="controls-row">
                 <div class="filter-item">
-                    <label for="chart-type">Tipo de Gráfico:</label>
+                    <label data-i18n="charts.chartType" for="chart-type">Chart Type:</label>
                     <select id="chart-type">
-                        <option value="accuracy-comparison">Comparación de Accuracy por Clasificador</option>
-                        <option value="box-plot">Distribución de Accuracy por Discretizador</option>
-                        <option value="trend-cuts">Tendencia por Puntos de Corte</option>
-                        <option value="top-improvements">Top 15 Datasets: Mejora Pareada</option>
-                        <option value="size-vs-improvement">Tamaño vs Mejora Pareada</option>
-                        <option value="heatmap">Heatmap: Mejora Pareada por Dataset</option>
-                        <option value="config-heatmap">Heatmap: Configuración vs Adversario</option>
-                        <option value="adversary-bars">Barras por Adversario</option>
-                        <option value="classifier-radar">Radar de Clasificadores</option>
-                        <option value="effect-forest">Forest Plot: Tamaños de Efecto</option>
-                        <option value="pvalue-grid">Grid de P-valores Ajustados</option>
-                        <option value="scenarios-global">Escenarios: 27 Datasets</option>
+                        <option value="accuracy-comparison" data-i18n="charts.type.accuracyComparison">Accuracy Comparison by Classifier</option>
+                        <option value="box-plot" data-i18n="charts.type.boxPlot">Accuracy Distribution by Discretizer</option>
+                        <option value="trend-cuts" data-i18n="charts.type.trendCuts">Trend by Cut Points</option>
+                        <option value="top-improvements" data-i18n="charts.type.topImprovements">Top 15 Datasets with Greatest Improvements</option>
+                        <option value="size-vs-improvement" data-i18n="charts.type.sizeVsImprovement">Size vs Improvement Relationship</option>
+                        <option value="heatmap" data-i18n="charts.type.heatmap">Heatmap: Comparison vs Local</option>
+                        <option value="config-heatmap" data-i18n="charts.type.configHeatmap">Heatmap: Configuration vs Adversary</option>
+                        <option value="adversary-bars" data-i18n="charts.type.adversaryBars">Bars by Adversary</option>
+                        <option value="classifier-radar" data-i18n="charts.type.classifierRadar">Classifier Radar</option>
                     </select>
                 </div>
                 <div class="filter-item">
-                    <label for="filter-iterations">Iteraciones:</label>
+                    <label data-i18n="common.iterations" for="filter-iterations">Iterations:</label>
                     <select id="filter-iterations">
-                        <option value="all">Todas</option>
-                        <option value="10it">10 iteraciones</option>
-                        <option value="100it">100 iteraciones</option>
+                        <option value="all" data-i18n="common.all">All</option>
+                        <option value="10it" data-i18n="common.10iter">10 iterations</option>
+                        <option value="100it" data-i18n="common.100iter">100 iterations</option>
                     </select>
                 </div>
                 <div class="filter-item">
-                    <label for="filter-cuts">Puntos de Corte:</label>
+                    <label data-i18n="common.cutPoints" for="filter-cuts">Cut Points:</label>
                     <select id="filter-cuts">
-                        <option value="all">Todos</option>
-                        <option value="3p">3 puntos</option>
-                        <option value="4p">4 puntos</option>
-                        <option value="5p">5 puntos</option>
-                        <option value="up">Ilimitado</option>
+                        <option value="all" data-i18n="common.all">All</option>
+                        <option value="3p" data-i18n="common.3points">3 points</option>
+                        <option value="4p" data-i18n="common.4points">4 points</option>
+                        <option value="5p" data-i18n="common.5points">5 points</option>
+                        <option value="up" data-i18n="common.unlimited">Unlimited</option>
                     </select>
                 </div>
                 <button id="download-png" class="btn-download">
@@ -168,13 +170,13 @@
                         <polyline points="7 10 12 15 17 10"/>
                         <line x1="12" y1="15" x2="12" y2="3"/>
                     </svg>
-                    Descargar PNG
+                    <span data-i18n="charts.downloadPng">Download PNG</span>
                 </button>
             </div>
 
             <!-- Filtros de discretizadores (se muestran según el tipo de gráfico) -->
             <div id="discretizer-filters" class="discretizer-filters" style="display: none;">
-                <label>Algoritmos de Discretización:</label>
+                <label data-i18n="charts.discAlgorithms">Discretization Algorithms:</label>
                 <div class="checkbox-group">
                     <label class="checkbox-label">
                         <input type="checkbox" name="discretizer" value="local" checked> Local
@@ -183,10 +185,10 @@
                         <input type="checkbox" name="discretizer" value="mdlp" checked> MDLP
                     </label>
                     <label class="checkbox-label">
-                        <input type="checkbox" name="discretizer" value="equal_freq" checked> Igual Freq
+                        <input type="checkbox" name="discretizer" value="equal_freq" checked> <span data-i18n="common.equalFreq">Equal Freq</span>
                     </label>
                     <label class="checkbox-label">
-                        <input type="checkbox" name="discretizer" value="equal_width" checked> Igual Amp
+                        <input type="checkbox" name="discretizer" value="equal_width" checked> <span data-i18n="common.equalWidth">Equal Width</span>
                     </label>
                     <label class="checkbox-label">
                         <input type="checkbox" name="discretizer" value="pki" checked> PKI
@@ -199,11 +201,11 @@
         <section class="chart-display">
             <div class="chart-card-header">
                 <div class="chart-title-with-info">
-                    <h3 id="chart-title">Comparación de Accuracy por Clasificador</h3>
-                    <span id="chart-info" class="info-tooltip" tabindex="0" aria-label="Información del gráfico" role="tooltip">
+                    <h3 id="chart-title" data-i18n="charts.type.accuracyComparison">Accuracy Comparison by Classifier</h3>
+                    <div id="chart-info" class="info-tooltip" tabindex="0" aria-label="Información del gráfico" role="tooltip">
                         i
-                        <span class="tooltip-text" id="chart-info-text"></span>
-                    </span>
+                        <div class="tooltip-text" id="chart-info-text"></div>
+                    </div>
                 </div>
                 <span class="chart-hint" id="chart-hint"></span>
             </div>
@@ -214,16 +216,17 @@
 
         <!-- Footer -->
         <footer class="footer">
-            <p>Gráficos de Discretización Local en Clasificadores basados en redes bayesianas</p>
+            <p data-i18n="charts.footer">Charts of Local Discretization in Bayesian network-based classifiers</p>
         </footer>
     </div>
 
     <!-- Loading Overlay -->
     <div id="loading" class="loading-overlay">
         <div class="loading-spinner"></div>
-        <p>Cargando datos...</p>
+        <p data-i18n="common.loading">Loading data...</p>
     </div>
 
+    <script src="js/i18n.js"></script>
     <script src="js/charts-page.js"></script>
 </body>
 </html>

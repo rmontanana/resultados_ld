@@ -4,8 +4,7 @@
 
 // Formatear números con coma decimal
 function formatNum(num, decimals = 2) {
-    if (num === null || num === undefined || isNaN(num)) return '-';
-    return num.toFixed(decimals).replace('.', ',');
+    return i18n.formatLocaleNumber(num, decimals);
 }
 
 // Gestión de tema
@@ -55,7 +54,7 @@ async function init() {
     } catch (error) {
         console.error('Error inicializando:', error);
         document.getElementById('loading').innerHTML = `
-            <p style="color: var(--danger-color);">Error cargando datos: ${error.message}</p>
+            <p style="color: var(--danger-color);">${i18n.t('common.errorLoading')}: ${error.message}</p>
         `;
     }
 }
@@ -95,6 +94,11 @@ function setupEventListeners() {
     document.getElementById('sort-best-asc').addEventListener('click', () => setSortMode('best-asc'));
     document.getElementById('sort-alpha-asc').addEventListener('click', () => setSortMode('alpha-asc'));
     document.getElementById('sort-alpha-desc').addEventListener('click', () => setSortMode('alpha-desc'));
+
+    document.addEventListener('langchange', () => {
+        renderGrid();
+        i18n.applyTranslations();
+    });
 }
 
 function getCheckedValues(name) {
@@ -272,14 +276,7 @@ function renderHeaders(columns) {
 }
 
 function getDiscLabel(disc) {
-    const labels = {
-        'local': 'Local',
-        'mdlp': 'MDLP',
-        'equal_freq': 'Igual Freq',
-        'equal_width': 'Igual Amp',
-        'pki': 'PKI'
-    };
-    return labels[disc] || disc;
+    return i18n.discTypeLabels()[disc] || disc;
 }
 
 function renderRows(datasets, columns) {
@@ -365,7 +362,7 @@ function renderTotalsRow(tbody, columns) {
     // Primera columna: etiqueta "Media"
     const tdLabel = document.createElement('td');
     tdLabel.className = 'fixed-col';
-    tdLabel.textContent = 'Media';
+    tdLabel.textContent = i18n.t('common.mean');
     tr.appendChild(tdLabel);
 
     // Para cada columna, calcular y mostrar la media
@@ -378,7 +375,7 @@ function renderTotalsRow(tbody, columns) {
             const avg = validValues.reduce((sum, v) => sum + v, 0) / validValues.length;
             const avgPercent = avg * 100;
             td.textContent = formatNum(avgPercent);
-            td.title = `Media de ${validValues.length} datasets`;
+            td.title = i18n.t('grid.meanOfN', validValues.length);
         } else {
             td.textContent = '-';
         }
@@ -390,6 +387,6 @@ function renderTotalsRow(tbody, columns) {
 }
 
 function updateInfo(numColumns, numDatasets) {
-    document.getElementById('column-count').textContent = `${numColumns} columnas mostradas`;
-    document.getElementById('dataset-count').textContent = `${numDatasets} datasets`;
+    document.getElementById('column-count').textContent = i18n.t('grid.columnsShown', numColumns);
+    document.getElementById('dataset-count').textContent = i18n.t('grid.nDatasets', numDatasets);
 }

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comparación por Dataset - Discretización Local</title>
+    <title data-i18n="compare.title">Dataset Comparison - Local Discretization</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/compare.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -17,14 +17,14 @@
                     <path d="M12 2L2 7l10 5 10-5-10-5z"/>
                     <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
                 </svg>
-                Discretización Local
+                <span data-i18n="nav.brand">Local Discretization</span>
             </a>
             <div class="navbar-menu">
                 <a href="index.html" class="nav-link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                     </svg>
-                    Principal
+                    <span data-i18n="nav.home">Home</span>
                 </a>
                 <a href="compare.html" class="nav-link active">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -33,7 +33,7 @@
                         <rect x="14" y="14" width="7" height="7"/>
                         <rect x="3" y="14" width="7" height="7"/>
                     </svg>
-                    Comparativa
+                    <span data-i18n="nav.comparison">Comparison</span>
                 </a>
                 <a href="charts.html" class="nav-link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -41,7 +41,7 @@
                         <line x1="12" y1="20" x2="12" y2="4"/>
                         <line x1="6" y1="20" x2="6" y2="14"/>
                     </svg>
-                    Gráficos
+                    <span data-i18n="nav.charts">Charts</span>
                 </a>
                 <a href="results-grid.html" class="nav-link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -50,15 +50,15 @@
                         <line x1="3" y1="15" x2="21" y2="15"/>
                         <line x1="9" y1="3" x2="9" y2="21"/>
                     </svg>
-                    Grid
+                    <span data-i18n="nav.grid">Grid</span>
                 </a>
                 <a href="ai-chat.html" class="nav-link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                     </svg>
-                    IA
+                    <span data-i18n="nav.ai">AI</span>
                 </a>
-                <button id="theme-toggle" class="btn-theme" title="Cambiar tema claro/oscuro">
+                <button id="theme-toggle" class="btn-theme" data-i18n-title="nav.themeTitle" title="Toggle light/dark theme">
                     <svg id="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="5"/>
                         <line x1="12" y1="1" x2="12" y2="3"/>
@@ -74,6 +74,11 @@
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
                     </svg>
                 </button>
+                <div class="lang-toggle">
+                    <button class="btn-lang-opt" data-lang="es">ES</button>
+                    <span class="lang-divider"></span>
+                    <button class="btn-lang-opt" data-lang="en">EN</button>
+                </div>
             </div>
         </div>
     </nav>
@@ -81,70 +86,70 @@
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <h1 class="title-with-info">
-                Vista Comparativa por Dataset
-                <span class="info-tooltip" tabindex="0" aria-label="Descripción de la página" role="tooltip">
+            <div class="title-with-info">
+                <h1 data-i18n="compare.header">Comparative View by Dataset</h1>
+                <div class="info-tooltip" tabindex="0" aria-label="Descripción de la página" role="tooltip">
                     i
-                    <span class="tooltip-text">
+                    <div class="tooltip-text">
                         <div class="tooltip-section">
-                            <strong>¿Qué ves aquí?</strong>
+                            <strong data-i18n="compare.tooltip.whatTitle">What do you see here?</strong>
                             <ul>
-                                <li>Comparación directa por dataset: modelos base vs su versión Local.</li>
-                                <li>Barras de accuracy y diferencial (Local vs base) por clasificador.</li>
+                                <li data-i18n="compare.tooltip.what1">Direct comparison by dataset: base models vs their Local version.</li>
+                                <li data-i18n="compare.tooltip.what2">Accuracy bars and differential (Local vs base) by classifier.</li>
                             </ul>
                         </div>
                         <div class="tooltip-section">
-                            <strong>Cómo usarla</strong>
+                            <strong data-i18n="compare.tooltip.howTitle">How to use it</strong>
                             <ul>
-                                <li>Elige iteraciones (10/100), discretizador base (mdlp, igual freq/amp, PKI) y puntos de corte.</li>
-                                <li>Cambia de dataset con los controles de navegación de la tarjeta.</li>
+                                <li data-i18n="compare.tooltip.how1">Choose iterations (10/100), base discretizer (mdlp, equal freq/width, PKI) and cut points.</li>
+                                <li data-i18n="compare.tooltip.how2">Navigate datasets with the card navigation controls.</li>
                             </ul>
                         </div>
                         <div class="tooltip-section">
-                            <strong>Qué preguntas responde</strong>
+                            <strong data-i18n="compare.tooltip.questionsTitle">What questions it answers</strong>
                             <ul>
-                                <li>¿Cuánto mejora o empeora Local frente al mejor base en este dataset?</li>
-                                <li>¿Cómo rinde cada clasificador (TAN, KDB, AODE) con el mismo discretizador/corte?</li>
+                                <li data-i18n="compare.tooltip.q1">How much does Local improve or worsen vs the best base in this dataset?</li>
+                                <li data-i18n="compare.tooltip.q2">How does each classifier (TAN, KDB, AODE) perform with the same discretizer/cut?</li>
                             </ul>
                         </div>
                         <div class="tooltip-section">
-                            <strong>Consejos</strong>
+                            <strong data-i18n="compare.tooltip.tipsTitle">Tips</strong>
                             <ul>
-                                <li>Usa 10it para las conclusiones principales y recorre datasets para ver patrones.</li>
-                                <li>Cambia discretizador base para ver si las mejoras dependen del corte.</li>
+                                <li data-i18n="compare.tooltip.tip1">Use 10it for the main conclusions and browse datasets to see patterns.</li>
+                                <li data-i18n="compare.tooltip.tip2">Change base discretizer to see if improvements depend on the cut.</li>
                             </ul>
                         </div>
-                    </span>
-                </span>
-            </h1>
-            <p class="subtitle">Clasificadores base vs discretización local</p>
+                    </div>
+                </div>
+            </div>
+            <p class="subtitle" data-i18n="compare.subtitle">Base classifiers vs local discretization</p>
         </header>
 
         <!-- Filters Bar -->
         <section class="compare-filters">
             <div class="filter-item">
-                <label for="filter-iterations">Iteraciones:</label>
+                <label for="filter-iterations" data-i18n="common.iterations">Iterations:</label>
                 <select id="filter-iterations">
-                    <option value="10it">10 iteraciones</option>
-                    <option value="100it">100 iteraciones</option>
+                    <option value="10it" data-i18n="common.10iter">10 iterations</option>
+                    <option value="100it" data-i18n="common.100iter">100 iterations</option>
                 </select>
             </div>
             <div class="filter-item">
-                <label for="filter-discretizer">Discretizador Base:</label>
+                <label for="filter-discretizer" data-i18n="compare.discBase">Base Discretizer:</label>
                 <select id="filter-discretizer">
-                    <option value="mdlp">MDLP (Supervisado)</option>
-                    <option value="equal_freq">Igual Frecuencia</option>
-                    <option value="equal_width">Igual Amplitud</option>
+                    <option value="mdlp" data-i18n="compare.mdlpSupervised">MDLP (Supervised)</option>
+                    <option value="equal_freq" data-i18n="compare.equalFrequency">Equal Frequency</option>
+                    <option value="equal_width" data-i18n="compare.equalWidth">Equal Width</option>
                     <option value="pki">PKI</option>
                 </select>
             </div>
             <div class="filter-item">
-                <label for="filter-cuts">Puntos de Corte:</label>
+                <label for="filter-cuts" data-i18n="common.cutPoints">Cut Points:</label>
                 <select id="filter-cuts">
-                    <option value="3p">3 puntos</option>
-                    <option value="4p">4 puntos</option>
-                    <option value="5p">5 puntos</option>
-                    <option value="up">Ilimitado</option>
+                    <option value="3p" data-i18n="common.3points">3 points</option>
+                    <option value="4p" data-i18n="common.4points">4 points</option>
+                    <option value="5p" data-i18n="common.5points">5 points</option>
+                    <option value="up" data-i18n="common.unlimited">Unlimited</option>
                 </select>
             </div>
         </section>
@@ -153,33 +158,33 @@
         <section class="compare-legend">
             <div class="legend-item">
                 <span class="legend-color best"></span>
-                <span>Mejor en fila</span>
+                <span data-i18n="compare.legendBest">Best in row</span>
             </div>
             <div class="legend-item">
                 <span class="legend-color local-wins"></span>
-                <span>Local supera a Base</span>
+                <span data-i18n="compare.legendLocalWins">Local beats Base</span>
             </div>
             <div class="legend-item">
                 <span class="legend-color base-wins"></span>
-                <span>Base supera a Local</span>
+                <span data-i18n="compare.legendBaseWins">Base beats Local</span>
             </div>
         </section>
 
         <!-- Charts Section -->
         <section class="charts-section">
             <div class="charts-header">
-                <h2>Visualización Gráfica</h2>
+                <h2 data-i18n="compare.chartVisualization">Chart Visualization</h2>
                 <div class="chart-controls">
                     <div class="chart-type-selector">
-                        <label for="chart-type-compare">Tipo de gráfico:</label>
+                        <label for="chart-type-compare" data-i18n="compare.chartType">Chart type:</label>
                         <select id="chart-type-compare">
-                            <option value="differences">Diferencias (Local - Base)</option>
-                            <option value="scatter">Scatter Base vs Local</option>
-                            <option value="grouped-bars">Barras por Clasificador</option>
-                            <option value="victories-donut">Resumen de Victorias</option>
+                            <option value="differences" data-i18n="compare.chartDifferences">Differences (Local - Base)</option>
+                            <option value="scatter" data-i18n="compare.chartScatter">Scatter Base vs Local</option>
+                            <option value="grouped-bars" data-i18n="compare.chartGroupedBars">Bars by Classifier</option>
+                            <option value="victories-donut" data-i18n="compare.chartVictoriesDonut">Victory Summary</option>
                         </select>
                     </div>
-                    <button id="download-chart-png" class="btn-download" title="Descargar gráfico como PNG">
+                    <button id="download-chart-png" class="btn-download" data-i18n-title="compare.downloadChartPng" title="Download chart as PNG">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                             <polyline points="7 10 12 15 17 10"/>
@@ -202,15 +207,15 @@
                 <div class="compare-stats">
                     <div class="mini-stat">
                         <span class="mini-stat-value" id="stat-tan-wins">0</span>
-                        <span class="mini-stat-label">TANLd gana</span>
+                        <span class="mini-stat-label">TANLd <span data-i18n="compare.winsLabel">wins</span></span>
                     </div>
                     <div class="mini-stat">
                         <span class="mini-stat-value" id="stat-kdb-wins">0</span>
-                        <span class="mini-stat-label">KDBLd gana</span>
+                        <span class="mini-stat-label">KDBLd <span data-i18n="compare.winsLabel">wins</span></span>
                     </div>
                     <div class="mini-stat">
                         <span class="mini-stat-value" id="stat-aode-wins">0</span>
-                        <span class="mini-stat-label">AODELd gana</span>
+                        <span class="mini-stat-label">AODELd <span data-i18n="compare.winsLabel">wins</span></span>
                     </div>
                 </div>
             </div>
@@ -243,34 +248,26 @@
 
         <!-- Summary Stats -->
         <section class="summary-section">
-            <h3>Resumen de Comparación</h3>
+            <h3 data-i18n="compare.summaryTitle">Comparison Summary</h3>
             <div class="summary-grid">
                 <div class="summary-card">
                     <div class="summary-title">TAN vs TANLd</div>
                     <div class="summary-content">
                         <div class="summary-row">
-                            <span>Victorias Local:</span>
+                            <span data-i18n="compare.localWins">Local Wins:</span>
                             <span id="tan-local-wins" class="positive">0</span>
                         </div>
                         <div class="summary-row">
-                            <span>Victorias Base:</span>
+                            <span data-i18n="compare.baseWins">Base Wins:</span>
                             <span id="tan-base-wins" class="negative">0</span>
                         </div>
                         <div class="summary-row">
-                            <span>Empates:</span>
+                            <span data-i18n="compare.ties">Ties:</span>
                             <span id="tan-ties">0</span>
                         </div>
                         <div class="summary-row avg">
-                            <span>Diferencia media:</span>
+                            <span data-i18n="compare.avgDiff">Average difference:</span>
                             <span id="tan-avg-diff">0%</span>
-                        </div>
-                        <div class="summary-row stat">
-                            <span>p-valor (ajustado):</span>
-                            <span id="tan-pvalue">-</span>
-                        </div>
-                        <div class="summary-row stat">
-                            <span>Tamaño efecto:</span>
-                            <span id="tan-effect">-</span>
                         </div>
                     </div>
                 </div>
@@ -278,28 +275,20 @@
                     <div class="summary-title">KDB vs KDBLd</div>
                     <div class="summary-content">
                         <div class="summary-row">
-                            <span>Victorias Local:</span>
+                            <span data-i18n="compare.localWins">Local Wins:</span>
                             <span id="kdb-local-wins" class="positive">0</span>
                         </div>
                         <div class="summary-row">
-                            <span>Victorias Base:</span>
+                            <span data-i18n="compare.baseWins">Base Wins:</span>
                             <span id="kdb-base-wins" class="negative">0</span>
                         </div>
                         <div class="summary-row">
-                            <span>Empates:</span>
+                            <span data-i18n="compare.ties">Ties:</span>
                             <span id="kdb-ties">0</span>
                         </div>
                         <div class="summary-row avg">
-                            <span>Diferencia media:</span>
+                            <span data-i18n="compare.avgDiff">Average difference:</span>
                             <span id="kdb-avg-diff">0%</span>
-                        </div>
-                        <div class="summary-row stat">
-                            <span>p-valor (ajustado):</span>
-                            <span id="kdb-pvalue">-</span>
-                        </div>
-                        <div class="summary-row stat">
-                            <span>Tamaño efecto:</span>
-                            <span id="kdb-effect">-</span>
                         </div>
                     </div>
                 </div>
@@ -307,28 +296,20 @@
                     <div class="summary-title">AODE vs AODELd</div>
                     <div class="summary-content">
                         <div class="summary-row">
-                            <span>Victorias Local:</span>
+                            <span data-i18n="compare.localWins">Local Wins:</span>
                             <span id="aode-local-wins" class="positive">0</span>
                         </div>
                         <div class="summary-row">
-                            <span>Victorias Base:</span>
+                            <span data-i18n="compare.baseWins">Base Wins:</span>
                             <span id="aode-base-wins" class="negative">0</span>
                         </div>
                         <div class="summary-row">
-                            <span>Empates:</span>
+                            <span data-i18n="compare.ties">Ties:</span>
                             <span id="aode-ties">0</span>
                         </div>
                         <div class="summary-row avg">
-                            <span>Diferencia media:</span>
+                            <span data-i18n="compare.avgDiff">Average difference:</span>
                             <span id="aode-avg-diff">0%</span>
-                        </div>
-                        <div class="summary-row stat">
-                            <span>p-valor (ajustado):</span>
-                            <span id="aode-pvalue">-</span>
-                        </div>
-                        <div class="summary-row stat">
-                            <span>Tamaño efecto:</span>
-                            <span id="aode-effect">-</span>
                         </div>
                     </div>
                 </div>
@@ -337,16 +318,17 @@
 
         <!-- Footer -->
         <footer class="footer">
-            <p>Comparación de Discretización Local en Clasificadores basados en redes bayesianas</p>
+            <p data-i18n="compare.footer">Local Discretization Comparison in Bayesian network-based classifiers</p>
         </footer>
     </div>
 
     <!-- Loading Overlay -->
     <div id="loading" class="loading-overlay">
         <div class="loading-spinner"></div>
-        <p>Cargando datos...</p>
+        <p data-i18n="common.loading">Loading data...</p>
     </div>
 
+    <script src="js/i18n.js"></script>
     <script src="js/compare.js"></script>
 </body>
 </html>

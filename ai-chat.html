@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consultar IA - Discretización Local en Clasificadores Bayesianos</title>
+    <title data-i18n="ai.title">Query AI - Local Discretization in Bayesian Classifiers</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/ai-chat.css">
 </head>
@@ -16,14 +16,14 @@
                     <path d="M12 2L2 7l10 5 10-5-10-5z"/>
                     <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
                 </svg>
-                Discretización Local
+                <span data-i18n="nav.brand">Local Discretization</span>
             </a>
             <div class="navbar-menu">
                 <a href="index.html" class="nav-link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                     </svg>
-                    Principal
+                    <span data-i18n="nav.home">Home</span>
                 </a>
                 <a href="compare.html" class="nav-link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -32,7 +32,7 @@
                         <rect x="14" y="14" width="7" height="7"/>
                         <rect x="3" y="14" width="7" height="7"/>
                     </svg>
-                    Comparativa
+                    <span data-i18n="nav.comparison">Comparison</span>
                 </a>
                 <a href="charts.html" class="nav-link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -40,7 +40,7 @@
                         <line x1="12" y1="20" x2="12" y2="4"/>
                         <line x1="6" y1="20" x2="6" y2="14"/>
                     </svg>
-                    Gráficos
+                    <span data-i18n="nav.charts">Charts</span>
                 </a>
                 <a href="results-grid.html" class="nav-link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -49,15 +49,15 @@
                         <line x1="3" y1="15" x2="21" y2="15"/>
                         <line x1="9" y1="3" x2="9" y2="21"/>
                     </svg>
-                    Grid
+                    <span data-i18n="nav.grid">Grid</span>
                 </a>
                 <a href="ai-chat.html" class="nav-link active">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                     </svg>
-                    IA
+                    <span data-i18n="nav.ai">AI</span>
                 </a>
-                <button id="theme-toggle" class="btn-theme" title="Cambiar tema claro/oscuro">
+                <button id="theme-toggle" class="btn-theme" data-i18n-title="nav.themeTitle" title="Toggle light/dark theme">
                     <svg id="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="5"/>
                         <line x1="12" y1="1" x2="12" y2="3"/>
@@ -73,6 +73,11 @@
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
                     </svg>
                 </button>
+                <div class="lang-toggle">
+                    <button class="btn-lang-opt" data-lang="es">ES</button>
+                    <span class="lang-divider"></span>
+                    <button class="btn-lang-opt" data-lang="en">EN</button>
+                </div>
             </div>
         </div>
     </nav>
@@ -80,30 +85,30 @@
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <h1 class="title-with-info">
-                Consultar IA sobre los Resultados
-                <span class="info-tooltip" tabindex="0" aria-label="Descripción de la página" role="tooltip">
+            <div class="title-with-info">
+                <h1 data-i18n="ai.header">Query AI about Results</h1>
+                <div class="info-tooltip" tabindex="0" aria-label="Descripción de la página" role="tooltip">
                     i
-                    <span class="tooltip-text">
+                    <div class="tooltip-text">
                         <div class="tooltip-section">
-                            <strong>¿Qué puedes hacer aquí?</strong>
+                            <strong data-i18n="ai.tooltip.whatTitle">What can you do here?</strong>
                             <ul>
-                                <li>Preguntar sobre los resultados de los experimentos</li>
-                                <li>Analizar tendencias y comparar modelos</li>
-                                <li>Obtener resúmenes e interpretaciones</li>
+                                <li data-i18n="ai.tooltip.what1">Ask about the experiment results</li>
+                                <li data-i18n="ai.tooltip.what2">Analyze trends and compare models</li>
+                                <li data-i18n="ai.tooltip.what3">Get summaries and interpretations</li>
                             </ul>
                         </div>
                         <div class="tooltip-section">
-                            <strong>Métodos de conexión</strong>
+                            <strong data-i18n="ai.tooltip.connectionTitle">Connection methods</strong>
                             <ul>
-                                <li><b>Ollama:</b> Modelos locales gratuitos (requiere Ollama corriendo)</li>
-                                <li><b>Copiar Contexto:</b> Para usar en claude.ai, chatgpt.com o gemini.google.com</li>
+                                <li data-i18n-html="ai.tooltip.conn1"><b>Ollama:</b> Free local models (requires Ollama running)</li>
+                                <li data-i18n-html="ai.tooltip.conn2"><b>Copy Context:</b> For use in claude.ai, chatgpt.com or gemini.google.com</li>
                             </ul>
                         </div>
-                    </span>
-                </span>
-            </h1>
-            <p class="subtitle">Interroga una IA sobre los datos experimentales de discretización local</p>
+                    </div>
+                </div>
+            </div>
+            <p class="subtitle" data-i18n="ai.subtitle">Query an AI about the experimental data of local discretization</p>
         </header>
 
         <!-- Main Content -->
@@ -112,44 +117,44 @@
             <aside class="config-panel">
                 <!-- Sección: Proveedor -->
                 <div class="config-section">
-                    <h3>Conexión</h3>
+                    <h3 data-i18n="ai.connection">Connection</h3>
                     <div class="provider-options">
-                        <!-- Ollama -->
-                        <label class="provider-option" id="provider-ollama">
-                            <input type="radio" name="provider" value="ollama">
-                            <div class="provider-info">
-                                <div class="provider-name">
-                                    Ollama
-                                    <span class="status-indicator checking">
-                                        <span class="status-dot"></span>
-                                        Verificando...
-                                    </span>
-                                </div>
-                                <div class="provider-desc">Modelos locales gratuitos (localhost:11434)</div>
-                            </div>
-                        </label>
-
                         <!-- Copiar contexto -->
                         <label class="provider-option selected" id="provider-copy">
                             <input type="radio" name="provider" value="copy" checked>
                             <div class="provider-info">
                                 <div class="provider-name">
-                                    Copiar Contexto
+                                    <span data-i18n="ai.copyContext">Copy Context</span>
                                     <span class="status-indicator connected">
                                         <span class="status-dot"></span>
-                                        Disponible
+                                        <span data-i18n="ai.available">Available</span>
                                     </span>
                                 </div>
-                                <div class="provider-desc">Para usar en claude.ai, chatgpt.com o gemini.google.com</div>
+                                <div class="provider-desc" data-i18n="ai.copyContextDesc">For use in claude.ai, chatgpt.com or gemini.google.com</div>
+                            </div>
+                        </label>
+
+                        <!-- Ollama -->
+                        <label class="provider-option" id="provider-ollama">
+                            <input type="radio" name="provider" value="ollama">
+                            <div class="provider-info">
+                                <div class="provider-name">
+                                    <span data-i18n="ai.ollama">Ollama</span>
+                                    <span class="status-indicator checking">
+                                        <span class="status-dot"></span>
+                                        <span data-i18n="ai.checking">Checking...</span>
+                                    </span>
+                                </div>
+                                <div class="provider-desc" data-i18n="ai.ollamaDesc">Free local models (localhost:11434)</div>
                             </div>
                         </label>
                     </div>
 
                     <!-- Selector de modelo -->
                     <div class="model-select-wrapper" id="model-select-wrapper">
-                        <label for="model-select">Modelo</label>
+                        <label for="model-select" data-i18n="ai.modelLabel">Model</label>
                         <select id="model-select">
-                            <option value="">Verificando Ollama...</option>
+                            <option value="" data-i18n="ai.checkingOllama">Checking Ollama...</option>
                         </select>
                     </div>
 
@@ -159,32 +164,32 @@
                             <path d="M23 4v6h-6M1 20v-6h6"/>
                             <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
                         </svg>
-                        Verificar Ollama
+                        <span data-i18n="ai.verifyOllama">Verify Ollama</span>
                     </button>
                 </div>
 
                 <!-- Sección: Contexto -->
                 <div class="config-section">
-                    <h3>Contexto de Datos</h3>
+                    <h3 data-i18n="ai.dataContext">Data Context</h3>
                     <div class="context-info">
                         <div class="context-stats">
                             <div class="context-stat">
                                 <div class="context-stat-value" id="context-total-results">-</div>
-                                <div class="context-stat-label">Resultados</div>
+                                <div class="context-stat-label" data-i18n="common.results">Results</div>
                             </div>
                             <div class="context-stat">
                                 <div class="context-stat-value" id="context-total-datasets">-</div>
-                                <div class="context-stat-label">Datasets</div>
+                                <div class="context-stat-label" data-i18n="common.datasets">Datasets</div>
                             </div>
                         </div>
                         <label class="context-toggle">
                             <input type="checkbox" id="include-context" checked>
-                            <span>Incluir resumen de datos</span>
+                            <span data-i18n="ai.includeSummary">Include data summary</span>
                         </label>
                         <div class="context-full-option">
                             <label class="context-toggle">
                                 <input type="checkbox" id="include-full-context">
-                                <span>Incluir datos completos + análisis estadístico</span>
+                                <span data-i18n="ai.includeFullData">Include full data</span>
                             </label>
                             <div class="context-full-details">
                                 <span class="context-badge" id="full-context-size">--</span>
@@ -192,21 +197,21 @@
                             </div>
                         </div>
                         <p class="context-warning" id="context-warning" style="display: none;">
-                            Incluye resultados + comparaciones pareadas. Compatible con modelos >32K tokens.
+                            <span data-i18n="ai.contextWarning">Compatible with models >32K tokens. Includes explanatory header.</span>
                         </p>
                     </div>
                 </div>
 
                 <!-- Sección: Instrucciones -->
                 <div class="config-section">
-                    <h3>Instrucciones</h3>
+                    <h3 data-i18n="ai.instructions">Instructions</h3>
                     <div class="info-box">
-                        <p><strong>Para usar Ollama:</strong></p>
-                        <p>1. Instala Ollama desde <a href="https://ollama.ai" target="_blank">ollama.ai</a></p>
-                        <p>2. Ejecuta un modelo:</p>
+                        <p><strong data-i18n="ai.toUseOllama">To use Ollama:</strong></p>
+                        <p><span data-i18n="ai.installFrom">1. Install Ollama from</span> <a href="https://ollama.ai" target="_blank">ollama.ai</a></p>
+                        <p data-i18n="ai.runModel">2. Run a model:</p>
                         <code>ollama run llama3.2</code>
                         <p style="margin-top: 8px; font-size: 0.8rem;">
-                            Ollama debe estar corriendo en localhost:11434
+                            <small data-i18n="ai.ollamaMustRun">Ollama must be running on localhost:11434</small>
                         </p>
                     </div>
                 </div>
@@ -219,16 +224,16 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                         </svg>
-                        Chat
+                        <span data-i18n="ai.chat">Chat</span>
                     </h2>
                     <div class="chat-actions">
-                        <button id="btn-copy-context" class="btn-icon" title="Copiar contexto completo">
+                        <button id="btn-copy-context" class="btn-icon" data-i18n-title="ai.copyContextBtn" title="Copy full context">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <rect x="9" y="9" width="13" height="13" rx="2"/>
                                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
                             </svg>
                         </button>
-                        <button id="btn-clear" class="btn-icon" title="Limpiar conversación">
+                        <button id="btn-clear" class="btn-icon" data-i18n-title="ai.clearChat" title="Clear conversation">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <polyline points="3 6 5 6 21 6"/>
                                 <path d="M19 6l-2 14H7L5 6"/>
@@ -247,13 +252,13 @@
                             <circle cx="8" cy="10" r="1"/>
                             <circle cx="16" cy="10" r="1"/>
                         </svg>
-                        <h3>Pregunta sobre los resultados</h3>
-                        <p>Puedo ayudarte a analizar los experimentos de discretización local en clasificadores bayesianos.</p>
+                        <h3 data-i18n="ai.askAboutResults">Ask about the results</h3>
+                        <p data-i18n="ai.welcomeMsg">I can help you analyze the local discretization experiments in Bayesian classifiers.</p>
                         <div class="example-questions">
-                            <button class="example-question">¿Qué modelo tiene mejor accuracy?</button>
-                            <button class="example-question">¿En qué datasets mejora la discretización local?</button>
-                            <button class="example-question">Compara TAN vs KDB</button>
-                            <button class="example-question">¿Influyen las iteraciones en el resultado?</button>
+                            <button class="example-question" data-i18n="ai.exQ1">Which model has the best accuracy?</button>
+                            <button class="example-question" data-i18n="ai.exQ2">In which datasets does local discretization improve?</button>
+                            <button class="example-question" data-i18n="ai.exQ3">Compare TAN vs KDB</button>
+                            <button class="example-question" data-i18n="ai.exQ4">Do iterations influence the result?</button>
                         </div>
                     </div>
                 </div>
@@ -263,10 +268,11 @@
                         <textarea
                             id="chat-input"
                             class="chat-input"
-                            placeholder="Escribe tu pregunta sobre los resultados..."
+                            data-i18n-placeholder="ai.placeholderOllama"
+                            placeholder="Type your question about the results..."
                             rows="1"
                         ></textarea>
-                        <button id="btn-send" class="btn-send" title="Enviar mensaje">
+                        <button id="btn-send" class="btn-send" data-i18n-title="ai.sendMessage" title="Send message">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <line x1="22" y1="2" x2="11" y2="13"/>
                                 <polygon points="22 2 15 22 11 13 2 9 22 2"/>
@@ -282,7 +288,7 @@
     <div class="modal-overlay" id="modal-overlay">
         <div class="modal">
             <div class="modal-header">
-                <h3>Copiar Contexto para IA Externa</h3>
+                <h3 data-i18n="ai.copyModalTitle">Copy Context for External AI</h3>
                 <button class="modal-close" id="modal-close">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="18" y1="6" x2="6" y2="18"/>
@@ -291,8 +297,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p style="margin-bottom: var(--spacing-md); color: var(--text-muted);">
-                    Copia este texto y pégalo en claude.ai, chatgpt.com o gemini.google.com para hacer tu consulta:
+                <p style="margin-bottom: var(--spacing-md); color: var(--text-muted);" data-i18n="ai.copyModalDesc">
+                    Copy this text and paste it in claude.ai, chatgpt.com or gemini.google.com to make your query:
                 </p>
                 <textarea id="context-textarea" readonly></textarea>
             </div>
@@ -302,16 +308,16 @@
                         <rect x="9" y="9" width="13" height="13" rx="2"/>
                         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
                     </svg>
-                    Copiar al portapapeles
+                    <span data-i18n="ai.copyToClipboard">Copy to clipboard</span>
                 </button>
-                <a href="https://claude.ai/new" target="_blank" class="btn btn-external">
-                    Abrir Claude
+                <a href="https://claude.ai/new" target="_blank" class="btn btn-external" data-i18n="ai.openClaude">
+                    Open Claude
                 </a>
-                <a href="https://chatgpt.com" target="_blank" class="btn btn-external">
-                    Abrir ChatGPT
+                <a href="https://chatgpt.com" target="_blank" class="btn btn-external" data-i18n="ai.openChatGPT">
+                    Open ChatGPT
                 </a>
-                <a href="https://gemini.google.com/app" target="_blank" class="btn btn-external">
-                    Abrir Gemini
+                <a href="https://gemini.google.com/app" target="_blank" class="btn btn-external" data-i18n="ai.openGemini">
+                    Open Gemini
                 </a>
             </div>
         </div>
@@ -327,7 +333,7 @@
                         <line x1="12" y1="16" x2="12" y2="12"/>
                         <line x1="12" y1="8" x2="12.01" y2="8"/>
                     </svg>
-                    Ollama no disponible online
+                    <span data-i18n="ai.ollamaNotOnline">Ollama not available online</span>
                 </h3>
                 <button class="modal-close" id="ollama-help-close">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -337,23 +343,23 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p class="help-intro">
-                    Ollama es un servidor de IA que corre en tu ordenador.
-                    Para usarlo con esta página, necesitas ejecutarla en local.
+                <p class="help-intro" data-i18n="ai.ollamaHelpIntro">
+                    Ollama is an AI server that runs on your computer.
+                    To use it with this page, you need to run it locally.
                 </p>
 
                 <div class="help-step">
                     <div class="help-step-header">
                         <span class="help-step-number">1</span>
-                        <span class="help-step-title">Instala Ollama</span>
+                        <span class="help-step-title" data-i18n="ai.step1">Install Ollama</span>
                     </div>
-                    <p class="help-step-desc">Descarga e instala desde <a href="https://ollama.ai" target="_blank">ollama.ai</a></p>
+                    <p class="help-step-desc" data-i18n-html="ai.step1Desc">Download and install from <a href="https://ollama.ai" target="_blank">ollama.ai</a></p>
                 </div>
 
                 <div class="help-step">
                     <div class="help-step-header">
                         <span class="help-step-number">2</span>
-                        <span class="help-step-title">Descarga esta página</span>
+                        <span class="help-step-title" data-i18n="ai.step2">Download this page</span>
                     </div>
                     <div class="help-command">
                         <code>git clone https://github.com/rmontanana/resultados_ld.git</code>
@@ -369,7 +375,7 @@
                 <div class="help-step">
                     <div class="help-step-header">
                         <span class="help-step-number">3</span>
-                        <span class="help-step-title">Inicia un servidor local</span>
+                        <span class="help-step-title" data-i18n="ai.step3">Start a local server</span>
                     </div>
                     <div class="help-command">
                         <code>cd resultados_ld && python -m http.server 8000</code>
@@ -380,13 +386,13 @@
                             </svg>
                         </button>
                     </div>
-                    <p class="help-alt">Alternativas: <code>npx serve</code> o <code>php -S localhost:8000</code></p>
+                    <p class="help-alt"><span data-i18n="ai.step3Alt">Alternatives:</span> <code>npx serve</code> o <code>php -S localhost:8000</code></p>
                 </div>
 
                 <div class="help-step">
                     <div class="help-step-header">
                         <span class="help-step-number">4</span>
-                        <span class="help-step-title">Inicia Ollama con un modelo</span>
+                        <span class="help-step-title" data-i18n="ai.step4">Start Ollama with a model</span>
                     </div>
                     <div class="help-command">
                         <code>ollama run llama3.2</code>
@@ -402,32 +408,33 @@
                 <div class="help-step">
                     <div class="help-step-header">
                         <span class="help-step-number">5</span>
-                        <span class="help-step-title">Abre la página local</span>
+                        <span class="help-step-title" data-i18n="ai.step5">Open the local page</span>
                     </div>
-                    <p class="help-step-desc">
-                        Visita <a href="http://localhost:8000/ai-chat.html" target="_blank">http://localhost:8000/ai-chat.html</a>
+                    <p class="help-step-desc" data-i18n-html="ai.step5Desc">
+                        Visit <a href="http://localhost:8000/ai-chat.html" target="_blank">http://localhost:8000/ai-chat.html</a>
                     </p>
                 </div>
 
                 <div class="help-alternative">
-                    <strong>💡 Alternativa sin instalación:</strong>
-                    Usa el modo "Copiar contexto" para pegar directamente en
+                    <strong data-i18n="ai.altTitle">Alternative without installation:</strong>
+                    <span data-i18n-html="ai.altDesc">Use the "Copy context" mode to paste directly in
                     <a href="https://claude.ai" target="_blank">claude.ai</a>,
-                    <a href="https://chatgpt.com" target="_blank">chatgpt.com</a> o
-                    <a href="https://gemini.google.com" target="_blank">gemini.google.com</a>
+                    <a href="https://chatgpt.com" target="_blank">chatgpt.com</a> or
+                    <a href="https://gemini.google.com" target="_blank">gemini.google.com</a></span>
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="ollama-help-ok" class="btn btn-primary">Entendido</button>
+                <button id="ollama-help-ok" class="btn btn-primary" data-i18n="ai.understood">Understood</button>
             </div>
         </div>
     </div>
 
     <!-- Footer -->
     <footer class="footer" style="margin-top: var(--spacing-xl); text-align: center; padding: var(--spacing-lg); color: var(--text-muted); font-size: 0.85rem;">
-        <p>Discretización Local en Clasificadores Bayesianos - Resultados Experimentales</p>
+        <p data-i18n="ai.footer">Local Discretization in Bayesian Classifiers - Experimental Results</p>
     </footer>
 
+    <script src="js/i18n.js"></script>
     <script src="js/ai-chat.js"></script>
     <script>
         // Theme toggle (reutilizado de otras páginas)

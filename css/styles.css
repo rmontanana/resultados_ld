@@ -182,6 +182,74 @@ body {
     border-color: var(--primary-color);
 }
 
+/* Language Toggle Option 3 */
+.lang-toggle {
+    display: inline-flex;
+    align-items: center;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 4px;
+    height: 44px;
+    gap: 2px;
+}
+
+.btn-lang-opt {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+    line-height: 1;
+}
+
+/* Banderas como iconos circulares */
+.btn-lang-opt::before {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* Bandera de España */
+.btn-lang-opt[data-lang="es"]::before {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 500"><rect width="750" height="500" fill="%23c60b1e"/><rect width="750" height="250" y="125" fill="%23ffc400"/></svg>');
+}
+
+/* Bandera de Reino Unido (UK) */
+.btn-lang-opt[data-lang="en"]::before {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><path d="M0,0 v30 h60 v-30 z" fill="%23012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="%23fff" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="%23C8102E" stroke-width="4"/><path d="M30,0 v30 M0,15 h60" stroke="%23fff" stroke-width="10"/><path d="M30,0 v30 M0,15 h60" stroke="%23C8102E" stroke-width="6"/></svg>');
+}
+
+.btn-lang-opt.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-lang-opt:hover:not(.active) {
+    background: var(--bg-color);
+    color: var(--primary-color);
+}
+
+.lang-divider {
+    width: 1px;
+    height: 12px;
+    background-color: var(--border-color);
+    margin: 0 2px;
+}
+
 /* Theme Toggle Button */
 .btn-theme {
     display: inline-flex;
@@ -212,7 +280,7 @@ body {
     font-size: 2rem;
     font-weight: 700;
     color: var(--text-color);
-    margin-bottom: var(--spacing-sm);
+    margin: 0;
 }
 
 .header .subtitle {
@@ -224,6 +292,7 @@ body {
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
 }
 
 .info-tooltip {
@@ -299,13 +368,13 @@ body {
     outline-offset: 2px;
 }
 
-.info-tooltip .tooltip-section {
+.tooltip-section {
     padding-bottom: var(--spacing-sm);
     margin-bottom: var(--spacing-sm);
     border-bottom: 1px solid var(--border-color);
 }
 
-.info-tooltip .tooltip-section:last-of-type {
+.tooltip-section:last-of-type {
     border-bottom: none;
     margin-bottom: 0;
     padding-bottom: 0;
@@ -497,13 +566,6 @@ body {
     font-weight: 700;
     color: var(--primary-color);
     margin-bottom: var(--spacing-xs);
-}
-
-.stat-value-with-info {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    gap: var(--spacing-sm);
 }
 
 .stat-card.positive .stat-value {
@@ -1106,127 +1168,4 @@ td.num {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--text-muted);
-}
-
-/* Modal overlay */
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-.modal-overlay[hidden] {
-    display: none;
-}
-
-.modal-content {
-    background: var(--card-bg);
-    color: var(--text-color);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
-    max-width: 620px;
-    width: 90%;
-    max-height: 85vh;
-    overflow-y: auto;
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--spacing-lg);
-    border-bottom: 1px solid var(--border-color);
-}
-
-.modal-header h3 {
-    margin: 0;
-    font-size: 1.1rem;
-}
-
-.modal-close {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    color: var(--text-muted);
-    cursor: pointer;
-    padding: 0 var(--spacing-xs);
-    line-height: 1;
-}
-
-.modal-close:hover {
-    color: var(--danger-color);
-}
-
-.modal-body {
-    padding: var(--spacing-lg);
-}
-
-.modal-body h4 {
-    margin: var(--spacing-lg) 0 var(--spacing-sm) 0;
-    font-size: 1rem;
-    color: var(--primary-color);
-}
-
-.modal-body ul {
-    margin: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-lg);
-    padding: 0;
-}
-
-.modal-body li {
-    margin-bottom: var(--spacing-xs);
-}
-
-.modal-note {
-    margin-top: var(--spacing-md);
-    padding: var(--spacing-sm) var(--spacing-md);
-    background: var(--bg-color);
-    border-left: 3px solid var(--primary-color);
-    border-radius: var(--radius-sm);
-    font-size: 0.9rem;
-}
-
-/* Config table inside modal */
-.config-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.9rem;
-    margin-bottom: var(--spacing-sm);
-}
-
-.config-table th,
-.config-table td {
-    padding: var(--spacing-sm) var(--spacing-md);
-    border: 1px solid var(--border-color);
-    text-align: center;
-}
-
-.config-table th {
-    background: var(--primary-color);
-    color: white;
-    font-weight: 600;
-}
-
-.config-table td:first-child {
-    text-align: left;
-}
-
-.config-table tbody tr:nth-child(odd) {
-    background: var(--bg-color);
-}
-
-.config-table tbody tr:nth-child(even) {
-    background: var(--card-bg);
-}
-
-.config-table-total {
-    background: var(--primary-color) !important;
-    color: white;
-}
-
-.config-table-total td {
-    border-color: var(--primary-dark);
 }

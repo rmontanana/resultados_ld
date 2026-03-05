@@ -4,8 +4,7 @@
 
 // Función para formatear números con coma decimal
 function formatNumChart(num, decimals = 2) {
-    if (num === null || num === undefined || isNaN(num)) return '-';
-    return num.toFixed(decimals).replace('.', ',');
+    return i18n.formatLocaleNumber(num, decimals);
 }
 
 // Colores para los gráficos
@@ -20,13 +19,9 @@ const chartColors = {
     pki: { bg: 'rgba(243, 156, 18, 0.7)', border: 'rgb(243, 156, 18)' }
 };
 
-const discTypeLabelsChart = {
-    'local': 'Local',
-    'mdlp': 'MDLP',
-    'equal_freq': 'Igual Freq',
-    'equal_width': 'Igual Amp',
-    'pki': 'PKI'
-};
+function getDiscTypeLabelsChart() {
+    return i18n.discTypeLabels();
+}
 
 // Referencia al gráfico actual
 let currentChart = null;
@@ -79,6 +74,12 @@ function setupChartEventListeners() {
     if (toggleBtn) {
         toggleBtn.addEventListener('click', toggleTable);
     }
+
+    // Re-render charts on language change
+    document.addEventListener('langchange', () => {
+        updateChartOptions();
+        renderChart();
+    });
 }
 
 /**
@@ -95,11 +96,11 @@ function updateChartOptions() {
     if (['accuracy-comparison', 'box-plot', 'dataset-comparison', 'trend-cuts', 'top-improvements', 'size-vs-improvement'].includes(chartType)) {
         optionsHTML += `
             <div class="chart-option">
-                <label for="chart-iterations">Iteraciones:</label>
+                <label for="chart-iterations">${i18n.t('common.iterations')}:</label>
                 <select id="chart-iterations">
-                    <option value="all">Todas</option>
-                    <option value="10it">10 iteraciones</option>
-                    <option value="100it">100 iteraciones</option>
+                    <option value="all">${i18n.t('common.all')}</option>
+                    <option value="10it">${i18n.t('common.10iter')}</option>
+                    <option value="100it">${i18n.t('common.100iter')}</option>
                 </select>
             </div>
         `;
@@ -109,13 +110,13 @@ function updateChartOptions() {
     if (['accuracy-comparison', 'box-plot', 'dataset-comparison', 'top-improvements', 'size-vs-improvement'].includes(chartType)) {
         optionsHTML += `
             <div class="chart-option">
-                <label for="chart-cuts">Puntos de Corte:</label>
+                <label for="chart-cuts">${i18n.t('common.cutPoints')}:</label>
                 <select id="chart-cuts">
-                    <option value="all">Todos</option>
-                    <option value="3p">3 puntos</option>
-                    <option value="4p">4 puntos</option>
-                    <option value="5p">5 puntos</option>
-                    <option value="up">Ilimitado</option>
+                    <option value="all">${i18n.t('common.all')}</option>
+                    <option value="3p">${i18n.t('common.3points')}</option>
+                    <option value="4p">${i18n.t('common.4points')}</option>
+                    <option value="5p">${i18n.t('common.5points')}</option>
+                    <option value="up">${i18n.t('common.unlimited')}</option>
                 </select>
             </div>
         `;
@@ -265,7 +266,7 @@ function renderAccuracyComparisonChart(ctx) {
         });
 
         return {
-            label: discTypeLabelsChart[discType] || discType,
+            label: getDiscTypeLabelsChart()[discType] || discType,
             data: accuracies,
             backgroundColor: chartColors[discType]?.bg || 'rgba(128, 128, 128, 0.7)',
             borderColor: chartColors[discType]?.border || 'rgb(128, 128, 128)',
@@ -285,7 +286,7 @@ function renderAccuracyComparisonChart(ctx) {
             plugins: {
                 title: {
                     display: true,
-                    text: 'Accuracy Promedio por Clasificador y Tipo de Discretización',
+                    text: i18n.t('charts.type.accuracyComparison'),
                     font: { size: 16 }
                 },
                 tooltip: {
@@ -309,7 +310,7 @@ function renderAccuracyComparisonChart(ctx) {
                 x: {
                     title: {
                         display: true,
-                        text: 'Clasificador Base'
+                        text: i18n.t('common.baseModel')
                     }
                 }
             }
@@ -352,7 +353,7 @@ function renderBoxPlotChart(ctx) {
         data: {
             labels: modelBases,
             datasets: [{
-                label: 'Accuracy Mediana',
+                label: i18n.t('common.median') + ' Accuracy',
                 data: stats.map(d => d.median),
                 backgroundColor: modelBases.map(m => chartColors[m].bg),
                 borderColor: modelBases.map(m => chartColors[m].border),
@@ -365,7 +366,7 @@ function renderBoxPlotChart(ctx) {
             plugins: {
                 title: {
                     display: true,
-                    text: 'Distribución de Accuracy por Clasificador',
+                    text: i18n.t('charts.type.boxPlot'),
                     font: { size: 16 }
                 },
                 tooltip: {
@@ -375,10 +376,10 @@ function renderBoxPlotChart(ctx) {
                             return [
                                 `Min: ${formatNumChart(d.min)}%`,
                                 `Q1: ${formatNumChart(d.q1)}%`,
-                                `Mediana: ${formatNumChart(d.median)}%`,
+                                `${i18n.t('common.median')}: ${formatNumChart(d.median)}%`,
                                 `Q3: ${formatNumChart(d.q3)}%`,
                                 `Max: ${formatNumChart(d.max)}%`,
-                                `Media: ${formatNumChart(d.mean)}%`
+                                `${i18n.t('common.mean')}: ${formatNumChart(d.mean)}%`
                             ];
                         }
                     }
@@ -463,7 +464,7 @@ function renderHeatmapChart(ctx) {
         type: 'bubble',
         data: {
             datasets: [{
-                label: 'Mejora Local',
+                label: i18n.t('charts.localImprovement'),
                 data: bubbleData,
                 backgroundColor: bubbleData.map(d =>
                     d.value > 0.1 ? 'rgba(46, 204, 113, 0.7)' :
@@ -484,7 +485,7 @@ function renderHeatmapChart(ctx) {
             plugins: {
                 title: {
                     display: true,
-                    text: 'Mejoras de Discretización Local por Dataset (verde=mejora, rojo=pérdida)',
+                    text: i18n.t('charts.type.heatmap'),
                     font: { size: 16 }
                 },
                 tooltip: {
@@ -511,7 +512,7 @@ function renderHeatmapChart(ctx) {
                     },
                     title: {
                         display: true,
-                        text: 'Clasificador'
+                        text: i18n.t('common.model')
                     }
                 },
                 y: {
@@ -553,12 +554,12 @@ function renderDatasetComparisonChart(ctx) {
     if (data.length === 0) {
         currentChart = new Chart(ctx, {
             type: 'bar',
-            data: { labels: ['Sin datos'], datasets: [{ data: [0] }] },
+            data: { labels: [i18n.t('common.noData')], datasets: [{ data: [0] }] },
             options: {
                 plugins: {
                     title: {
                         display: true,
-                        text: `No hay datos para: ${chartState.dataset}`,
+                        text: `${i18n.t('common.noDataFor')} ${chartState.dataset}`,
                         font: { size: 16 }
                     }
                 }
@@ -617,7 +618,7 @@ function renderDatasetComparisonChart(ctx) {
             plugins: {
                 title: {
                     display: true,
-                    text: `Comparación de Modelos - Dataset: ${chartState.dataset}`,
+                    text: `${i18n.t('charts.type.datasetComparison')} - Dataset: ${chartState.dataset}`,
                     font: { size: 16 }
                 },
                 tooltip: {
@@ -642,7 +643,7 @@ function renderDatasetComparisonChart(ctx) {
                 y: {
                     title: {
                         display: true,
-                        text: 'Modelo'
+                        text: i18n.t('common.model')
                     }
                 }
             }
@@ -661,7 +662,7 @@ function renderTrendCutsChart(ctx) {
     }
 
     const cuts = ['3p', '4p', '5p', 'up'];
-    const cutsLabels = ['3 puntos', '4 puntos', '5 puntos', 'Ilimitado'];
+    const cutsLabels = [i18n.t('charts.cuts3'), i18n.t('charts.cuts4'), i18n.t('charts.cuts5'), i18n.t('charts.cutsUnlimited')];
     const classifiers = [
         { name: 'TANLd', isLocal: true, base: 'TAN' },
         { name: 'KDBLd', isLocal: true, base: 'KDB' },
@@ -715,7 +716,7 @@ function renderTrendCutsChart(ctx) {
             plugins: {
                 title: {
                     display: true,
-                    text: 'Tendencia de Accuracy por Puntos de Corte (línea sólida=Local, punteada=MDLP)',
+                    text: i18n.t('charts.type.trendCuts'),
                     font: { size: 14 }
                 },
                 tooltip: {
@@ -740,7 +741,7 @@ function renderTrendCutsChart(ctx) {
                 x: {
                     title: {
                         display: true,
-                        text: 'Configuración de Puntos de Corte'
+                        text: i18n.t('charts.cutPointsConfig')
                     }
                 }
             }
@@ -801,7 +802,7 @@ function renderTopImprovementsChart(ctx) {
         data: {
             labels: labels,
             datasets: [{
-                label: 'Mejora Promedio',
+                label: i18n.t('charts.avgImprovement'),
                 data: values,
                 backgroundColor: colors,
                 borderColor: borderColors,
@@ -815,7 +816,7 @@ function renderTopImprovementsChart(ctx) {
             plugins: {
                 title: {
                     display: true,
-                    text: `Top 15 Datasets con Mayores Mejoras${titleSuffix}`,
+                    text: `${i18n.t('charts.type.topImprovements')}${titleSuffix}`,
                     font: { size: 16 }
                 },
                 tooltip: {
@@ -823,7 +824,7 @@ function renderTopImprovementsChart(ctx) {
                         label: (context) => {
                             const val = context.raw;
                             const sign = val >= 0 ? '+' : '';
-                            return `Mejora: ${sign}${formatNumChart(val)}%`;
+                            return `${i18n.t('charts.improvement')}: ${sign}${formatNumChart(val)}%`;
                         }
                     }
                 },
@@ -835,7 +836,7 @@ function renderTopImprovementsChart(ctx) {
                 x: {
                     title: {
                         display: true,
-                        text: 'Mejora Promedio (%)'
+                        text: i18n.t('charts.avgImprovementPct')
                     },
                     ticks: {
                         callback: (value) => formatNumChart(value) + '%'
@@ -961,7 +962,7 @@ function renderSizeVsImprovementChart(ctx) {
                     pointHoverRadius: 10
                 },
                 {
-                    label: 'Tendencia',
+                    label: i18n.t('charts.trend'),
                     data: trendPoints,
                     type: 'line',
                     borderColor: 'rgba(231, 76, 60, 0.8)',
@@ -979,7 +980,7 @@ function renderSizeVsImprovementChart(ctx) {
             plugins: {
                 title: {
                     display: true,
-                    text: `Relación entre Tamaño del Dataset y Mejora${titleSuffix}`,
+                    text: `${i18n.t('charts.type.sizeVsImprovement')}${titleSuffix}`,
                     font: { size: 16 }
                 },
                 tooltip: {
@@ -988,7 +989,7 @@ function renderSizeVsImprovementChart(ctx) {
                             if (context.datasetIndex === 1) return null; // No tooltip para línea de tendencia
                             const d = context.raw;
                             const sign = d.y >= 0 ? '+' : '';
-                            return `${d.dataset}: ${sign}${formatNumChart(d.y)}% (${d.x.toLocaleString('es-ES')} muestras)`;
+                            return `${d.dataset}: ${sign}${formatNumChart(d.y)}% (${i18n.localeInt(d.x)} ${i18n.t('charts.samples')})`;
                         }
                     },
                     filter: (tooltipItem) => tooltipItem.datasetIndex === 0
@@ -997,7 +998,7 @@ function renderSizeVsImprovementChart(ctx) {
                     display: true,
                     position: 'top',
                     labels: {
-                        filter: (item) => item.text === 'Tendencia'
+                        filter: (item) => item.text === i18n.t('charts.trend')
                     }
                 }
             },
@@ -1006,10 +1007,10 @@ function renderSizeVsImprovementChart(ctx) {
                     type: 'logarithmic',
                     title: {
                         display: true,
-                        text: 'Tamaño del Dataset (muestras)'
+                        text: i18n.t('charts.datasetSize')
                     },
                     ticks: {
-                        callback: (value) => value.toLocaleString('es-ES')
+                        callback: (value) => i18n.localeInt(value)
                     },
                     grid: {
                         color: 'rgba(0,0,0,0.1)'
@@ -1018,7 +1019,7 @@ function renderSizeVsImprovementChart(ctx) {
                 y: {
                     title: {
                         display: true,
-                        text: 'Mejora Promedio (%)'
+                        text: i18n.t('charts.avgImprovementPct')
                     },
                     ticks: {
                         callback: (value) => formatNumChart(value) + '%'
@@ -1057,12 +1058,12 @@ function renderSizeVsImprovementChart(ctx) {
  */
 function downloadChartPNG() {
     if (!currentChart) {
-        alert('No hay gráfico para descargar');
+        alert(i18n.t('common.noChartDownload'));
         return;
     }
 
     const link = document.createElement('a');
-    link.download = `grafico_${chartState.type}_${new Date().toISOString().split('T')[0]}.png`;
+    link.download = `chart_${chartState.type}_${new Date().toISOString().split('T')[0]}.png`;
     link.href = currentChart.toBase64Image();
     link.click();
 }
@@ -1076,7 +1077,7 @@ function toggleTable() {
 
     if (table && btnText) {
         table.classList.toggle('hidden');
-        btnText.textContent = table.classList.contains('hidden') ? 'Mostrar Tabla' : 'Ocultar Tabla';
+        btnText.textContent = table.classList.contains('hidden') ? i18n.t('charts.showTable') : i18n.t('charts.hideTable');
     }
 }
 

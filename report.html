@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Informe PDF - Discretización Local en Clasificadores basados en redes bayesianas</title>
+    <title data-i18n="report.title">PDF Report - Local Discretization in Bayesian Network Classifiers</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/report.css">
 </head>
@@ -16,14 +16,14 @@
                     <path d="M12 2L2 7l10 5 10-5-10-5z"/>
                     <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
                 </svg>
-                Discretización Local
+                <span data-i18n="nav.brand">Local Discretization</span>
             </a>
             <div class="navbar-menu">
                 <a href="index.html" class="nav-link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                     </svg>
-                    Principal
+                    <span data-i18n="nav.home">Home</span>
                 </a>
                 <a href="compare.html" class="nav-link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -32,7 +32,7 @@
                         <rect x="14" y="14" width="7" height="7"/>
                         <rect x="3" y="14" width="7" height="7"/>
                     </svg>
-                    Comparativa
+                    <span data-i18n="nav.comparison">Comparison</span>
                 </a>
                 <a href="charts.html" class="nav-link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -40,7 +40,7 @@
                         <line x1="12" y1="20" x2="12" y2="4"/>
                         <line x1="6" y1="20" x2="6" y2="14"/>
                     </svg>
-                    Gráficos
+                    <span data-i18n="nav.charts">Charts</span>
                 </a>
                 <a href="results-grid.html" class="nav-link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -49,15 +49,15 @@
                         <line x1="3" y1="15" x2="21" y2="15"/>
                         <line x1="9" y1="3" x2="9" y2="21"/>
                     </svg>
-                    Grid
+                    <span data-i18n="nav.grid">Grid</span>
                 </a>
                 <a href="ai-chat.html" class="nav-link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                     </svg>
-                    IA
+                    <span data-i18n="nav.ai">AI</span>
                 </a>
-                <button id="theme-toggle" class="btn-theme" title="Cambiar tema claro/oscuro">
+                <button id="theme-toggle" class="btn-theme" data-i18n-title="nav.themeTitle" title="Toggle light/dark theme">
                     <svg id="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="5"/>
                         <line x1="12" y1="1" x2="12" y2="3"/>
@@ -73,6 +73,11 @@
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
                     </svg>
                 </button>
+                <div class="lang-toggle">
+                    <button class="btn-lang-opt" data-lang="es">ES</button>
+                    <span class="lang-divider"></span>
+                    <button class="btn-lang-opt" data-lang="en">EN</button>
+                </div>
             </div>
         </div>
     </nav>
@@ -80,57 +85,59 @@
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <h1 class="title-with-info">
-                Informe de Experimentación (PDF)
-                <span class="info-tooltip" tabindex="0" aria-label="Descripción de la página" role="tooltip">
+            <div class="title-with-info">
+                <h1 data-i18n="report.header">Experimentation Report (PDF)</h1>
+                <div class="info-tooltip" tabindex="0" aria-label="Descripción de la página" role="tooltip">
                     i
-                    <span class="tooltip-text">
+                    <div class="tooltip-text">
                         <div class="tooltip-section">
-                            <strong>Qué es</strong>
+                            <strong data-i18n="report.tooltip.whatTitle">What is it</strong>
                             <ul>
-                                <li>Visor embebido del PDF del informe generado para la experimentación.</li>
-                                <li>Útil para revisar el documento sin salir del explorador de resultados.</li>
+                                <li data-i18n="report.tooltip.what1">Embedded PDF viewer of the report generated for the experimentation.</li>
+                                <li data-i18n="report.tooltip.what2">Useful for reviewing the document without leaving the results explorer.</li>
                             </ul>
                         </div>
                         <div class="tooltip-section">
-                            <strong>Consejos</strong>
+                            <strong data-i18n="report.tooltip.tipsTitle">Tips</strong>
                             <ul>
-                                <li>Usa “Abrir” para pantalla completa en una pestaña nueva.</li>
-                                <li>Usa “Descargar” si tu navegador no permite incrustar PDFs.</li>
+                                <li data-i18n="report.tooltip.tip1">Use "Open" for full screen in a new tab.</li>
+                                <li data-i18n="report.tooltip.tip2">Use "Download" if your browser doesn't allow embedding PDFs.</li>
                             </ul>
                         </div>
-                    </span>
-                </span>
-            </h1>
-            <p class="subtitle">Revisión del informe generado</p>
+                    </div>
+                </div>
+            </div>
+            <p class="subtitle" data-i18n="report.subtitle">Review of the generated report</p>
         </header>
 
         <section class="report-card">
             <div class="report-card-header">
-                <div class="report-card-title">Visor PDF</div>
+                <div class="report-card-title" data-i18n="report.pdfViewer">PDF Viewer</div>
                 <div class="report-actions">
-                    <a class="report-action" href="data/final_report.pdf" target="_blank" rel="noopener">Abrir</a>
-                    <a class="report-action primary" href="data/final_report.pdf" download>Descargar</a>
+                    <a class="report-action" href="data/final_report.pdf" target="_blank" rel="noopener" data-i18n="report.open">Open</a>
+                    <a class="report-action primary" href="data/final_report.pdf" download data-i18n="report.download">Download</a>
                 </div>
             </div>
             <div class="report-frame">
                 <iframe
                     class="pdf-frame"
                     src="data/final_report.pdf#view=FitH"
-                    title="Informe de experimentación (PDF)"
+                    data-i18n-title="report.iframeTitle"
+                    title="Experimentation report (PDF)"
                 ></iframe>
-                <div class="pdf-fallback">
-                    Si no se muestra el PDF, abre <a href="data/final_report.pdf" target="_blank" rel="noopener">el informe</a> en una pestaña nueva o descárgalo desde el botón superior.
+                <div class="pdf-fallback" data-i18n-html="report.fallback">
+                    If the PDF is not displayed, open <a href="data/final_report.pdf" target="_blank" rel="noopener">the report</a> in a new tab or download it from the button above.
                 </div>
             </div>
         </section>
 
         <!-- Footer -->
         <footer class="footer">
-            <p>Informe PDF - Discretización Local</p>
+            <p data-i18n="report.footer">PDF Report - Local Discretization</p>
         </footer>
     </div>
 
+    <script src="js/i18n.js"></script>
     <script src="js/report.js"></script>
 </body>
 </html>

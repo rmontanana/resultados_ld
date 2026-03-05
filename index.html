@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultados: Discretización Local en Clasificadores basados en redes bayesianas</title>
+    <title data-i18n="index.title">Results: Local Discretization in Bayesian Network Classifiers</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -15,14 +15,14 @@
                     <path d="M12 2L2 7l10 5 10-5-10-5z"/>
                     <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
                 </svg>
-                Discretización Local
+                <span data-i18n="nav.brand">Local Discretization</span>
             </a>
             <div class="navbar-menu">
                 <a href="index.html" class="nav-link active">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                     </svg>
-                    Principal
+                    <span data-i18n="nav.home">Home</span>
                 </a>
                 <a href="compare.html" class="nav-link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -31,7 +31,7 @@
                         <rect x="14" y="14" width="7" height="7"/>
                         <rect x="3" y="14" width="7" height="7"/>
                     </svg>
-                    Comparativa
+                    <span data-i18n="nav.comparison">Comparison</span>
                 </a>
                 <a href="charts.html" class="nav-link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -39,7 +39,7 @@
                         <line x1="12" y1="20" x2="12" y2="4"/>
                         <line x1="6" y1="20" x2="6" y2="14"/>
                     </svg>
-                    Gráficos
+                    <span data-i18n="nav.charts">Charts</span>
                 </a>
                 <a href="results-grid.html" class="nav-link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -48,15 +48,15 @@
                         <line x1="3" y1="15" x2="21" y2="15"/>
                         <line x1="9" y1="3" x2="9" y2="21"/>
                     </svg>
-                    Grid
+                    <span data-i18n="nav.grid">Grid</span>
                 </a>
                 <a href="ai-chat.html" class="nav-link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                     </svg>
-                    IA
+                    <span data-i18n="nav.ai">AI</span>
                 </a>
-                <button id="theme-toggle" class="btn-theme" title="Cambiar tema claro/oscuro">
+                <button id="theme-toggle" class="btn-theme" data-i18n-title="nav.themeTitle" title="Toggle light/dark theme">
                     <svg id="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="5"/>
                         <line x1="12" y1="1" x2="12" y2="3"/>
@@ -72,6 +72,11 @@
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
                     </svg>
                 </button>
+                <div class="lang-toggle">
+                    <button class="btn-lang-opt" data-lang="es">ES</button>
+                    <span class="lang-divider"></span>
+                    <button class="btn-lang-opt" data-lang="en">EN</button>
+                </div>
             </div>
         </div>
     </nav>
@@ -79,52 +84,52 @@
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <h1 class="title-with-info">
-                Explorador de Resultados Experimentales
-                <span class="info-tooltip" tabindex="0" aria-label="Descripción de la página" role="tooltip">
+            <div class="title-with-info">
+                <h1 data-i18n="index.header">Experimental Results Explorer</h1>
+                <div class="info-tooltip" tabindex="0" aria-label="Descripción de la página" role="tooltip">
                     i
-                    <span class="tooltip-text">
+                    <div class="tooltip-text">
                         <div class="tooltip-section">
-                            <strong>¿Qué ves aquí?</strong>
+                            <strong data-i18n="index.tooltip.whatTitle">What do you see here?</strong>
                             <ul>
-                                <li>Vista global de todos los experimentos (Local y bases TAN/KDB/AODE) con búsqueda y filtros.</li>
-                                <li>Permite acotar por iteraciones (10/100), puntos de corte (3/4/5/up) y modelos base.</li>
+                                <li data-i18n="index.tooltip.what1">Global view of all experiments (Local and base TAN/KDB/AODE) with search and filters.</li>
+                                <li data-i18n="index.tooltip.what2">Filter by iterations (10/100), cut points (3/4/5/up) and base models.</li>
                             </ul>
                         </div>
                         <div class="tooltip-section">
-                            <strong>Cómo usarla</strong>
+                            <strong data-i18n="index.tooltip.howTitle">How to use it</strong>
                             <ul>
-                                <li>Filtra en la izquierda; ordena por accuracy, std o tiempo según tu foco.</li>
-                                <li>Usa el buscador para ubicar un dataset concreto; “Resetear” limpia todo.</li>
+                                <li data-i18n="index.tooltip.how1">Filter on the left; sort by accuracy, std or time as needed.</li>
+                                <li data-i18n="index.tooltip.how2">Use search to find a specific dataset; "Reset" clears everything.</li>
                             </ul>
                         </div>
                         <div class="tooltip-section">
-                            <strong>Qué preguntas responde</strong>
+                            <strong data-i18n="index.tooltip.questionsTitle">What questions it answers</strong>
                             <ul>
-                                <li>¿Qué rendimiento obtiene cada modelo en un dataset concreto?</li>
-                                <li>¿Cómo cambia el accuracy según puntos de corte y discretizador?</li>
-                                <li>¿Dónde mejora o no la discretización local frente a las bases?</li>
+                                <li data-i18n="index.tooltip.q1">What performance does each model achieve on a specific dataset?</li>
+                                <li data-i18n="index.tooltip.q2">How does accuracy change with cut points and discretizer?</li>
+                                <li data-i18n="index.tooltip.q3">Where does local discretization improve or not vs the bases?</li>
                             </ul>
                         </div>
                         <div class="tooltip-section">
-                            <strong>Consejos</strong>
+                            <strong data-i18n="index.tooltip.tipsTitle">Tips</strong>
                             <ul>
-                                <li>Combina filtros (ej. 10it + 3p + TAN) para aislar escenarios.</li>
-                                <li>Fíjate en el marcador del mejor resultado por grupo para ver al líder rápido.</li>
+                                <li data-i18n="index.tooltip.tip1">Combine filters (e.g. 10it + 3p + TAN) to isolate scenarios.</li>
+                                <li data-i18n="index.tooltip.tip2">Look at the best result marker per group to quickly spot the leader.</li>
                             </ul>
                         </div>
-                    </span>
-                </span>
-            </h1>
-            <p class="subtitle">Análisis de discretización local en clasificadores basados en redes bayesianas</p>
+                    </div>
+                </div>
+            </div>
+            <p class="subtitle" data-i18n="index.subtitle">Analysis of local discretization in Bayesian network-based classifiers</p>
         </header>
 
         <!-- Filters Panel -->
         <section class="filters-panel">
             <div class="filters-header">
-                <h2>Filtros</h2>
+                <h2 data-i18n="common.filters">Filters</h2>
                 <button id="reset-filters" class="btn-reset" title="Resetear filtros">
-                    <span>Resetear</span>
+                    <span data-i18n="common.reset">Reset</span>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
                         <path d="M3 3v5h5"/>
@@ -135,26 +140,26 @@
             <div class="filters-grid">
                 <!-- Search -->
                 <div class="filter-group">
-                    <label for="search-dataset">Buscar Dataset</label>
-                    <input type="text" id="search-dataset" placeholder="Ej: iris, adult...">
+                    <label for="search-dataset" data-i18n="index.searchDataset">Search Dataset</label>
+                    <input type="text" id="search-dataset" data-i18n-placeholder="index.searchPlaceholder" placeholder="E.g.: iris, adult...">
                 </div>
 
                 <!-- Iterations -->
                 <div class="filter-group">
-                    <label>Iteraciones</label>
+                    <label data-i18n="common.iterations">Iterations</label>
                     <div class="checkbox-group">
                         <label class="checkbox-label">
-                            <input type="checkbox" name="iterations" value="10it" checked> 10 iteraciones
+                            <input type="checkbox" name="iterations" value="10it" checked> <span data-i18n="common.10iter">10 iterations</span>
                         </label>
                         <label class="checkbox-label">
-                            <input type="checkbox" name="iterations" value="100it" checked> 100 iteraciones
+                            <input type="checkbox" name="iterations" value="100it" checked> <span data-i18n="common.100iter">100 iterations</span>
                         </label>
                     </div>
                 </div>
 
                 <!-- Cut Points -->
                 <div class="filter-group">
-                    <label>Puntos de Corte</label>
+                    <label data-i18n="common.cutPoints">Cut Points</label>
                     <div class="checkbox-group">
                         <label class="checkbox-label">
                             <input type="checkbox" name="cuts" value="3p" checked> 3p
@@ -166,14 +171,14 @@
                             <input type="checkbox" name="cuts" value="5p" checked> 5p
                         </label>
                         <label class="checkbox-label">
-                            <input type="checkbox" name="cuts" value="up" checked> Ilimitado
+                            <input type="checkbox" name="cuts" value="up" checked> <span data-i18n="common.unlimited">Unlimited</span>
                         </label>
                     </div>
                 </div>
 
                 <!-- Model Base -->
                 <div class="filter-group">
-                    <label>Modelo Base</label>
+                    <label data-i18n="common.baseModel">Base Model</label>
                     <div class="checkbox-group">
                         <label class="checkbox-label">
                             <input type="checkbox" name="model_base" value="TAN" checked> TAN
@@ -189,7 +194,7 @@
 
                 <!-- Discretization Type -->
                 <div class="filter-group">
-                    <label>Tipo de Discretización</label>
+                    <label data-i18n="index.discType">Discretization Type</label>
                     <div class="checkbox-group">
                         <label class="checkbox-label">
                             <input type="checkbox" name="disc_type" value="local" checked>
@@ -201,11 +206,11 @@
                         </label>
                         <label class="checkbox-label">
                             <input type="checkbox" name="disc_type" value="equal_freq" checked>
-                            <span class="badge badge-freq">Igual Freq</span>
+                            <span class="badge badge-freq" data-i18n="common.equalFreq">Equal Freq</span>
                         </label>
                         <label class="checkbox-label">
                             <input type="checkbox" name="disc_type" value="equal_width" checked>
-                            <span class="badge badge-width">Igual Amp</span>
+                            <span class="badge badge-width" data-i18n="common.equalWidth">Equal Width</span>
                         </label>
                         <label class="checkbox-label">
                             <input type="checkbox" name="disc_type" value="pki" checked>
@@ -213,7 +218,7 @@
                         </label>
                         <label class="checkbox-label inline-toggle">
                             <input type="checkbox" id="only-improvements">
-                            <span>Solo mejoras de discretización local</span>
+                            <span data-i18n="index.onlyImprovements">Local discretization improvements only</span>
                         </label>
                     </div>
                 </div>
@@ -223,65 +228,62 @@
         <!-- Stats Summary -->
         <section class="stats-panel">
             <div class="stat-card">
-                <span class="stat-value stat-value-with-info">
-                    <span id="stat-total">0</span>
-                    <span id="info-configs-btn" class="info-tooltip" tabindex="0" title="Ver desglose de configuraciones" role="button" style="cursor:pointer">i</span>
-                </span>
-                <span class="stat-label">Resultados</span>
+                <span class="stat-value" id="stat-total">0</span>
+                <span class="stat-label" data-i18n="index.statResults">Results</span>
             </div>
             <div class="stat-card">
                 <span class="stat-value" id="stat-avg-accuracy">0%</span>
-                <span class="stat-label">Accuracy Promedio</span>
+                <span class="stat-label" data-i18n="index.statAvgAccuracy">Average Accuracy</span>
             </div>
             <div class="stat-card positive">
-                <span class="stat-value" id="stat-improvements">-</span>
-                <span class="stat-label">Tasa Victoria Pareada</span>
+                <span class="stat-value" id="stat-improvements">0</span>
+                <span class="stat-label" data-i18n="index.statImprovements">Local Improvements</span>
             </div>
             <div class="stat-card">
                 <span class="stat-value" id="stat-best-accuracy">0%</span>
-                <span class="stat-label">Mejor Accuracy</span>
+                <span class="stat-label" data-i18n="index.statBestAccuracy">Best Accuracy</span>
             </div>
         </section>
 
         <!-- Results Table -->
         <section class="results-section" id="results-section">
             <div class="table-header">
-                <h2>Resultados <span id="results-count">(0)</span></h2>
+                <h2><span data-i18n="index.statResults">Results</span> <span id="results-count">(0)</span></h2>
                 <div class="table-actions">
-                    <span class="help-label" tabindex="0" aria-label="Información sobre Mejora Pareada" role="button">
+                    <div class="help-label" tabindex="0" aria-label="Información sobre Mejora" role="button">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="12" cy="12" r="10"></circle>
                             <line x1="12" y1="10" x2="12" y2="16"></line>
                             <circle cx="12" cy="7.5" r="1.5" fill="currentColor" stroke="none"></circle>
                         </svg>
-                        Mejora Pareada
-                        <span class="tooltip-text">
-                            <div>
-                                <strong>Qué es</strong>
+                        <span data-i18n="common.improvement">Improvement</span>
+                        <div class="tooltip-text">
+                            <div class="tooltip-section">
+                                <strong data-i18n="index.imp.whatTitle">What is it</strong>
                                 <ul>
-                                    <li>Media de las mejoras pareadas de Local vs <em>cada</em> adversario por separado (MDLP, Igual Freq, Igual Amp, PKI).</li>
-                                    <li>Solo aplica a filas Local; las demás quedan en "-".</li>
+                                    <li data-i18n="index.imp.what1">Difference (percentage points) between a Local model and the best comparable base model.</li>
+                                    <li data-i18n="index.imp.what2">Only applies to Local rows; others show "-".</li>
                                 </ul>
                             </div>
-                            <div>
-                                <strong>Cálculo</strong>
+                            <div class="tooltip-section">
+                                <strong data-i18n="index.imp.calcTitle">Calculation</strong>
                                 <ul>
-                                    <li>Para cada resultado Local se buscan las 4 comparaciones pareadas independientes (mismo dataset, iterations, cuts, model_base) contra cada adversario.</li>
-                                    <li>Mejora = media de (accuracy_local − accuracy_adversario) × 100 sobre los adversarios disponibles.</li>
-                                    <li>Los datos provienen del pipeline estadístico adversaries_final (tests de Wilcoxon/t, corrección Holm-Bonferroni).</li>
+                                    <li data-i18n-html="index.imp.calc1">Each Local result is compared to the best accuracy of models with the same <em>model_base</em>, same <em>iterations</em> and same <em>cuts</em>, but non-Local discretization.</li>
+                                    <li data-i18n="index.imp.calc2">Improvement = (accuracy_local - best_base_accuracy) x 100.</li>
+                                    <li data-i18n="index.imp.calc3">best_base_model and best_base_accuracy come from precomputed data in results.json.</li>
                                 </ul>
                             </div>
-                            <div>
-                                <strong>Uso</strong>
+                            <div class="tooltip-section">
+                                <strong data-i18n="index.imp.useTitle">Usage</strong>
                                 <ul>
-                                    <li>Valores positivos: Local supera, en promedio, a los adversarios.</li>
-                                    <li>Valores negativos: los adversarios son, en promedio, superiores.</li>
+                                    <li data-i18n="index.imp.use1">Positive values: Local outperforms the best base in that scenario.</li>
+                                    <li data-i18n="index.imp.use2">Negative values: the best base is superior to Local.</li>
                                 </ul>
                             </div>
-                        </span>
-                    </span>
+                        </div>
+                    </div>
                     <button id="export-csv" class="btn-export">
-                        Exportar Pareados CSV (<span id="pairwise-count">0</span>)
+                        <span data-i18n="index.exportCsv">Export CSV</span>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                             <polyline points="7 10 12 15 17 10"/>
@@ -296,17 +298,17 @@
                     <thead>
                         <tr>
                             <th data-sort="dataset">Dataset <span class="sort-icon"></span></th>
-                            <th data-sort="iterations">Iter. <span class="sort-icon"></span></th>
-                            <th data-sort="cuts">Cortes <span class="sort-icon"></span></th>
-                            <th data-sort="model">Modelo <span class="sort-icon"></span></th>
-                            <th data-sort="discretization_type">Tipo <span class="sort-icon"></span></th>
+                            <th data-sort="iterations"><span data-i18n="index.tableIter">Iter.</span> <span class="sort-icon"></span></th>
+                            <th data-sort="cuts"><span data-i18n="index.tableCuts">Cuts</span> <span class="sort-icon"></span></th>
+                            <th data-sort="model"><span data-i18n="common.model">Model</span> <span class="sort-icon"></span></th>
+                            <th data-sort="discretization_type"><span data-i18n="index.tableType">Type</span> <span class="sort-icon"></span></th>
                             <th data-sort="accuracy" class="num">Accuracy <span class="sort-icon"></span></th>
                             <th data-sort="std" class="num">Std <span class="sort-icon"></span></th>
-                            <th data-sort="paired_improvement" class="num header-with-info">
-                                <span>Mejora Pareada</span>
+                            <th data-sort="improvement_vs_base" class="num header-with-info">
+                                <span data-i18n="common.improvement">Improvement</span>
                                 <span class="sort-icon"></span>
                             </th>
-                            <th data-sort="samples" class="num">Muestras <span class="sort-icon"></span></th>
+                            <th data-sort="samples" class="num"><span data-i18n="common.samples">Samples</span> <span class="sort-icon"></span></th>
                             <th data-sort="features" class="num">Attrs <span class="sort-icon"></span></th>
                         </tr>
                     </thead>
@@ -317,148 +319,61 @@
             </div>
 
             <div class="pagination">
-                <button id="prev-page" class="btn-page" disabled>&laquo; Anterior</button>
+                <button id="prev-page" class="btn-page" disabled>&laquo; <span data-i18n="index.previous">Previous</span></button>
                 <span id="page-info">Página 1 de 1</span>
-                <button id="next-page" class="btn-page">Siguiente &raquo;</button>
+                <button id="next-page" class="btn-page"><span data-i18n="index.next">Next</span> &raquo;</button>
             </div>
         </section>
 
         <!-- Legend -->
         <section class="legend-panel">
-            <h3>Leyenda</h3>
+            <h3 data-i18n="index.legend">Legend</h3>
             <div class="legend-items">
                 <div class="legend-item">
                     <span class="badge badge-local">Local</span>
-                    <span>Discretización local iterativa (TANLd, KDBLd, AODELd)</span>
+                    <span data-i18n="index.legendLocal">Iterative local discretization (TANLd, KDBLd, AODELd)</span>
                 </div>
                 <div class="legend-item">
                     <span class="badge badge-mdlp">MDLP</span>
-                    <span>Discretización supervisada Fayyad-Irani</span>
+                    <span data-i18n="index.legendMdlp">Supervised Fayyad-Irani discretization</span>
                 </div>
                 <div class="legend-item">
-                    <span class="badge badge-freq">Igual Freq</span>
-                    <span>Discretización no supervisada por igual frecuencia</span>
+                    <span class="badge badge-freq" data-i18n="common.equalFreq">Equal Freq</span>
+                    <span data-i18n="index.legendFreq">Unsupervised equal frequency discretization</span>
                 </div>
                 <div class="legend-item">
-                    <span class="badge badge-width">Igual Amp</span>
-                    <span>Discretización no supervisada por igual amplitud</span>
+                    <span class="badge badge-width" data-i18n="common.equalWidth">Equal Width</span>
+                    <span data-i18n="index.legendWidth">Unsupervised equal width discretization</span>
                 </div>
                 <div class="legend-item">
                     <span class="badge badge-pki">PKI</span>
-                    <span>PKI (sqrt del número de características)</span>
+                    <span data-i18n="index.legendPki">PKI (sqrt of number of features)</span>
                 </div>
                 <div class="legend-item">
                     <span class="improvement positive">+1.5%</span>
-                    <span>Mejora pareada media de Local vs adversarios</span>
+                    <span data-i18n="index.legendImpPos">Local discretization improvement vs best base</span>
                 </div>
                 <div class="legend-item">
                     <span class="improvement negative">-2.0%</span>
-                    <span>Pérdida pareada media de Local vs adversarios</span>
+                    <span data-i18n="index.legendImpNeg">Local discretization loss vs best base</span>
                 </div>
             </div>
         </section>
 
         <!-- Footer -->
         <footer class="footer">
-            <p>Experimentación de Discretización Local en Clasificadores basados en redes bayesianas</p>
-            <p>27 datasets &bull; TAN, KDB, AODE &bull; 5-fold cross-validation estratificada</p>
+            <p data-i18n-html="index.footer1">Local Discretization Experiments in Bayesian network-based classifiers</p>
+            <p data-i18n-html="index.footer2">27 datasets &bull; TAN, KDB, AODE &bull; 5-fold stratified cross-validation</p>
         </footer>
     </div>
 
     <!-- Loading Overlay -->
     <div id="loading" class="loading-overlay">
         <div class="loading-spinner"></div>
-        <p>Cargando datos...</p>
+        <p data-i18n="common.loading">Loading data...</p>
     </div>
 
-    <!-- Modal: Desglose de configuraciones -->
-    <div id="modal-configs" class="modal-overlay" hidden>
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Desglose de configuraciones experimentales</h3>
-                <button id="modal-configs-close" class="modal-close">&times;</button>
-            </div>
-            <div class="modal-body">
-                <table class="config-table">
-                    <thead>
-                        <tr>
-                            <th>Discretizador</th>
-                            <th># Iter.</th>
-                            <th># Clasif.</th>
-                            <th># Ptos. corte</th>
-                            <th># Configs.</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>MDLP</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>24</td>
-                        </tr>
-                        <tr>
-                            <td>Igual amplitud (bin-u)</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>3</td>
-                            <td>18</td>
-                        </tr>
-                        <tr>
-                            <td>Igual frecuencia (bin-q)</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>3</td>
-                            <td>18</td>
-                        </tr>
-                        <tr>
-                            <td>PKI (sqrt)</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>1</td>
-                            <td>6</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Local (Ld)</strong></td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>24</td>
-                        </tr>
-                        <tr class="config-table-total">
-                            <td><strong>Total</strong></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><strong>90</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <p class="modal-note">
-                    Cada configuraci&oacute;n se eval&uacute;a sobre <strong>27 datasets</strong>, lo que genera
-                    90 &times; 27 = <strong>2.430 resultados</strong> individuales.
-                </p>
-
-                <h4>Comparaciones pareadas</h4>
-                <p>
-                    La discretizaci&oacute;n local se compara con cada m&eacute;todo adversario
-                    en las mismas condiciones (iteraciones, puntos de corte, clasificador, dataset):
-                </p>
-                <ul>
-                    <li>22 configuraciones adversarias por clasificador (24 MDLP + 18 bin-u + 18 bin-q + 6 PKI = 66 &divide; 3 clasif. = 22)</li>
-                    <li>&times; 3 clasificadores (TAN, KDB, AODE) = 66</li>
-                    <li>&times; 27 datasets = <strong>1.782 comparaciones pareadas</strong></li>
-                </ul>
-                <p class="modal-note">
-                    Tras agregar por adversario, cada grupo de prueba estadística
-                    dispone de <strong>N&nbsp;=&nbsp;27</strong> observaciones (una por dataset)
-                    sobre las que se realiza la inferencia (Wilcoxon signed-rank).
-                </p>
-            </div>
-        </div>
-    </div>
-
+    <script src="js/i18n.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

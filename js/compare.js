@@ -4,8 +4,7 @@
 
 // Función para formatear números con coma decimal
 function formatNum(num, decimals = 2) {
-    if (num === null || num === undefined || isNaN(num)) return '-';
-    return num.toFixed(decimals).replace('.', ',');
+    return i18n.formatLocaleNumber(num, decimals);
 }
 
 // Gestión de tema
@@ -37,7 +36,6 @@ function toggleTheme() {
 // Estado de la aplicación
 const compareState = {
     data: null,
-    adversaries: null,
     iterations: '10it',
     discretizer: 'mdlp',
     cuts: '3p'
@@ -57,22 +55,18 @@ async function init() {
     } catch (error) {
         console.error('Error inicializando:', error);
         document.getElementById('loading').innerHTML = `
-            <p style="color: var(--danger-color);">Error cargando datos: ${error.message}</p>
+            <p style="color: var(--danger-color);">${i18n.t('common.errorLoading')} ${error.message}</p>
         `;
     }
 }
 
 async function loadData() {
-    const [resultsResponse, adversariesResponse] = await Promise.all([
-        fetch('data/results.json'),
-        fetch('data/adversaries.json')
-    ]);
-    if (!resultsResponse.ok) throw new Error(`HTTP ${resultsResponse.status} cargando results.json`);
-    if (!adversariesResponse.ok) throw new Error(`HTTP ${adversariesResponse.status} cargando adversaries.json`);
-
-    compareState.data = await resultsResponse.json();
-    compareState.adversaries = await adversariesResponse.json();
-    console.log(`Datos cargados: ${compareState.data.results.length} resultados, ${compareState.adversaries.pairwise_comparisons.length} comparaciones pareadas`);
+    const response = await fetch('data/results.json');
+    if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+    }
+    compareState.data = await response.json();
+    console.log(`Datos cargados: ${compareState.data.results.length} resultados`);
 }
 
 function hideLoading() {
@@ -103,6 +97,11 @@ function setupEventListeners() {
         compareState.cuts = e.target.value;
         renderTable();
     });
+
+    document.addEventListener('langchange', () => {
+        renderTable();
+        i18n.applyTranslations();
+    });
 }
 
 /**
@@ -115,24 +114,24 @@ function updateCutsOptions() {
     if (discretizer === 'pki') {
         // PKI solo tiene opción ilimitada
         cutsSelect.innerHTML = `
-            <option value="up">Ilimitado</option>
+            <option value="up">${i18n.t('common.unlimited')}</option>
         `;
         compareState.cuts = 'up';
     } else if (discretizer === 'mdlp') {
         // MDLP tiene 3, 4, 5 e ilimitado
         cutsSelect.innerHTML = `
-            <option value="3p">3 puntos</option>
-            <option value="4p">4 puntos</option>
-            <option value="5p">5 puntos</option>
-            <option value="up">Ilimitado</option>
+            <option value="3p">${i18n.t('common.3points')}</option>
+            <option value="4p">${i18n.t('common.4points')}</option>
+            <option value="5p">${i18n.t('common.5points')}</option>
+            <option value="up">${i18n.t('common.unlimited')}</option>
         `;
         compareState.cuts = '3p';
     } else {
         // equal_freq y equal_width solo tienen 3, 4, 5 (no ilimitado)
         cutsSelect.innerHTML = `
-            <option value="3p">3 puntos</option>
-            <option value="4p">4 puntos</option>
-            <option value="5p">5 puntos</option>
+            <option value="3p">${i18n.t('common.3points')}</option>
+            <option value="4p">${i18n.t('common.4points')}</option>
+            <option value="5p">${i18n.t('common.5points')}</option>
         `;
         compareState.cuts = '3p';
     }
@@ -326,32 +325,6 @@ function updateStats(stats, totalDatasets) {
             avgDiffEl.textContent = (avgDiff > 0 ? '+' : '') + formatNum(avgDiff, 3) + '%';
             avgDiffEl.className = avgDiff > 0 ? 'positive' : avgDiff < 0 ? 'negative' : '';
         }
-
-        // Enriquecer con datos estadísticos del adversario seleccionado
-        const statKey = `${classifier}_vs_${compareState.discretizer}`;
-        const adversaryStats = compareState.adversaries?.statistical_results?.[statKey];
-        const pvalEl = document.getElementById(`${prefix}-pvalue`);
-        const effectEl = document.getElementById(`${prefix}-effect`);
-
-        if (adversaryStats && pvalEl && effectEl) {
-            const pAdj = adversaryStats.statistical_test.pvalue_adjusted;
-            const pStr = pAdj < 0.001 ? '<0,001' : formatNum(pAdj, 3);
-            const sig = pAdj < 0.05;
-            pvalEl.textContent = pStr;
-            pvalEl.className = sig ? 'negative' : '';
-            pvalEl.title = `Test: ${adversaryStats.statistical_test.name}, p-raw=${formatNum(adversaryStats.statistical_test.pvalue, 4)}`;
-
-            const eff = adversaryStats.effect_size;
-            const effStr = `${formatNum(eff.value, 3)} (${eff.interpretation})`;
-            effectEl.textContent = effStr;
-            effectEl.title = `IC 95%: [${formatNum(eff.ci_lower, 3)}, ${formatNum(eff.ci_upper, 3)}]`;
-        } else if (pvalEl && effectEl) {
-            pvalEl.textContent = '-';
-            pvalEl.className = '';
-            pvalEl.title = '';
-            effectEl.textContent = '-';
-            effectEl.title = '';
-        }
     });
 
     // Dataset count
@@ -512,7 +485,7 @@ function renderDifferencesChart(ctx, data) {
         data: {
             labels: labels,
             datasets: [{
-                label: 'Diferencia (Local - Base)',
+                label: i18n.t('compare.chart.diffLabel'),
                 data: values,
                 backgroundColor: colors,
                 borderColor: borderColors,
@@ -526,7 +499,7 @@ function renderDifferencesChart(ctx, data) {
             plugins: {
                 title: {
                     display: true,
-                    text: 'Diferencia de Accuracy: Local vs Base (promedio por dataset)',
+                    text: i18n.t('compare.chart.diffTitle'),
                     font: { size: 14, weight: 'bold' }
                 },
                 tooltip: {
@@ -534,7 +507,7 @@ function renderDifferencesChart(ctx, data) {
                         label: (context) => {
                             const val = context.raw;
                             const sign = val >= 0 ? '+' : '';
-                            return `${sign}${formatNum(val, 2)}% ${val >= 0 ? '(Local gana)' : '(Base gana)'}`;
+                            return `${sign}${formatNum(val, 2)}% ${val >= 0 ? i18n.t('compare.chart.localWins') : i18n.t('compare.chart.baseWins')}`;
                         }
                     }
                 },
@@ -542,7 +515,7 @@ function renderDifferencesChart(ctx, data) {
             },
             scales: {
                 x: {
-                    title: { display: true, text: 'Diferencia de Accuracy (%)' },
+                    title: { display: true, text: i18n.t('compare.chart.diffAxis') },
                     ticks: {
                         callback: (value) => (value >= 0 ? '+' : '') + formatNum(value) + '%'
                     },
@@ -592,7 +565,7 @@ function renderScatterChart(ctx, data) {
     // Añadir línea diagonal (y = x) - color según tema
     const diagonalColor = currentTheme === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.3)';
     datasets.push({
-        label: 'Línea de igualdad',
+        label: i18n.t('compare.chart.equalityLine'),
         data: [{ x: minVal, y: minVal }, { x: maxVal, y: maxVal }],
         type: 'line',
         borderColor: diagonalColor,
@@ -611,36 +584,36 @@ function renderScatterChart(ctx, data) {
             plugins: {
                 title: {
                     display: true,
-                    text: 'Accuracy Base vs Local (puntos sobre la diagonal = Local mejor)',
+                    text: i18n.t('compare.chart.scatterTitle'),
                     font: { size: 14, weight: 'bold' }
                 },
                 tooltip: {
                     callbacks: {
                         label: (context) => {
-                            if (context.dataset.label === 'Línea de igualdad') return null;
+                            if (context.dataset.label === i18n.t('compare.chart.equalityLine')) return null;
                             const d = context.raw;
                             const sign = d.diff >= 0 ? '+' : '';
                             return `${d.dataset}: Base=${formatNum(d.x)}%, Local=${formatNum(d.y)}% (${sign}${formatNum(d.diff)}%)`;
                         }
                     },
-                    filter: (item) => item.dataset.label !== 'Línea de igualdad'
+                    filter: (item) => item.dataset.label !== i18n.t('compare.chart.equalityLine')
                 },
                 legend: {
                     position: 'top',
                     labels: {
-                        filter: (item) => item.text !== 'Línea de igualdad'
+                        filter: (item) => item.text !== i18n.t('compare.chart.equalityLine')
                     }
                 }
             },
             scales: {
                 x: {
-                    title: { display: true, text: 'Accuracy Base (%)' },
+                    title: { display: true, text: i18n.t('compare.chart.baseAxis') },
                     min: minVal,
                     max: maxVal,
                     ticks: { callback: (v) => formatNum(v) + '%' }
                 },
                 y: {
-                    title: { display: true, text: 'Accuracy Local (%)' },
+                    title: { display: true, text: i18n.t('compare.chart.localAxis') },
                     min: minVal,
                     max: maxVal,
                     ticks: { callback: (v) => formatNum(v) + '%' }
@@ -691,7 +664,7 @@ function renderGroupedBarsChart(ctx, data) {
             plugins: {
                 title: {
                     display: true,
-                    text: 'Accuracy Promedio: Base vs Local por Clasificador',
+                    text: i18n.t('compare.chart.groupedTitle'),
                     font: { size: 14, weight: 'bold' }
                 },
                 tooltip: {
@@ -700,7 +673,7 @@ function renderGroupedBarsChart(ctx, data) {
                             const idx = context.dataIndex;
                             const diff = avgByClassifier[idx].diff;
                             const sign = diff >= 0 ? '+' : '';
-                            return `Diferencia: ${sign}${formatNum(diff, 2)}%`;
+                            return `${i18n.t('compare.chart.difference')} ${sign}${formatNum(diff, 2)}%`;
                         }
                     }
                 }
@@ -709,7 +682,7 @@ function renderGroupedBarsChart(ctx, data) {
                 y: {
                     beginAtZero: false,
                     min: 70,
-                    title: { display: true, text: 'Accuracy (%)' },
+                    title: { display: true, text: i18n.t('compare.chart.accuracyAxis') },
                     ticks: { callback: (v) => formatNum(v) + '%' }
                 }
             }
@@ -745,7 +718,7 @@ function renderVictoriesDonutChart(ctx, data) {
     chartState.instance = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ['Local gana', 'Base gana', 'Empate'],
+            labels: [i18n.t('compare.chart.localWinsDonut'), i18n.t('compare.chart.baseWinsDonut'), i18n.t('compare.chart.tieDonut')],
             datasets: [{
                 data: [totalLocalWins, totalBaseWins, totalTies],
                 backgroundColor: [
@@ -767,7 +740,7 @@ function renderVictoriesDonutChart(ctx, data) {
             plugins: {
                 title: {
                     display: true,
-                    text: 'Resumen de Victorias: Local vs Base',
+                    text: i18n.t('compare.chart.victoriesTitle'),
                     font: { size: 14, weight: 'bold' }
                 },
                 tooltip: {
@@ -803,7 +776,7 @@ function renderVictoriesDonutChart(ctx, data) {
 
                     ctx.font = '12px sans-serif';
                     ctx.fillStyle = '#666';
-                    ctx.fillText('Local gana', width / 2, height / 2 + 15);
+                    ctx.fillText(i18n.t('compare.chart.localWinsCenter'), width / 2, height / 2 + 15);
 
                     ctx.restore();
                 }
@@ -859,23 +832,23 @@ function updateChartLegend() {
         legendHTML = `
             <div class="chart-legend-item">
                 <div class="chart-legend-color" style="background: ${chartColors.positive.bg}"></div>
-                <span>Local mejora respecto a Base</span>
+                <span>${i18n.t('compare.chart.legendLocalImproves')}</span>
             </div>
             <div class="chart-legend-item">
                 <div class="chart-legend-color" style="background: ${chartColors.negative.bg}"></div>
-                <span>Base mejor que Local</span>
+                <span>${i18n.t('compare.chart.legendBaseBetter')}</span>
             </div>
         `;
     } else if (chartState.type === 'scatter') {
         legendHTML = `
             <div class="chart-legend-item">
-                <span style="color: #666; font-style: italic;">Puntos sobre la diagonal indican que Local supera a Base</span>
+                <span style="color: #666; font-style: italic;">${i18n.t('compare.chart.legendScatterHint')}</span>
             </div>
         `;
     } else if (chartState.type === 'grouped-bars') {
         legendHTML = `
             <div class="chart-legend-item">
-                <span style="color: #666; font-style: italic;">Color claro = Base, Color intenso = Local</span>
+                <span style="color: #666; font-style: italic;">${i18n.t('compare.chart.legendBarsHint')}</span>
             </div>
         `;
     }
@@ -888,7 +861,7 @@ function updateChartLegend() {
  */
 function downloadCompareChartPNG() {
     if (!chartState.instance) {
-        alert('No hay gráfico para descargar');
+        alert(i18n.t('compare.chart.noChartDownload'));
         return;
     }
 

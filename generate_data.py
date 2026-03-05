@@ -100,8 +100,9 @@ def load_all_results() -> list[dict]:
     return results
 
 
-def mark_best_in_group(results: list[dict]) -> list[dict]:
-    """Marca el mejor resultado dentro de cada grupo (dataset, iterations, cuts, model_base)."""
+def calculate_improvements(results: list[dict]) -> list[dict]:
+    """Calcula las mejoras de modelos locales vs mejor base."""
+    # Agrupar por iteraciones, cuts y dataset
     groups = {}
     for r in results:
         key = (r["iterations"], r["cuts"], r["dataset"])
@@ -109,8 +110,27 @@ def mark_best_in_group(results: list[dict]) -> list[dict]:
             groups[key] = []
         groups[key].append(r)
 
+    # Para cada grupo, calcular mejora de Ld vs mejor base
     for key, group in groups.items():
         for model_base in MODEL_BASES:
+            # Encontrar modelo local
+            local_result = None
+            base_results = []
+
+            for r in group:
+                if r["model"] == f"{model_base}Ld":
+                    local_result = r
+                elif r["model_base"] == model_base and r["discretization_type"] != "local":
+                    base_results.append(r)
+
+            if local_result and base_results:
+                best_base = max(base_results, key=lambda x: x["accuracy"])
+                improvement = (local_result["accuracy"] - best_base["accuracy"]) * 100
+                local_result["improvement_vs_base"] = round(improvement, 2)
+                local_result["best_base_model"] = best_base["model"]
+                local_result["best_base_accuracy"] = best_base["accuracy"]
+
+            # Marcar el mejor de cada grupo base
             all_same_base = [r for r in group if r["model_base"] == model_base]
             if all_same_base:
                 best = max(all_same_base, key=lambda x: x["accuracy"])
@@ -258,10 +278,10 @@ def main():
         print("ERROR: No se encontraron resultados")
         return
 
-    # Marcar mejor en grupo
-    print("\n2. Marcando mejor en grupo...")
-    results = mark_best_in_group(results)
-    print("   Marcado completado")
+    # Calcular mejoras
+    print("\n2. Calculando mejoras...")
+    results = calculate_improvements(results)
+    print("   Mejoras calculadas")
 
     # Guardar JSON
     print("\n3. Guardando JSON...")

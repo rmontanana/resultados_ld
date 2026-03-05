@@ -12,9 +12,7 @@ const state = {
     model: '',
     messages: [],
     resultsData: null,
-    adversariesData: null,
-    compactResults: { sizeBytes: null, content: null },
-    compactAdversaries: { sizeBytes: null, content: null },
+    fullContextData: { sizeBytes: null, content: null, tokens: null },
     includeContext: true,
     includeFullContext: false,
     isLoading: false,
@@ -30,26 +28,22 @@ const CONFIG = {
 // Inicialización
 document.addEventListener('DOMContentLoaded', async () => {
     await loadResultsData();
-    await loadCompactFiles();
+    await loadFullContextFile();
     setupEventListeners();
     await checkOllamaConnection();
     updateUI();
 });
 
 /**
- * Cargar datos de resultados y adversarios
+ * Cargar datos de resultados
  */
 async function loadResultsData() {
     try {
-        const [resultsResponse, adversariesResponse] = await Promise.all([
-            fetch('data/results.json'),
-            fetch('data/adversaries.json')
-        ]);
-        state.resultsData = await resultsResponse.json();
-        state.adversariesData = await adversariesResponse.json();
+        const response = await fetch('data/results.json');
+        state.resultsData = await response.json();
         updateContextStats();
     } catch (error) {
-        console.error('Error cargando datos:', error);
+        console.error('Error cargando resultados:', error);
     }
 }
 
@@ -140,6 +134,12 @@ function setupEventListeners() {
 
     // Refresh status
     document.getElementById('btn-refresh-status')?.addEventListener('click', checkOllamaConnection);
+
+    document.addEventListener('langchange', () => {
+        updateUI();
+        renderMessages();
+        i18n.applyTranslations();
+    });
 }
 
 /**
@@ -164,11 +164,11 @@ async function checkOllamaConnection() {
             state.ollamaStatus = { available: false, models: [], reason: `Error ${response.status}` };
         }
     } catch (error) {
-        let reason = 'No se puede conectar';
+        let reason = i18n.t('ai.cannotConnect');
         if (error.name === 'TimeoutError') {
-            reason = 'Tiempo de espera agotado';
+            reason = i18n.t('ai.timeout');
         } else if (error.message.includes('Failed to fetch')) {
-            reason = 'Ollama no está corriendo';
+            reason = i18n.t('ai.ollamaNotRunning');
         }
         state.ollamaStatus = { available: false, models: [], reason };
     }
@@ -185,14 +185,14 @@ function updateUI() {
     if (ollamaIndicator) {
         if (state.ollamaStatus.available) {
             ollamaIndicator.className = 'status-indicator connected';
-            ollamaIndicator.innerHTML = `<span class="status-dot"></span>${state.ollamaStatus.models.length} modelos`;
+            ollamaIndicator.innerHTML = `<span class="status-dot"></span>${i18n.t('ai.nModels', state.ollamaStatus.models.length)}`;
             ollamaIndicator.onclick = null;
             ollamaIndicator.title = '';
         } else {
             ollamaIndicator.className = 'status-indicator disconnected';
-            ollamaIndicator.innerHTML = `<span class="status-dot"></span>${state.ollamaStatus.reason || 'No disponible'}`;
+            ollamaIndicator.innerHTML = `<span class="status-dot"></span>${state.ollamaStatus.reason || i18n.t('ai.notAvailable')}`;
             ollamaIndicator.onclick = showOllamaHelpModal;
-            ollamaIndicator.title = 'Clic para ver instrucciones';
+            ollamaIndicator.title = i18n.t('ai.clickInstructions');
         }
     }
 
@@ -213,9 +213,9 @@ function updateUI() {
     // Actualizar placeholder del input
     const chatInput = document.getElementById('chat-input');
     if (state.provider === 'copy') {
-        chatInput.placeholder = 'Escribe tu pregunta y usa el botón "Copiar contexto"...';
+        chatInput.placeholder = i18n.t('ai.placeholderCopy');
     } else {
-        chatInput.placeholder = 'Escribe tu pregunta sobre los resultados...';
+        chatInput.placeholder = i18n.t('ai.placeholderOllama');
     }
 
     // Habilitar/deshabilitar botón enviar
@@ -233,7 +233,7 @@ function updateOllamaStatus(status) {
     const indicator = document.querySelector('#provider-ollama .status-indicator');
     if (indicator && status === 'checking') {
         indicator.className = 'status-indicator checking';
-        indicator.innerHTML = '<span class="status-dot"></span>Verificando...';
+        indicator.innerHTML = `<span class="status-dot"></span>${i18n.t('ai.checking')}`;
     }
 }
 
@@ -258,7 +258,7 @@ function updateModelSelect() {
     } else {
         const option = document.createElement('option');
         option.value = '';
-        option.textContent = 'No hay modelos disponibles';
+        option.textContent = i18n.t('ai.noModels');
         option.disabled = true;
         select.appendChild(option);
     }
@@ -282,27 +282,27 @@ function updateContextStats() {
 }
 
 /**
- * Cargar archivos compactos con resultados y análisis estadístico
+ * Cargar archivo compacto con todos los resultados
  */
-async function loadCompactFiles() {
-    const files = [
-        { key: 'compactResults', url: 'data/results_compact.txt' },
-        { key: 'compactAdversaries', url: 'data/adversaries_compact.txt' }
-    ];
-
-    const fetches = files.map(async ({ key, url }) => {
-        try {
-            const response = await fetch(url);
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            const content = await response.text();
-            state[key] = { sizeBytes: new Blob([content]).size, content };
-        } catch (error) {
-            console.error(`No se pudo cargar ${url}:`, error);
-            state[key] = { sizeBytes: null, content: null, error: error.message };
+async function loadFullContextFile() {
+    try {
+        const response = await fetch('data/results_compact.txt');
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
         }
-    });
+        const content = await response.text();
+        const sizeBytes = new Blob([content]).size;
+        const estimatedTokens = Math.ceil(sizeBytes / 4);
+        state.fullContextData = {
+            sizeBytes,
+            content,
+            tokens: estimatedTokens
+        };
+    } catch (error) {
+        console.error('No se pudo cargar results_compact.txt:', error);
+        state.fullContextData = { sizeBytes: null, content: null, tokens: null, error: error.message };
+    }
 
-    await Promise.all(fetches);
     updateFullContextInfo();
 }
 
@@ -313,17 +313,13 @@ function updateFullContextInfo() {
     const sizeEl = document.getElementById('full-context-size');
     const tokensEl = document.getElementById('full-context-tokens');
 
-    const sizeResults = state.compactResults?.sizeBytes || 0;
-    const sizeAdv = state.compactAdversaries?.sizeBytes || 0;
-    const totalBytes = sizeResults + sizeAdv;
-
-    if (totalBytes > 0) {
-        const estimatedTokens = Math.ceil(totalBytes / 4);
-        if (sizeEl) sizeEl.textContent = formatBytes(totalBytes);
-        if (tokensEl) tokensEl.textContent = `~${(estimatedTokens/1000).toFixed(0)}K tokens`;
+    if (state.fullContextData?.sizeBytes) {
+        const fileSize = formatBytes(state.fullContextData.sizeBytes);
+        const tokens = state.fullContextData.tokens;
+        if (sizeEl) sizeEl.textContent = fileSize;
+        if (tokensEl) tokensEl.textContent = `~${(tokens/1000).toFixed(0)}K tokens`;
     } else {
-        const hasError = state.compactResults?.error || state.compactAdversaries?.error;
-        if (sizeEl) sizeEl.textContent = hasError ? 'Error' : '...';
+        if (sizeEl) sizeEl.textContent = state.fullContextData?.error ? 'Error' : '...';
         if (tokensEl) tokensEl.textContent = '...';
     }
 }
@@ -373,12 +369,12 @@ async function sendMessage() {
 
     // Verificar que Ollama está disponible
     if (!state.ollamaStatus.available) {
-        addErrorMessage('Ollama no está disponible. Verifica que está corriendo en localhost:11434');
+        addErrorMessage(i18n.t('ai.errorNotAvailable'));
         return;
     }
 
     if (!state.model) {
-        addErrorMessage('Selecciona un modelo de Ollama');
+        addErrorMessage(i18n.t('ai.errorSelectModel'));
         return;
     }
 
@@ -406,7 +402,7 @@ async function sendMessage() {
         }
     } catch (error) {
         hideTypingIndicator();
-        addErrorMessage(`Error de conexión: ${error.message}`);
+        addErrorMessage(`${i18n.t('ai.errorConnection')} ${error.message}`);
     }
 
     state.isLoading = false;
@@ -438,7 +434,7 @@ async function sendToOllama(message) {
         });
 
         if (!response.ok) {
-            return { error: `Error de Ollama: ${response.status} ${response.statusText}` };
+            return { error: `${i18n.t('ai.errorOllama')} ${response.status} ${response.statusText}` };
         }
 
         const data = await response.json();
@@ -446,13 +442,13 @@ async function sendToOllama(message) {
         if (data.message && data.message.content) {
             return { content: data.message.content };
         } else if (data.error) {
-            return { error: `Error de Ollama: ${data.error}` };
+            return { error: `${i18n.t('ai.errorOllama')} ${data.error}` };
         } else {
-            return { error: 'Respuesta inesperada de Ollama. Verifica que el modelo está disponible.' };
+            return { error: i18n.t('ai.errorUnexpected') };
         }
     } catch (error) {
         if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
-            return { error: 'No se puede conectar a Ollama. Asegúrate de que está corriendo.' };
+            return { error: i18n.t('ai.errorCannotConnect') };
         }
         return { error: `Error: ${error.message}` };
     }
@@ -462,23 +458,7 @@ async function sendToOllama(message) {
  * Construir prompt del sistema
  */
 function buildSystemPrompt() {
-    let prompt = `Eres un asistente experto en análisis de datos de experimentos de Machine Learning.
-
-Estás analizando resultados de experimentos que comparan técnicas de discretización en clasificadores bayesianos:
-- Clasificadores base: TAN, KDB, AODE (con discretización a priori)
-- Variantes con discretización local: TANLd, KDBLd, AODELd (propuesta iterativa)
-- Métodos de discretización base (adversarios): MDLP, Equal Frequency (bin-q), Equal Width (bin-u), PKI
-
-Los experimentos evalúan:
-- 27 datasets diferentes
-- Configuraciones con 10 y 100 iteraciones máximas
-- Puntos de corte: 3, 4, 5 e ilimitado
-- Métrica principal: Accuracy (validación cruzada estratificada 5-fold, 3 repeticiones)
-
-Marco estadístico: Comparaciones pareadas independientes. Cada clasificador local se compara contra cada método base por separado (3 clasificadores × 4 métodos = 12 adversarios), con N=27 observaciones por adversario, tests de Wilcoxon/t-test, tamaños de efecto (rank-biserial/Cohen's d) y corrección de Holm-Bonferroni.
-
-Tu rol es ayudar a interpretar los resultados, identificar patrones, comparar rendimientos
-y responder preguntas sobre los experimentos de forma clara y concisa en español.`;
+    let prompt = i18n.t('ai.systemPrompt');
 
     if (state.includeContext) {
         prompt += `\n\nDatos del contexto actual:\n${buildContext()}`;
@@ -495,20 +475,19 @@ function buildContext() {
 
     const results = state.resultsData.results || [];
     const metadata = state.resultsData.metadata || {};
-    const adv = state.adversariesData;
 
     // Resumen estadístico
-    let context = `RESUMEN DE DATOS:
-- Total de resultados: ${metadata.total_results}
-- Datasets evaluados: ${metadata.datasets}
-- Modelos distintos: ${metadata.models}
-- Opciones de iteraciones: ${metadata.iterations_options?.join(', ')}
-- Opciones de puntos de corte: ${metadata.cuts_options?.join(', ')}
+    let context = `${i18n.t('ai.ctx.summary')}
+- ${i18n.t('ai.ctx.totalResults')} ${metadata.total_results}
+- ${i18n.t('ai.ctx.datasetsEval')} ${metadata.datasets}
+- ${i18n.t('ai.ctx.distinctModels')} ${metadata.models}
+- ${i18n.t('ai.ctx.iterOptions')} ${metadata.iterations_options?.join(', ')}
+- ${i18n.t('ai.ctx.cutOptions')} ${metadata.cuts_options?.join(', ')}
 
 `;
 
     // Mejores resultados por modelo base
-    context += 'MEJORES RESULTADOS POR MODELO BASE:\n';
+    context += i18n.t('ai.ctx.bestByBase') + '\n';
     ['TAN', 'KDB', 'AODE'].forEach(base => {
         const baseResults = results.filter(r => r.model_base === base);
         const best = baseResults.reduce((a, b) => a.accuracy > b.accuracy ? a : b, { accuracy: 0 });
@@ -517,59 +496,37 @@ function buildContext() {
         }
     });
 
-    // Resumen de comparaciones pareadas (desde adversaries_final)
-    if (adv) {
-        const profile = adv.integrated_profile;
-        if (profile) {
-            context += `\nRESUMEN GLOBAL DE COMPARACIONES PAREADAS:
-- Marco estadístico: Comparaciones pareadas independientes (3 clf × 4 métodos = 12 adversarios)
-- N = 27 datasets por adversario
-- Total victorias Local: ${profile.total_wins || '-'} / Total derrotas: ${profile.total_losses || '-'}
-- % victorias: ${profile.pct_wins?.toFixed(1) || '-'}%
-`;
-        }
+    // Mejoras de discretización local
+    context += '\n' + i18n.t('ai.ctx.localImprovements') + '\n';
+    const localResults = results.filter(r => r.discretization_type === 'local');
+    const improvements = localResults.filter(r => r.improvement_vs_base > 0);
+    const avgImprovement = improvements.length > 0
+        ? improvements.reduce((sum, r) => sum + r.improvement_vs_base, 0) / improvements.length
+        : 0;
 
-        // Resultados estadísticos por adversario
-        if (adv.statistical_results) {
-            context += '\nRESULTADOS ESTADÍSTICOS POR ADVERSARIO:\n';
-            Object.entries(adv.statistical_results).forEach(([key, val]) => {
-                const sig = val.statistical_test.pvalue_adjusted < 0.05 ? 'SIG' : 'n.s.';
-                context += `- ${val.classifier} vs ${val.discretization_method}: media=${val.mean_improvement_pct.toFixed(2)}%, `;
-                context += `p-adj=${val.statistical_test.pvalue_adjusted < 0.001 ? '<0.001' : val.statistical_test.pvalue_adjusted.toFixed(3)}, `;
-                context += `efecto=${val.effect_size.value.toFixed(3)} (${val.effect_size.interpretation}), ${sig}\n`;
-            });
-        }
+    context += `- ${i18n.t('ai.ctx.casesWith')} ${improvements.length} ${i18n.t('ai.ctx.of')} ${localResults.length} (${(improvements.length/localResults.length*100).toFixed(1)}%)\n`;
+    context += `- ${i18n.t('ai.ctx.avgImprovement')} ${avgImprovement.toFixed(2)}%\n`;
 
-        // Top 5 datasets con mayor mejora pareada
-        const patterns = adv.complementary_analysis?.global_patterns?.dataset_patterns;
-        if (patterns) {
-            const sorted = [...patterns].sort((a, b) => b.mean_improvement_pct - a.mean_improvement_pct);
-            context += '\nTOP 5 DATASETS CON MAYOR MEJORA PAREADA:\n';
-            sorted.slice(0, 5).forEach((d, i) => {
-                context += `${i+1}. ${d.dataset}: ${d.mean_improvement_pct > 0 ? '+' : ''}${d.mean_improvement_pct.toFixed(2)}% (${d.n_positive}/${d.n_total} positivos)\n`;
-            });
+    // Top 5 datasets con mayor mejora
+    context += '\n' + i18n.t('ai.ctx.top5') + '\n';
+    const sortedByImprovement = [...localResults].sort((a, b) => b.improvement_vs_base - a.improvement_vs_base);
+    sortedByImprovement.slice(0, 5).forEach((r, i) => {
+        context += `${i+1}. ${r.dataset}: +${r.improvement_vs_base.toFixed(2)}% (${r.model}, ${r.iterations}, ${r.cuts})\n`;
+    });
 
-            context += '\nTOP 5 DATASETS CON PEOR RESULTADO:\n';
-            sorted.slice(-5).reverse().forEach((d, i) => {
-                context += `${i+1}. ${d.dataset}: ${d.mean_improvement_pct.toFixed(2)}% (${d.n_positive}/${d.n_total} positivos)\n`;
-            });
-        }
-    }
-
-    // Resultados detallados y análisis estadístico completo
-    if (state.includeFullContext) {
-        if (state.compactResults?.content) {
-            context += '\n' + state.compactResults.content;
-        }
-        if (state.compactAdversaries?.content) {
-            context += '\n' + state.compactAdversaries.content;
-        }
+    // Resultados detallados
+    if (state.includeFullContext && state.fullContextData?.content) {
+        context += '\n' + state.fullContextData.content;
     } else {
         // Contexto resumido: muestra de resultados
-        context += '\nMUESTRA DE RESULTADOS DETALLADOS:\n';
+        context += '\n' + i18n.t('ai.ctx.sampleResults') + '\n';
         const sample = results.slice(0, CONFIG.MAX_CONTEXT_RESULTS);
         sample.forEach(r => {
-            context += `- ${r.dataset} | ${r.model} | ${r.iterations}/${r.cuts} | Acc: ${(r.accuracy*100).toFixed(2)}%\n`;
+            context += `- ${r.dataset} | ${r.model} | ${r.iterations}/${r.cuts} | ${i18n.t('ai.ctx.acc')} ${(r.accuracy*100).toFixed(2)}%`;
+            if (r.improvement_vs_base !== undefined) {
+                context += ` | ${i18n.t('ai.ctx.imp')} ${r.improvement_vs_base > 0 ? '+' : ''}${r.improvement_vs_base.toFixed(2)}%`;
+            }
+            context += '\n';
         });
     }
 
@@ -591,13 +548,13 @@ function renderMessages() {
                     <circle cx="8" cy="10" r="1"/>
                     <circle cx="16" cy="10" r="1"/>
                 </svg>
-                <h3>Pregunta sobre los resultados</h3>
-                <p>Puedo ayudarte a analizar los experimentos de discretización local en clasificadores bayesianos.</p>
+                <h3>${i18n.t('ai.askAboutResults')}</h3>
+                <p>${i18n.t('ai.welcomeMsg')}</p>
                 <div class="example-questions">
-                    <button class="example-question">¿Qué modelo tiene mejor accuracy?</button>
-                    <button class="example-question">¿En qué datasets mejora la discretización local?</button>
-                    <button class="example-question">Compara TAN vs KDB</button>
-                    <button class="example-question">¿Influyen las iteraciones en el resultado?</button>
+                    <button class="example-question">${i18n.t('ai.exQ1')}</button>
+                    <button class="example-question">${i18n.t('ai.exQ2')}</button>
+                    <button class="example-question">${i18n.t('ai.exQ3')}</button>
+                    <button class="example-question">${i18n.t('ai.exQ4')}</button>
                 </div>
             </div>
         `;
@@ -736,13 +693,13 @@ function showCopyContextModal() {
     const textarea = document.getElementById('context-textarea');
     const chatInput = document.getElementById('chat-input');
 
-    const userQuestion = chatInput.value.trim() || '[Escribe aquí tu pregunta]';
+    const userQuestion = chatInput.value.trim() || i18n.t('ai.writeQuestion');
 
     const fullPrompt = `${buildSystemPrompt()}
 
 ---
 
-Mi pregunta es: ${userQuestion}`;
+${i18n.t('ai.myQuestion')} ${userQuestion}`;
 
     textarea.value = fullPrompt;
     modal.classList.add('active');
@@ -764,7 +721,7 @@ async function copyToClipboard() {
         await navigator.clipboard.writeText(textarea.value);
         const btn = document.getElementById('btn-copy-to-clipboard');
         const originalText = btn.innerHTML;
-        btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> ¡Copiado!';
+        btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> ${i18n.t('ai.copied')}`;
         setTimeout(() => btn.innerHTML = originalText, 2000);
     } catch (error) {
         // Fallback para navegadores antiguos

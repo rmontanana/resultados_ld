@@ -1,12 +1,10 @@
 /**
  * Aplicación de visualización de resultados de discretización local
- * Marco estadístico: comparaciones pareadas independientes (adversaries_final)
  */
 
-// Función para formatear números con coma decimal
+// Función para formatear números con separador decimal según locale
 function formatNumber(num, decimals = 2) {
-    if (num === null || num === undefined || isNaN(num)) return '-';
-    return num.toFixed(decimals).replace('.', ',');
+    return i18n.formatLocaleNumber(num, decimals);
 }
 
 // ============== Gestión de Tema ==============
@@ -35,7 +33,6 @@ function toggleTheme() {
 // Estado global de la aplicación (window.state para acceso desde charts.js)
 window.state = {
     data: null,
-    adversaries: null,
     filteredData: [],
     currentPage: 1,
     pageSize: 50,
@@ -61,14 +58,9 @@ const discTypeBadges = {
     'base': 'badge-base'
 };
 
-const discTypeLabels = {
-    'local': 'Local',
-    'mdlp': 'MDLP',
-    'equal_freq': 'Igual Freq',
-    'equal_width': 'Igual Amp',
-    'pki': 'PKI',
-    'base': 'Base'
-};
+function getDiscTypeLabels() {
+    return i18n.discTypeLabels();
+}
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', init);
@@ -87,37 +79,18 @@ async function init() {
     } catch (error) {
         console.error('Error inicializando:', error);
         document.getElementById('loading').innerHTML = `
-            <p style="color: var(--danger-color);">Error cargando datos: ${error.message}</p>
+            <p style="color: var(--danger-color);">${i18n.t('common.errorLoading')} ${error.message}</p>
         `;
     }
 }
 
 async function loadData() {
-    const [resultsResponse, adversariesResponse] = await Promise.all([
-        fetch('data/results.json'),
-        fetch('data/adversaries.json')
-    ]);
-    if (!resultsResponse.ok) throw new Error(`HTTP ${resultsResponse.status} cargando results.json`);
-    if (!adversariesResponse.ok) throw new Error(`HTTP ${adversariesResponse.status} cargando adversaries.json`);
-
-    state.data = await resultsResponse.json();
-    state.adversaries = await adversariesResponse.json();
-
-    // Construir índice de comparaciones pareadas para lookups rápidos
-    buildPairwiseIndex();
-
-    console.log(`Datos cargados: ${state.data.results.length} resultados, ${state.adversaries.pairwise_comparisons.length} comparaciones pareadas`);
-}
-
-// Índice: "dataset|classifier|method|iterations|cuts" -> {improvement_pct, diff, ...}
-let pairwiseIndex = {};
-
-function buildPairwiseIndex() {
-    pairwiseIndex = {};
-    state.adversaries.pairwise_comparisons.forEach(row => {
-        const key = `${row.dataset}|${row.classifier}|${row.discretization_method}|${row.iterations}|${row.cuts}`;
-        pairwiseIndex[key] = row;
-    });
+    const response = await fetch('data/results.json');
+    if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+    }
+    state.data = await response.json();
+    console.log(`Datos cargados: ${state.data.results.length} resultados`);
 }
 
 function hideLoading() {
@@ -222,16 +195,10 @@ function setupEventListeners() {
         themeToggle.addEventListener('click', toggleTheme);
     }
 
-    // Modal de desglose de configuraciones
-    const modal = document.getElementById('modal-configs');
-    document.getElementById('info-configs-btn').addEventListener('click', () => {
-        modal.hidden = false;
-    });
-    document.getElementById('modal-configs-close').addEventListener('click', () => {
-        modal.hidden = true;
-    });
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.hidden = true;
+    // Cambio de idioma
+    document.addEventListener('langchange', () => {
+        applyFilters();
+        i18n.applyTranslations();
     });
 }
 
@@ -269,36 +236,46 @@ function applyFilters() {
 
     // Filtrar por búsqueda, iteraciones, cortes, modelo base y discretización
     let interim = state.data.results.filter(r => {
+        // Filtro de búsqueda
         if (state.filters.search && !r.dataset.toLowerCase().includes(state.filters.search)) {
             return false;
         }
+
+        // Filtro de iteraciones
         if (!state.filters.iterations.includes(r.iterations)) {
             return false;
         }
+
+        // Filtro de puntos de corte
         if (!state.filters.cuts.includes(r.cuts)) {
             return false;
         }
+
+        // Filtro de modelo base
         if (!state.filters.model_base.includes(r.model_base)) {
             return false;
         }
+
+        // Filtro de tipo de discretización
         if (!state.filters.disc_type.includes(r.discretization_type)) {
             return false;
         }
+
         return true;
     });
 
-    // Clonar para no mutar los datos originales
+    // Clonar para no mutar los datos originales al recalcular mejoras
     interim = interim.map(r => ({ ...r }));
 
-    // Enriquecer resultados locales con mejora pareada media desde adversaries.json
-    enrichWithAdversarialImprovement(interim);
+    // Recalcular mejoras dinámicamente según filtros actuales
+    recomputeImprovements(interim);
 
-    // Aplicar filtro "solo mejoras" sobre los valores de mejora pareada
+    // Aplicar filtro "solo mejoras" sobre los valores recalculados
     if (state.filters.onlyImprovements) {
         interim = interim.filter(r =>
             r.discretization_type === 'local' &&
-            r.paired_improvement !== undefined &&
-            r.paired_improvement > 0
+            r.improvement_vs_base !== undefined &&
+            r.improvement_vs_base > 0
         );
     }
 
@@ -311,34 +288,46 @@ function applyFilters() {
     renderTable();
     updateStats();
     updatePagination();
-    updatePairwiseCount();
 }
 
-/**
- * Enriquece resultados locales con mejora pareada media.
- * Para cada resultado local (dataset, classifier, iterations, cuts),
- * busca TODAS las comparaciones pareadas contra cada adversario
- * y calcula la mejora media sobre todos ellos.
- */
-function enrichWithAdversarialImprovement(list) {
-    const adversaryMethods = ['mdlp', 'equal_freq', 'equal_width', 'pki'];
-
+// Recalcula improvement_vs_base para resultados locales considerando el conjunto filtrado actual
+function recomputeImprovements(list) {
+    // Agrupar por dataset, iteraciones, cortes y modelo_base
+    const groups = {};
     list.forEach(r => {
-        if (r.discretization_type !== 'local') return;
+        const key = `${r.dataset}|${r.iterations}|${r.cuts}|${r.model_base}`;
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(r);
+    });
 
-        const improvements = [];
-        adversaryMethods.forEach(method => {
-            const key = `${r.dataset}|${r.model_base}|${method}|${r.iterations}|${r.cuts}`;
-            const pair = pairwiseIndex[key];
-            if (pair) {
-                improvements.push(pair.improvement_pct);
+    Object.values(groups).forEach(group => {
+        // Bases disponibles dentro del grupo (excluye local)
+        const baseResults = group.filter(x => x.discretization_type !== 'local');
+        if (baseResults.length === 0) {
+            // Sin base válida bajo filtros: limpiar mejoras de locales
+            group.forEach(x => {
+                if (x.discretization_type === 'local') {
+                    x.improvement_vs_base = undefined;
+                    x.best_base_model = undefined;
+                    x.best_base_accuracy = undefined;
+                }
+            });
+            return;
+        }
+
+        // Mejor base por accuracy
+        const bestBase = baseResults.reduce((best, curr) =>
+            (!best || curr.accuracy > best.accuracy) ? curr : best, null);
+
+        // Asignar mejora a cada local del grupo
+        group.forEach(x => {
+            if (x.discretization_type === 'local') {
+                const improvement = (x.accuracy - bestBase.accuracy) * 100;
+                x.improvement_vs_base = Number(improvement.toFixed(2));
+                x.best_base_model = bestBase.model;
+                x.best_base_accuracy = bestBase.accuracy;
             }
         });
-
-        if (improvements.length > 0) {
-            r.paired_improvement = improvements.reduce((a, b) => a + b, 0) / improvements.length;
-            r.paired_n_adversaries = improvements.length;
-        }
     });
 }
 
@@ -351,8 +340,8 @@ function sortData() {
         let valB = b[col];
 
         // Manejar valores undefined
-        if (valA === undefined) valA = col === 'paired_improvement' ? -999 : '';
-        if (valB === undefined) valB = col === 'paired_improvement' ? -999 : '';
+        if (valA === undefined) valA = col === 'improvement_vs_base' ? -999 : '';
+        if (valB === undefined) valB = col === 'improvement_vs_base' ? -999 : '';
 
         // Comparar
         if (typeof valA === 'number' && typeof valB === 'number') {
@@ -382,11 +371,11 @@ function renderTable() {
             <td>${r.dataset}</td>
             <td>${r.iterations}</td>
             <td>${r.cuts}</td>
-            <td>${r.model}${r.best_in_group ? '<span class="best-indicator" title="Mejor en su grupo">★</span>' : ''}</td>
-            <td><span class="badge ${discTypeBadges[r.discretization_type] || 'badge-base'}">${discTypeLabels[r.discretization_type] || r.discretization_type}</span></td>
+            <td>${r.model}${r.best_in_group ? '<span class="best-indicator" title="' + i18n.t('index.bestInGroup') + '">★</span>' : ''}</td>
+            <td><span class="badge ${discTypeBadges[r.discretization_type] || 'badge-base'}">${getDiscTypeLabels()[r.discretization_type] || r.discretization_type}</span></td>
             <td class="num">${formatNumber(r.accuracy * 100)}%</td>
             <td class="num">${formatNumber(r.std * 100)}%</td>
-            <td class="num">${formatImprovement(r.paired_improvement)}</td>
+            <td class="num">${formatImprovement(r.improvement_vs_base)}</td>
             <td class="num">${r.samples || '-'}</td>
             <td class="num">${r.features || '-'}</td>
         </tr>
@@ -410,7 +399,7 @@ function updateStats() {
 
     if (total === 0) {
         document.getElementById('stat-avg-accuracy').textContent = '0%';
-        document.getElementById('stat-improvements').textContent = '-';
+        document.getElementById('stat-improvements').textContent = '0';
         document.getElementById('stat-best-accuracy').textContent = '0%';
         return;
     }
@@ -419,17 +408,11 @@ function updateStats() {
     const avgAccuracy = state.filteredData.reduce((sum, r) => sum + r.accuracy, 0) / total;
     document.getElementById('stat-avg-accuracy').textContent = formatNumber(avgAccuracy * 100) + '%';
 
-    // Tasa de victoria: % de resultados locales con mejora pareada > 0
-    const localResults = state.filteredData.filter(r =>
-        r.discretization_type === 'local' && r.paired_improvement !== undefined
-    );
-    if (localResults.length > 0) {
-        const wins = localResults.filter(r => r.paired_improvement > 0).length;
-        const winRate = (wins / localResults.length * 100).toFixed(0);
-        document.getElementById('stat-improvements').textContent = `${winRate}% (${wins}/${localResults.length})`;
-    } else {
-        document.getElementById('stat-improvements').textContent = '-';
-    }
+    // Conteo de mejoras locales
+    const improvements = state.filteredData.filter(r =>
+        r.discretization_type === 'local' && r.improvement_vs_base > 0
+    ).length;
+    document.getElementById('stat-improvements').textContent = improvements;
 
     // Mejor accuracy
     const bestAccuracy = Math.max(...state.filteredData.map(r => r.accuracy));
@@ -440,61 +423,39 @@ function updatePagination() {
     const total = state.filteredData.length;
     const maxPage = Math.max(1, Math.ceil(total / state.pageSize));
 
-    document.getElementById('page-info').textContent = `Página ${state.currentPage} de ${maxPage}`;
+    document.getElementById('page-info').textContent = i18n.t('index.pageOf', state.currentPage, maxPage);
     document.getElementById('prev-page').disabled = state.currentPage <= 1;
     document.getElementById('next-page').disabled = state.currentPage >= maxPage;
 }
 
-function getFilteredPairwise() {
-    if (!state.adversaries || !state.adversaries.pairwise_comparisons) return [];
-    return state.adversaries.pairwise_comparisons.filter(r => {
-        if (state.filters.search && !r.dataset.toLowerCase().includes(state.filters.search)) {
-            return false;
-        }
-        if (!state.filters.iterations.includes(r.iterations)) {
-            return false;
-        }
-        if (!state.filters.cuts.includes(r.cuts)) {
-            return false;
-        }
-        if (!state.filters.model_base.includes(r.classifier)) {
-            return false;
-        }
-        return true;
-    });
-}
-
-function updatePairwiseCount() {
-    const count = getFilteredPairwise().length;
-    document.getElementById('pairwise-count').textContent = count;
-}
-
 function exportCSV() {
-    const filtered = getFilteredPairwise();
-
-    if (filtered.length === 0) {
-        alert('No hay datos pareados con los filtros actuales');
+    if (state.filteredData.length === 0) {
+        alert(i18n.t('common.noDataExport'));
         return;
     }
 
     const headers = [
-        'Dataset', 'Clasificador', 'Método Adversario', 'Iteraciones', 'Cortes',
-        'Accuracy Base', 'Accuracy Local', 'Diferencia', 'Mejora %',
-        'Std Base', 'Std Local'
+        i18n.t('csv.dataset'), i18n.t('csv.iterations'), i18n.t('csv.cuts'),
+        i18n.t('csv.model'), i18n.t('csv.baseModel'), i18n.t('csv.discType'),
+        i18n.t('csv.accuracy'), i18n.t('csv.std'), i18n.t('csv.improvement'),
+        i18n.t('csv.samples'), i18n.t('csv.features'), i18n.t('csv.classes'),
+        i18n.t('csv.bestInGroup')
     ];
 
-    const rows = filtered.map(r => [
+    const rows = state.filteredData.map(r => [
         r.dataset,
-        r.classifier,
-        r.discretization_method,
         r.iterations,
         r.cuts,
-        r.accuracy_base,
-        r.accuracy_local,
-        r.diff,
-        r.improvement_pct,
-        r.std_base,
-        r.std_local
+        r.model,
+        r.model_base,
+        r.discretization_type,
+        r.accuracy,
+        r.std,
+        r.improvement_vs_base || '',
+        r.samples || '',
+        r.features || '',
+        r.classes || '',
+        r.best_in_group ? i18n.t('common.yes') : i18n.t('common.no')
     ]);
 
     const csv = [
@@ -507,6 +468,6 @@ function exportCSV() {
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = `comparaciones_pareadas_${new Date().toISOString().split('T')[0]}.csv`;
+    link.download = `resultados_discretizacion_${new Date().toISOString().split('T')[0]}.csv`;
     link.click();
 }
