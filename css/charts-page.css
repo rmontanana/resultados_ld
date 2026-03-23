@@ -63,7 +63,7 @@
 .charts-controls-panel .filter-item select:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    box-shadow: 0 0 0 3px oklch(0.5417 0.179 288.03 / 0.1);
 }
 
 /* Chart Type Selector - más ancho */

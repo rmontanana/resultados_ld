@@ -45,8 +45,8 @@
 }
 
 .report-action:hover {
-    background: rgba(52, 152, 219, 0.08);
-    border-color: rgba(52, 152, 219, 0.35);
+    background: oklch(0.5417 0.179 288.03 / 0.08);
+    border-color: oklch(0.5417 0.179 288.03 / 0.35);
 }
 
 .report-action.primary {

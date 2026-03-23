@@ -60,12 +60,12 @@
 
 .provider-option:hover {
     border-color: var(--primary-color);
-    background: rgba(52, 152, 219, 0.05);
+    background: oklch(0.5417 0.179 288.03 / 0.05);
 }
 
 .provider-option.selected {
     border-color: var(--primary-color);
-    background: rgba(52, 152, 219, 0.1);
+    background: oklch(0.5417 0.179 288.03 / 0.1);
 }
 
 .provider-option input[type="radio"] {
@@ -156,7 +156,7 @@
 
 /* Sección de contexto */
 .context-info {
-    background: rgba(52, 152, 219, 0.08);
+    background: oklch(0.5417 0.179 288.03 / 0.08);
     border-radius: var(--radius-md);
     padding: var(--spacing-md);
 }
@@ -205,9 +205,9 @@
 .context-full-option {
     margin-top: var(--spacing-sm);
     padding: var(--spacing-sm);
-    background: rgba(52, 152, 219, 0.05);
+    background: oklch(0.5417 0.179 288.03 / 0.05);
     border-radius: var(--radius-sm);
-    border: 1px solid rgba(52, 152, 219, 0.15);
+    border: 1px solid oklch(0.5417 0.179 288.03 / 0.15);
 }
 
 .context-full-option .context-toggle {
@@ -230,8 +230,8 @@
 }
 
 [data-theme="dark"] .context-full-option {
-    background: rgba(52, 152, 219, 0.1);
-    border-color: rgba(52, 152, 219, 0.25);
+    background: oklch(0.5417 0.179 288.03 / 0.1);
+    border-color: oklch(0.5417 0.179 288.03 / 0.25);
 }
 
 .context-warning {
@@ -382,7 +382,7 @@
     background: rgba(0, 0, 0, 0.1);
     padding: 2px 6px;
     border-radius: 4px;
-    font-family: 'Monaco', 'Menlo', monospace;
+    font-family: 'JetBrains Mono', 'Monaco', 'Menlo', monospace;
     font-size: 0.9em;
 }
 
@@ -645,7 +645,7 @@
     padding: var(--spacing-md);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
-    font-family: 'Monaco', 'Menlo', monospace;
+    font-family: 'JetBrains Mono', 'Monaco', 'Menlo', monospace;
     font-size: 0.85rem;
     resize: vertical;
     background: var(--bg-color);
@@ -765,7 +765,7 @@
 
 .btn-copy-cmd:hover {
     color: var(--primary-color);
-    background: rgba(52, 152, 219, 0.1);
+    background: oklch(0.5417 0.179 288.03 / 0.1);
 }
 
 .btn-copy-cmd.copied {
@@ -913,8 +913,8 @@
 
 /* Info box */
 .info-box {
-    background: rgba(52, 152, 219, 0.1);
-    border: 1px solid rgba(52, 152, 219, 0.3);
+    background: oklch(0.5417 0.179 288.03 / 0.1);
+    border: 1px solid oklch(0.5417 0.179 288.03 / 0.3);
     border-radius: var(--radius-md);
     padding: var(--spacing-md);
     font-size: 0.85rem;

@@ -217,7 +217,7 @@
 }
 
 .results-grid tbody tr:hover td:not(.cell-best) {
-    background: rgba(52, 152, 219, 0.08);
+    background: oklch(0.5417 0.179 288.03 / 0.08);
 }
 
 /* Cell values */
@@ -258,15 +258,15 @@ tr.totals-row .fixed-col {
 }
 
 [data-theme="dark"] tr.totals-row {
-    background: #2563eb;
+    background: var(--primary-color);
 }
 
 [data-theme="dark"] tr.totals-row td {
-    border-top-color: #2563eb;
+    border-top-color: var(--primary-color);
 }
 
 [data-theme="dark"] tr.totals-row .fixed-col {
-    background: #2563eb;
+    background: var(--primary-color);
 }
 
 /* Column Header */

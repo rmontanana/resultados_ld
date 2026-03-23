@@ -337,9 +337,9 @@ function updateStats(stats, totalDatasets) {
 
 // Colores para los gráficos
 const chartColors = {
-    TAN: { bg: 'rgba(52, 152, 219, 0.7)', border: 'rgb(52, 152, 219)', light: 'rgba(52, 152, 219, 0.3)' },
+    TAN: { bg: 'rgba(124, 58, 237, 0.7)', border: 'rgb(124, 58, 237)', light: 'rgba(124, 58, 237, 0.3)' },
     KDB: { bg: 'rgba(46, 204, 113, 0.7)', border: 'rgb(46, 204, 113)', light: 'rgba(46, 204, 113, 0.3)' },
-    AODE: { bg: 'rgba(155, 89, 182, 0.7)', border: 'rgb(155, 89, 182)', light: 'rgba(155, 89, 182, 0.3)' },
+    AODE: { bg: 'rgba(167, 139, 250, 0.7)', border: 'rgb(167, 139, 250)', light: 'rgba(167, 139, 250, 0.3)' },
     positive: { bg: 'rgba(46, 204, 113, 0.8)', border: 'rgb(39, 174, 96)' },
     negative: { bg: 'rgba(231, 76, 60, 0.8)', border: 'rgb(192, 57, 43)' },
     neutral: { bg: 'rgba(149, 165, 166, 0.7)', border: 'rgb(127, 140, 141)' }

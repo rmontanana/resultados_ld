@@ -9,12 +9,12 @@ function formatNumChart(num, decimals = 2) {
 
 // Colores para los gráficos
 const chartColors = {
-    TAN: { bg: 'rgba(52, 152, 219, 0.7)', border: 'rgb(52, 152, 219)' },
+    TAN: { bg: 'rgba(124, 58, 237, 0.7)', border: 'rgb(124, 58, 237)' },
     KDB: { bg: 'rgba(46, 204, 113, 0.7)', border: 'rgb(46, 204, 113)' },
-    AODE: { bg: 'rgba(155, 89, 182, 0.7)', border: 'rgb(155, 89, 182)' },
-    local: { bg: 'rgba(155, 89, 182, 0.7)', border: 'rgb(155, 89, 182)' },
+    AODE: { bg: 'rgba(167, 139, 250, 0.7)', border: 'rgb(167, 139, 250)' },
+    local: { bg: 'rgba(124, 58, 237, 0.7)', border: 'rgb(124, 58, 237)' },
     mdlp: { bg: 'rgba(46, 204, 113, 0.7)', border: 'rgb(46, 204, 113)' },
-    equal_freq: { bg: 'rgba(52, 152, 219, 0.7)', border: 'rgb(52, 152, 219)' },
+    equal_freq: { bg: 'rgba(99, 102, 241, 0.7)', border: 'rgb(99, 102, 241)' },
     equal_width: { bg: 'rgba(231, 76, 60, 0.7)', border: 'rgb(231, 76, 60)' },
     pki: { bg: 'rgba(243, 156, 18, 0.7)', border: 'rgb(243, 156, 18)' }
 };
