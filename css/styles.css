@@ -530,7 +530,7 @@ body {
 }
 
 .badge-local { background: oklch(0.5417 0.179 288.03); color: white; }
-.badge-mdlp { background: #2ecc71; color: white; }
+.badge-mdlp { background: #2ecc71; color: #0a3d1f; }
 .badge-freq { background: oklch(0.5679 0.2113 276.71); color: white; }
 .badge-width { background: oklch(0.6861 0.2061 14.99); color: white; }
 .badge-pki { background: #f39c12; color: white; }
